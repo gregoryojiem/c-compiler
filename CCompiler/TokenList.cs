@@ -38,12 +38,9 @@ public class TokenList
     public Token PopExpected(TokenType type)
     {
         var token = Pop();
-        if (token.Type != type)
-        {
-            throw new ParseException(token, $"Unexpected token '{token}', was expecting: '{Token.GetTypeString(token)}'");
-        }
-
-        return token;
+        if (token.Type == type) return token;
+        var expectedValue = Token.GetTypeString(type, token);
+        throw new ParseException(token, $"Unexpected token '{token}', was expecting: '{expectedValue}'");
     }
 
     public bool Empty()

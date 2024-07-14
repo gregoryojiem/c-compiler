@@ -95,15 +95,14 @@ public class Token
         return tokenString.All(c => char.IsLetterOrDigit(c) || c.Equals('_'));
     }
 
-    public static string GetTypeString(Token token)
+    public static string GetTypeString(TokenType expectedType, Token token)
     {
-        var type = token.Type;
-        return type switch
+        return expectedType switch
         {
             TokenType.IntegerLiteral => "integer literal",
             TokenType.Identifier => "string literal",
-            _ when StringMappings.TryGetValue(type, out var value) => value,
-            _ => throw new SyntaxException(token.Line, token.Column, "Unhandled token type!")
+            _ when StringMappings.TryGetValue(expectedType, out var value) => value,
+            _ => throw new SyntaxException(token.Line, token.Column, "Unexpected token found!")
         };
     }
     
