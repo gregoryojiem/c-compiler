@@ -1,15 +1,15 @@
 ﻿namespace CCompiler;
 
-public class ParseError : Exception
+public class ParseException : Exception
 {
-    public ParseError(int line, int column, string message)
+    public ParseException(int line, int column, string message)
         : base($"Parse error! On line: {line}, column {column}: {message}")
     {
     }
     
-    public ParseError(Token token, string message)
+    public ParseException(Token token, string message)
     {
-        throw new ParseError(token.Line, token.Column, message);
+        throw new ParseException(token.Line, token.Column, message);
     }
     
     //TODO expected values, help messages
@@ -17,7 +17,7 @@ public class ParseError : Exception
     {
         if (!Token.VariableTypeTokens.Contains(returnToken.Type))
         {
-            throw new ParseError(returnToken, $"Invalid function return type: {returnToken}");
+            throw new ParseException(returnToken, $"Invalid function return type: {returnToken}");
         }
     }
 
@@ -25,7 +25,7 @@ public class ParseError : Exception
     {
         if (functionName.Type != TokenType.Identifier)
         {
-            throw new ParseError(functionName, $"Invalid function name: {functionName}");
+            throw new ParseException(functionName, $"Invalid function name: {functionName}");
         }
     }
 }

@@ -17,7 +17,7 @@ public class TokenList
     {
         if (_tokens.Count == 0)
         {
-            throw new ParseError(_lastLine, _lastColumn, "Unexpected end of file.");
+            throw new ParseException(_lastLine, _lastColumn, "Unexpected end of file.");
         }
 
         return _tokens[0].Type == type;
@@ -27,7 +27,7 @@ public class TokenList
     {
         if (_tokens.Count == 0)
         {
-            throw new ParseError(_lastLine, _lastColumn, "Unexpected end of file.");
+            throw new ParseException(_lastLine, _lastColumn, "Unexpected end of file.");
         }
 
         var token = _tokens[0];
@@ -35,13 +35,12 @@ public class TokenList
         return token;
     }
 
-    //todo replace with enum comparison
     public Token PopExpected(TokenType type)
     {
         var token = Pop();
         if (token.Type != type)
         {
-            throw new ParseError(token, $"Unexpected token '{token}', was expecting: '{Token.GetTypeString(type)}'");
+            throw new ParseException(token, $"Unexpected token '{token}', was expecting: '{Token.GetTypeString(token)}'");
         }
 
         return token;
