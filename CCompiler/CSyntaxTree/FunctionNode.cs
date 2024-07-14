@@ -15,16 +15,30 @@ public class FunctionNode
         Name = tokens.Pop();
         SyntaxError.ValidFunctionName(Name);
 
-        tokens.PopExpected(TokenType.LeftParen);
-        //todo argument handling
-        tokens.PopExpected(TokenType.RightParen);
+        ParseFunctionArguments(tokens);
+        ParseFunctionBody(tokens);
+    }
 
+    private void ParseFunctionArguments(TokenList tokens)
+    {
+        tokens.PopExpected(TokenType.LeftParen);
+        //TODO argument handling
+        while (tokens.Pop().Type != TokenType.RightParen)
+        {
+        }
+        //tokens.PopExpected(TokenType.RightParen);
+    }
+
+    private void ParseFunctionBody(TokenList tokens)
+    {
+        //TODO in the future, look into whether adding a FunctionBodyNode class would be worthwhile
         tokens.PopExpected(TokenType.LeftBrace);
-        while (!tokens.PeekExpected(TokenType.RightBrace)) //todo see if adding a special body class with a return would be worthwhile
+        while (!tokens.PeekExpected(TokenType.RightBrace))
         {
             var statementNode = StatementNode.CreateStatementNode(tokens);
             Body.Add(statementNode);
         }
+
         tokens.PopExpected(TokenType.RightBrace);
     }
 }
