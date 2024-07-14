@@ -2,62 +2,119 @@
 
 public class Lexer
 {
-    private static readonly char[] Delimiters = { ' ', '\t', '\n', '/', '(', ')', '{', '}', '[', ']', ',', ';', ':' };
-    private int _line;
-    private int _column;
-    private int _position;
-    
-    public void Reset()
+    private static readonly char[] Delimiters =
+        { ' ', '\t', '\n', '/', '(', ')', '{', '}', '[', ']', ',', ';', ':', '~', '-' };
+
+    private readonly string _inputCode;
+    private int _currentLine;
+    private int _currentColumn;
+    private int _positionInCode;
+
+    public Lexer(string inputCode)
     {
-        _line = 0;
-        _column = 0;
-        _position = 0;
+        _inputCode = inputCode;
     }
 
-    public TokenList TokenizeCode(string inputCode)
+    public TokenList TokenizeCode()
     {
         var tokens = new List<Token>();
 
-        SkipToNextToken(inputCode);
-        while (_position < inputCode.Length)
+        SkipWhitespaceAndComments();
+        while (_positionInCode < _inputCode.Length)
         {
-            var endOfToken = inputCode.IndexOfAny(Delimiters, _position);
-            endOfToken = endOfToken == -1 ? inputCode.Length : endOfToken;
-            endOfToken = endOfToken == _position ? endOfToken + 1 : endOfToken;
-            var tokenLength = endOfToken - _position;
-            var tokenString = inputCode.Substring(_position, tokenLength);
-            tokens.Add(Token.CreateToken(tokenString, _line, _column));
-            
-            _position += tokenLength;
-            _column += tokenLength;
-            SkipToNextToken(inputCode);
+            var endOfToken = GetEndOfCurrentToken();
+            var tokenLength = endOfToken - _positionInCode;
+            var tokenString = _inputCode.Substring(_positionInCode, tokenLength);
+            tokens.Add(Token.CreateToken(tokenString, _currentLine + 1, _currentColumn + 1));
+
+            _positionInCode += tokenLength;
+            _currentColumn += tokenLength;
+            SkipWhitespaceAndComments();
         }
 
-        return new TokenList(tokens, _line, _column);
+        return new TokenList(tokens, _currentLine + 1, _currentColumn + 1);
     }
 
-    private void SkipToNextToken(string inputCode)
+    private int GetEndOfCurrentToken()
     {
-        while (_position < inputCode.Length)
+        var endOfToken = _inputCode.IndexOfAny(Delimiters, _positionInCode);
+        if (endOfToken == -1)
+            return _inputCode.Length;
+        if (endOfToken == _positionInCode)
+            return endOfToken + 1;
+        return endOfToken;
+    }
+
+    private void SkipWhitespaceAndComments()
+    {
+        var commentStartFound = false;
+
+        while (_positionInCode < _inputCode.Length)
         {
-            var currentChar = inputCode[_position];
+            var currentChar = _inputCode[_positionInCode];
+            GoToNextPos(currentChar);
+
+            if (commentStartFound && currentChar is '/')
+            {
+                HandleLineComment();
+                continue;
+            }
+
+            if (commentStartFound && currentChar is '*')
+            {
+                HandleBlockComment();
+                continue;
+            }
+
             switch (currentChar)
             {
                 case ' ':
                 case '\t':
-                    _column++;
-                    _position++;
-                    break;
                 case '\n':
-                    _column = 0;
-                    _line++;
-                    _position++;
-                    break;
                 case '/':
                     break;
                 default:
+                    _positionInCode--;
+                    _currentColumn--;
                     return;
             }
+
+            commentStartFound = currentChar == '/';
         }
+    }
+
+    private void HandleLineComment()
+    {
+        while (_positionInCode < _inputCode.Length && _inputCode[_positionInCode] != '\n')
+        {
+            _positionInCode++;
+            _currentColumn++;
+        }
+    }
+
+    private void HandleBlockComment()
+    {
+        var commentEndFound = false;
+        while (_positionInCode < _inputCode.Length)
+        {
+            var currentChar = _inputCode[_positionInCode];
+            GoToNextPos(currentChar);
+
+            if (commentEndFound && currentChar == '/')
+            {
+                return;
+            }
+
+            commentEndFound = currentChar == '*';
+        }
+    }
+
+    private void GoToNextPos(char currentChar)
+    {
+        _currentColumn++;
+        _positionInCode++;
+        if (currentChar != '\n') return;
+        _currentColumn = 0;
+        _currentLine++;
     }
 }
