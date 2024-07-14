@@ -6,8 +6,11 @@ public enum TokenType
     IntType,
     Return,
 
-    // TODO - Operators 
-
+    // Operators 
+    Tilde,
+    Negation,
+    Decrement,
+    
     // Punctuation
     LeftParen,
     RightParen,
@@ -29,6 +32,9 @@ public class Token
         { "return", TokenType.Return },
 
         // Operators
+        { "~", TokenType.Tilde},
+        { "-", TokenType.Negation},
+        { "--", TokenType.Decrement},
 
         // Punctuation
         { "(", TokenType.LeftParen },
@@ -71,20 +77,36 @@ public class Token
             return new Token(TokenType.IntegerLiteral, tokenString, line, column);
         }
 
-        return new Token(TokenType.Identifier, tokenString, line, column);
+        if (ValidIdentifierCheck(tokenString))
+        {
+            return new Token(TokenType.Identifier, tokenString, line, column);
+        }
+
+        throw new SyntaxException(line, column, "Invalid token found: " + tokenString);
+    }
+    
+    private static bool ValidIdentifierCheck(string tokenString)
+    {
+        if (!char.IsLetter(tokenString[0]) && tokenString[0] != '_')
+        {
+            return false;
+        }
+
+        return tokenString.All(c => char.IsLetterOrDigit(c) || c.Equals('_'));
     }
 
-    public static string GetTypeString(TokenType type)
+    public static string GetTypeString(Token token)
     {
+        var type = token.Type;
         return type switch
         {
             TokenType.IntegerLiteral => "integer literal",
             TokenType.Identifier => "string literal",
             _ when StringMappings.TryGetValue(type, out var value) => value,
-            _ => throw new Exception("Unhandled token type!")
+            _ => throw new SyntaxException(token.Line, token.Column, "Unhandled token type!")
         };
     }
-
+    
     public override string ToString()
     {
         return Value;
