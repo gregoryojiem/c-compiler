@@ -10,10 +10,10 @@ public class FunctionNode
     {
         Body = new List<StatementNode>();
         ReturnType = tokens.Pop();
-        SyntaxError.ValidReturnType(ReturnType);
+        ParseError.ValidReturnType(ReturnType);
 
         Name = tokens.Pop();
-        SyntaxError.ValidFunctionName(Name);
+        ParseError.ValidFunctionName(Name);
 
         ParseFunctionArguments(tokens);
         ParseFunctionBody(tokens);
