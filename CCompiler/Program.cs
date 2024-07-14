@@ -28,19 +28,24 @@ public static class Program
         {
             Compile(outputPath, File.ReadAllText(filePath));
         }
-        catch (SyntaxError ex)
+        catch (SyntaxException ex)
         {
             Console.WriteLine(ex.Message);
             return -1;
+        }
+        catch (ParseException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return -2;
         }
 
         return 1;
     }
 
-    private static void Compile(string outputPath, string fileContent)
+    private static void Compile(string outputPath, string inputCode)
     {
-        var lexer = new Lexer();
-        var tokens = lexer.TokenizeCode(fileContent);
+        var lexer = new Lexer(inputCode);
+        var tokens = lexer.TokenizeCode();
         var cSyntaxTree = new ProgramNode(tokens);
         var assemblySyntaxTree = new AsmProgramNode(cSyntaxTree);
         File.WriteAllText(outputPath, assemblySyntaxTree.ConvertToAsm());
