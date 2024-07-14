@@ -10,6 +10,7 @@ public abstract class StatementNode
             return returnStmtNode;
         }
 
-        throw new Exception("Statement currently unhandled.");
+        var unexpectedToken = tokens.Pop();
+        throw new ParseException(unexpectedToken, $"Invalid statement: {unexpectedToken.Value}");
     }
 }

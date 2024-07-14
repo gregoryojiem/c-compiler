@@ -2,19 +2,15 @@
 
 public class ConstantNode : ExpressionNode
 {
-    public readonly Token _constantValue;
+    public readonly string ConstantValue;
 
     public ConstantNode(TokenList tokens)
     {
-        _constantValue = tokens.PopExpected(TokenType.IntegerLiteral);
+        ConstantValue = tokens.PopExpected(TokenType.IntegerLiteral).Value;
     }
 
     public override string ToString()
     {
-        if (_constantValue == null)
-        {
-            throw new Exception("Unexpected null constant");
-        }
-        return _constantValue.ToString();
+        return ConstantValue;
     }
 }

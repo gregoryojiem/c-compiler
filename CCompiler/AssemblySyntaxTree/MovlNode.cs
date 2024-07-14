@@ -11,7 +11,7 @@ public class MovlNode : AsmInstructionNode
     {
         if (expression is ConstantNode constantNode)
         {
-            _src = "$" + constantNode._constantValue.Value; 
+            _src = "$" + constantNode; 
             _dst = "%eax";
         } 
     }
