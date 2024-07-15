@@ -7,10 +7,10 @@ public enum TokenType
     Return,
 
     // Operators 
-    Tilde,
+    Complement,
     Negation,
     Decrement,
-    
+
     // Punctuation
     LeftParen,
     RightParen,
@@ -32,9 +32,9 @@ public class Token
         { "return", TokenType.Return },
 
         // Operators
-        { "~", TokenType.Tilde},
-        { "-", TokenType.Negation},
-        { "--", TokenType.Decrement},
+        { "~", TokenType.Complement },
+        { "-", TokenType.Negation },
+        { "--", TokenType.Decrement },
 
         // Punctuation
         { "(", TokenType.LeftParen },
@@ -47,9 +47,15 @@ public class Token
     private static readonly Dictionary<TokenType, string> StringMappings =
         TokenMappings.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
-    public static readonly List<TokenType> VariableTypeTokens = new()
+    public static readonly List<TokenType> DataTypes = new()
     {
-        TokenType.IntType,
+        TokenType.IntType
+    };
+
+    public static readonly List<TokenType> UnaryOperators = new()
+    {
+        TokenType.Complement,
+        TokenType.Negation
     };
 
     public readonly TokenType Type;
@@ -84,7 +90,7 @@ public class Token
 
         throw new SyntaxException(line, column, "Invalid token found: " + tokenString);
     }
-    
+
     private static bool ValidIdentifierCheck(string tokenString)
     {
         if (!char.IsLetter(tokenString[0]) && tokenString[0] != '_')
@@ -105,7 +111,7 @@ public class Token
             _ => throw new SyntaxException(token.Line, token.Column, "Unexpected token found!")
         };
     }
-    
+
     public override string ToString()
     {
         return Value;
