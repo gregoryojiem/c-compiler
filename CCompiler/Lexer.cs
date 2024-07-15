@@ -74,6 +74,7 @@ public class Lexer
             {
                 case ' ':
                 case '\t':
+                case '\r':
                 case '\n':
                 case '/':
                     break;
