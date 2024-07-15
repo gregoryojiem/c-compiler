@@ -11,6 +11,6 @@ public class AllocateStackNode : AsmInstructionNode
 
     public override string ConvertToAsm()
     {
-        return "subq" + " $" + _allocationAmount + ", " + "%rsp";
+        return "subq\t" + "$" + _allocationAmount + ", " + "%rsp";
     }
 }

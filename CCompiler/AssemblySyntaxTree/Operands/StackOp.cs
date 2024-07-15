@@ -8,4 +8,9 @@ public class StackOp : IOperand
     {
         _offset = offset;
     }
+
+    public override string ToString()
+    {
+        return _offset + "(%rbp)";
+    }
 }

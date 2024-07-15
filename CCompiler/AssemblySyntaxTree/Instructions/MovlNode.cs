@@ -43,6 +43,6 @@ public class MovlNode : AsmInstructionNode, IAllocatableInstruction
     
     public override string ConvertToAsm()
     {
-        return "movl" + _src + ", " + _dst;
+        return "movl\t" + _src + ", " + _dst;
     }
 }

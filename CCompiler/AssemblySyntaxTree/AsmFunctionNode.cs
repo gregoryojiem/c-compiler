@@ -52,6 +52,8 @@ public class AsmFunctionNode : IAsmNode
         var outputAsm = "";
         outputAsm += ".globl " + _name + "\n";
         outputAsm += _name + ":\n";
+        outputAsm += "\t" + "pushq\t%rbp" +"\n";
+        outputAsm += "\t" + "movq\t%rsp, %rbp" +"\n";
         foreach (var instruction in _instructions)
         {
             outputAsm += "\t" + instruction.ConvertToAsm() + "\n";
