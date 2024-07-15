@@ -18,19 +18,6 @@ public class AsmFunctionNode : IAsmNode
         }
     }
 
-    public string ConvertToAsm()
-    {
-        var outputAsm = "";
-        outputAsm += ".globl " + _name + "\n";
-        outputAsm += _name + ":\n";
-        foreach (var instruction in _instructions)
-        {
-            outputAsm += "\t" + instruction.ConvertToAsm() + "\n";
-        }
-
-        return outputAsm;
-    }
-
     public void DoAllocationPass(Dictionary<string, int> variableMap)
     {
         var stackPos = 0;
@@ -58,5 +45,18 @@ public class AsmFunctionNode : IAsmNode
         }
 
         _instructions = fixedInstructions;
+    }
+    
+    public string ConvertToAsm()
+    {
+        var outputAsm = "";
+        outputAsm += ".globl " + _name + "\n";
+        outputAsm += _name + ":\n";
+        foreach (var instruction in _instructions)
+        {
+            outputAsm += "\t" + instruction.ConvertToAsm() + "\n";
+        }
+
+        return outputAsm;
     }
 }

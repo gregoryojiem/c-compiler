@@ -13,16 +13,16 @@ public class UnaryNode : AsmInstructionNode, IAllocatableInstruction
         _dst = dst;
     }
 
-    public override string ConvertToAsm()
-    {
-        throw new NotImplementedException();
-    }
-
     public void DoAllocationPass(Dictionary<string, int> variableMap, ref int stackPos)
     {
         if (_dst is PseudoRegOp dstPseudo)
         {
             _dst = IAllocatableInstruction.HandleAllocation(variableMap, ref stackPos, dstPseudo);
         }
+    }
+    
+    public override string ConvertToAsm()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -15,6 +15,15 @@ public class AsmProgramNode : IAsmNode
         }
     }
 
+    public void DoAllocationPass()
+    {
+        foreach (var function in _asmFunctions)
+        {
+            var variableMap = new Dictionary<string, int>();
+            function.DoAllocationPass(variableMap);
+        }
+    }
+    
     public string ConvertToAsm()
     {
         var outputAsm = "";
@@ -24,14 +33,5 @@ public class AsmProgramNode : IAsmNode
         }
 
         return outputAsm;
-    }
-
-    public void DoAllocationPass()
-    {
-        foreach (var function in _asmFunctions)
-        {
-            var variableMap = new Dictionary<string, int>();
-            function.DoAllocationPass(variableMap);
-        }
     }
 }

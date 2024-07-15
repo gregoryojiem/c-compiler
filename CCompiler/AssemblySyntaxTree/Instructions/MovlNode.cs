@@ -13,11 +13,6 @@ public class MovlNode : AsmInstructionNode, IAllocatableInstruction
         _dst = dst;
     }
 
-    public override string ConvertToAsm()
-    {
-        return "movl" + _src + ", " + _dst;
-    }
-
     public void DoAllocationPass(Dictionary<string, int> variableMap, ref int stackPos)
     {
         if (_src is PseudoRegOp srcPseudo)
@@ -44,5 +39,10 @@ public class MovlNode : AsmInstructionNode, IAllocatableInstruction
         _src = scratchRegister;
         instructions.Add(tempVariable);
         instructions.Add(this);
+    }
+    
+    public override string ConvertToAsm()
+    {
+        return "movl" + _src + ", " + _dst;
     }
 }
