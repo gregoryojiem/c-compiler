@@ -6,7 +6,7 @@ namespace CCompiler.AssemblySyntaxTree;
 public class AsmFunctionNode : IAsmNode
 {
     private readonly string _name;
-    private readonly List<AsmInstructionNode> _instructions;
+    private List<AsmInstructionNode> _instructions;
 
     public AsmFunctionNode(FunctionNode functionNode)
     {
@@ -33,13 +33,30 @@ public class AsmFunctionNode : IAsmNode
 
     public void DoAllocationPass(Dictionary<string, int> variableMap)
     {
-        var currentStackLocation = 0;
+        var stackPos = 0;
         foreach (var instruction in _instructions)
         {
             if (instruction is IAllocatableInstruction allocatableInstruction)
             {
-                allocatableInstruction.DoAllocationPass(variableMap, ref currentStackLocation);
+                allocatableInstruction.DoAllocationPass(variableMap, ref stackPos);
             }
         }
+
+        _instructions.Insert(0, new AllocateStackNode(-stackPos));
+
+        var fixedInstructions = new List<AsmInstructionNode>();
+        foreach (var instruction in _instructions)
+        {
+            if (instruction is MovlNode movlNode)
+            {
+                movlNode.FixDoubleStackOps(fixedInstructions);
+            }
+            else
+            {
+                fixedInstructions.Add(instruction);
+            }
+        }
+
+        _instructions = fixedInstructions;
     }
 }

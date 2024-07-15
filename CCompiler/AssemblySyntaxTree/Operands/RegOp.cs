@@ -20,7 +20,7 @@ public class RegOp : IOperand
         return _register switch
         {
             Register.Eax => "%eax",
-            Register.R10d => "%R10D",
+            Register.R10d => "%r10d",
             _ => throw new ArgumentException("Invalid register type.")
         };
     }
