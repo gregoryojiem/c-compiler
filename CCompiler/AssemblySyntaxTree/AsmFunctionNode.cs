@@ -1,11 +1,12 @@
-﻿using CCompiler.CSyntaxTree;
+﻿using CCompiler.AssemblySyntaxTree.Instructions;
+using CCompiler.CSyntaxTree;
 
 namespace CCompiler.AssemblySyntaxTree;
 
-public class AsmFunctionNode : AsmNode
+public class AsmFunctionNode : IAsmNode
 {
     private readonly string _name;
-    private List<AsmInstructionNode> _instructions;
+    private readonly List<AsmInstructionNode> _instructions;
 
     public AsmFunctionNode(FunctionNode functionNode)
     {
@@ -28,5 +29,17 @@ public class AsmFunctionNode : AsmNode
         }
 
         return outputAsm;
+    }
+
+    public void DoAllocationPass(Dictionary<string, int> variableMap)
+    {
+        var currentStackLocation = 0;
+        foreach (var instruction in _instructions)
+        {
+            if (instruction is IAllocatableInstruction allocatableInstruction)
+            {
+                allocatableInstruction.DoAllocationPass(variableMap, ref currentStackLocation);
+            }
+        }
     }
 }
