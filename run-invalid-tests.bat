@@ -4,7 +4,7 @@ setlocal EnableDelayedExpansion
 set tests_passed=0
 set total_tests=0
 
-for /f "delims=" %%a in ('dir /b /s "CCompiler\examples\invalid\*.*"') do (
+for /f "delims=" %%a in ('dir /b /s "c-examples\invalid\*.*"') do (
   if "%%~xa"==".c" (
     echo Compiling: %%a
     .\CCompiler\bin\Debug\net7.0\CCompiler.exe "%%a" 

@@ -4,7 +4,7 @@ setlocal EnableDelayedExpansion
 set tests_passed=0
 set total_tests=0
 
-for /f "delims=" %%a in ('dir /b /s "CCompiler\examples\valid\*.*"') do (
+for /f "delims=" %%a in ('dir /b /s "c-examples\valid\*.*"') do (
   if "%%~xa"==".c" (
     :: Test the custom compiler on each .c file in the given subdirectory
     set /a total_tests+=1
