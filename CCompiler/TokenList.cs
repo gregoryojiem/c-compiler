@@ -13,16 +13,16 @@ public class TokenList
         _lastColumn = lastColumn;
     }
 
-    public bool PeekExpected(TokenType type)
+    public Token Peek()
     {
         if (_tokens.Count == 0)
         {
             throw new ParseException(_lastLine, _lastColumn, "Unexpected end of file.");
         }
 
-        return _tokens[0].Type == type;
+        return _tokens[0];
     }
-
+    
     public Token Pop()
     {
         if (_tokens.Count == 0)

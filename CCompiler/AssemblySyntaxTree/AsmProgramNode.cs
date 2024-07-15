@@ -2,7 +2,7 @@
 
 namespace CCompiler.AssemblySyntaxTree;
 
-public class AsmProgramNode : AsmNode
+public class AsmProgramNode : IAsmNode
 {
     private readonly List<AsmFunctionNode> _asmFunctions;
 
@@ -15,6 +15,15 @@ public class AsmProgramNode : AsmNode
         }
     }
 
+    public void DoAllocationPass()
+    {
+        foreach (var function in _asmFunctions)
+        {
+            var variableMap = new Dictionary<string, int>();
+            function.DoAllocationPass(variableMap);
+        }
+    }
+    
     public string ConvertToAsm()
     {
         var outputAsm = "";

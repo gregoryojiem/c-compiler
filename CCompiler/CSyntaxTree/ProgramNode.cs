@@ -13,4 +13,12 @@ public class ProgramNode
             Functions.Add(functionNode);
         }
     }
+
+    public void ConvertToTac()
+    {
+        foreach (var function in Functions)
+        {
+            function.ConvertToTac();
+        }
+    }
 }
