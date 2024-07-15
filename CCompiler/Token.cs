@@ -6,10 +6,15 @@ public enum TokenType
     IntType,
     Return,
 
-    // Operators 
-    Complement,
-    Negation,
+    // Operators
     Decrement,
+    Increment,
+    Complement,
+    Negate,
+    Plus,
+    Multiply,
+    Divide,
+    Modulo,
 
     // Punctuation
     LeftParen,
@@ -32,9 +37,14 @@ public class Token
         { "return", TokenType.Return },
 
         // Operators
-        { "~", TokenType.Complement },
-        { "-", TokenType.Negation },
         { "--", TokenType.Decrement },
+        { "++", TokenType.Increment },
+        { "~", TokenType.Complement },
+        { "-", TokenType.Negate },
+        { "+", TokenType.Plus },
+        { "*", TokenType.Multiply },
+        { "/", TokenType.Divide },
+        { "%", TokenType.Modulo },
 
         // Punctuation
         { "(", TokenType.LeftParen },
@@ -55,7 +65,7 @@ public class Token
     public static readonly List<TokenType> UnaryOperators = new()
     {
         TokenType.Complement,
-        TokenType.Negation
+        TokenType.Negate
     };
 
     public readonly TokenType Type;
