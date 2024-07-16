@@ -49,7 +49,7 @@ public static class Program
         var cSyntaxTree = new ProgramNode(tokens);
         cSyntaxTree.ConvertToTac();
         var assemblySyntaxTree = new AsmProgramNode(cSyntaxTree);
-        assemblySyntaxTree.DoAllocationPass();
+        assemblySyntaxTree.FinalPass();
         File.WriteAllText(outputPath, assemblySyntaxTree.ConvertToAsm());
     }
 }

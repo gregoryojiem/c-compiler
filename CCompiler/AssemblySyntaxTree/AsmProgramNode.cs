@@ -15,12 +15,11 @@ public class AsmProgramNode : IAsmNode
         }
     }
 
-    public void DoAllocationPass()
+    public void FinalPass()
     {
         foreach (var function in _asmFunctions)
         {
-            var variableMap = new Dictionary<string, int>();
-            function.DoAllocationPass(variableMap);
+            function.FinalPass();
         }
     }
     

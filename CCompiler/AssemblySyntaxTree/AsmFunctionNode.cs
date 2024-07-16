@@ -18,8 +18,15 @@ public class AsmFunctionNode : IAsmNode
         }
     }
 
-    public void DoAllocationPass(Dictionary<string, int> variableMap)
+    public void FinalPass()
     {
+        DoAllocationPass();
+        DoCorrectionPass();
+    }
+    
+    private void DoAllocationPass()
+    {
+        var variableMap = new Dictionary<string, int>();
         var stackPos = 0;
         foreach (var instruction in _instructions)
         {
@@ -30,13 +37,24 @@ public class AsmFunctionNode : IAsmNode
         }
 
         _instructions.Insert(0, new AllocateStackNode(-stackPos));
+    }
 
+    private void DoCorrectionPass()
+    {
         var fixedInstructions = new List<AsmInstructionNode>();
         foreach (var instruction in _instructions)
         {
             if (instruction is MovlNode movlNode)
             {
-                movlNode.FixDoubleStackOps(fixedInstructions);
+                movlNode.FixOperands(fixedInstructions);
+            }
+            if (instruction is BinaryNode binaryNode)
+            {
+                binaryNode.FixOperands(fixedInstructions);
+            }
+            if (instruction is DivlNode divlNode)
+            {
+                divlNode.FixConstantOps(fixedInstructions);
             }
             else
             {
