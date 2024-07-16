@@ -2,9 +2,7 @@
 
 public class Lexer
 {
-    private static readonly char[] Delimiters =
-        { ' ', '\t', '\n', '/', '(', ')', '{', '}', '[', ']', ',', ';', ':', '~', '-' };
-
+    private static readonly char[] Delimiters = { ' ', '\t', '\n', '\r' };
     private readonly string _inputCode;
     private int _currentLine;
     private int _currentColumn;
@@ -38,11 +36,24 @@ public class Lexer
     private int GetEndOfCurrentToken()
     {
         var endOfToken = _inputCode.IndexOfAny(Delimiters, _positionInCode);
+
         if (endOfToken == -1)
-            return _inputCode.Length;
-        if (endOfToken == _positionInCode)
-            return endOfToken + 1;
-        return endOfToken;
+            endOfToken = _inputCode.Length;
+
+        // Return the longest valid token possible
+        var tokenLength = endOfToken - _positionInCode;
+        var tokenString = _inputCode.Substring(_positionInCode, tokenLength);
+        while (tokenLength > 0 && !Token.ValidToken(tokenString))
+        {
+            endOfToken--;
+            tokenLength--;
+            tokenString = _inputCode.Substring(_positionInCode, tokenLength);
+        }
+
+        if (tokenLength != 0) return endOfToken;
+
+        endOfToken = _inputCode.IndexOfAny(Delimiters, _positionInCode);
+        return endOfToken == -1 ? _inputCode.Length : endOfToken;
     }
 
     private void SkipWhitespaceAndComments()
