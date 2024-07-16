@@ -11,7 +11,7 @@ public enum TokenType
     Increment,
     Complement,
     Negate,
-    Plus,
+    Add,
     Multiply,
     Divide,
     Modulo,
@@ -41,7 +41,7 @@ public class Token
         { "++", TokenType.Increment },
         { "~", TokenType.Complement },
         { "-", TokenType.Negate },
-        { "+", TokenType.Plus },
+        { "+", TokenType.Add },
         { "*", TokenType.Multiply },
         { "/", TokenType.Divide },
         { "%", TokenType.Modulo },
@@ -71,12 +71,12 @@ public class Token
     public static readonly List<TokenType> BinaryOps = new()
     {
         TokenType.Negate,
-        TokenType.Plus,
+        TokenType.Add,
         TokenType.Multiply,
         TokenType.Divide,
         TokenType.Modulo,
     };
-    
+
     public readonly TokenType Type;
     public readonly string Value;
     public readonly int Line;
@@ -139,14 +139,14 @@ public class Token
             case TokenType.Divide:
             case TokenType.Modulo:
                 return 10;
-            case TokenType.Plus:
+            case TokenType.Add:
             case TokenType.Negate:
                 return 9;
             default:
                 return 0;
         }
     }
-    
+
     public override string ToString()
     {
         return Value;

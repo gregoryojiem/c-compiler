@@ -8,6 +8,6 @@ public class UnaryOpNode : ExpressionNode
     public UnaryOpNode(TokenList tokens)
     {
         UnaryOperator = tokens.Pop();
-        Expression = CreateExpressionNode(tokens);
+        Expression = ParseExpressionFactor(tokens);
     }
 }

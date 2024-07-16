@@ -10,7 +10,7 @@ public class ReturnStmtNode : StatementNode
     public ReturnStmtNode(TokenList tokens)
     {
         tokens.PopExpected(TokenType.Return);
-        ReturnValue = ExpressionNode.CreateExpressionNode(tokens);
+        ReturnValue = ExpressionNode.ParseExpressionNode(tokens);
         tokens.PopExpected(TokenType.Semicolon);
     }
 

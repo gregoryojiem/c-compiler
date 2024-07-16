@@ -6,7 +6,7 @@ public static class UnaryOps
     {
         return tokenType switch
         {
-            TokenType.Negation => "negl",
+            TokenType.Negate => "negl",
             TokenType.Complement => "notl",
             _ => throw new NotImplementedException()
         };
