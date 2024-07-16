@@ -18,4 +18,9 @@ public class DeclarationNode : StatementNode
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        return Variable + " = " + ExpressionNode;
+    }
 }

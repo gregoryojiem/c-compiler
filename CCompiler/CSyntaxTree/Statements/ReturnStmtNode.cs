@@ -6,11 +6,11 @@ namespace CCompiler.CSyntaxTree.Statements;
 public class ReturnStmtNode : StatementNode
 {
     public ExpressionNode ReturnValue;
-    
+
     public ReturnStmtNode(TokenList tokens)
     {
         tokens.PopExpected(TokenType.Return);
-        ReturnValue = ExpressionNode.CreateExpressionNode(tokens);
+        ReturnValue = ExpressionNode.ParseExpressionNode(tokens, 0);
         tokens.PopExpected(TokenType.Semicolon);
     }
 
@@ -18,5 +18,10 @@ public class ReturnStmtNode : StatementNode
     {
         ReturnValue = ExpressionNode.ConvertToTac(statementList, ReturnValue);
         statementList.Add(this);
+    }
+
+    public override string ToString()
+    {
+        return "return " + ReturnValue;
     }
 }

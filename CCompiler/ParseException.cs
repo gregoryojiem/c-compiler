@@ -6,12 +6,12 @@ public class ParseException : Exception
         : base($"Parse error! On line: {line}, column {column}: {message}")
     {
     }
-    
+
     public ParseException(Token token, string message)
     {
         throw new ParseException(token.Line, token.Column, message);
     }
-    
+
     //TODO expected values, help messages
     public static void ValidReturnType(Token returnToken)
     {

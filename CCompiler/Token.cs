@@ -6,10 +6,15 @@ public enum TokenType
     IntType,
     Return,
 
-    // Operators 
-    Complement,
-    Negation,
+    // Operators
     Decrement,
+    Increment,
+    Complement,
+    Negate,
+    Add,
+    Multiply,
+    Divide,
+    Modulo,
 
     // Punctuation
     LeftParen,
@@ -32,9 +37,14 @@ public class Token
         { "return", TokenType.Return },
 
         // Operators
-        { "~", TokenType.Complement },
-        { "-", TokenType.Negation },
         { "--", TokenType.Decrement },
+        { "++", TokenType.Increment },
+        { "~", TokenType.Complement },
+        { "-", TokenType.Negate },
+        { "+", TokenType.Add },
+        { "*", TokenType.Multiply },
+        { "/", TokenType.Divide },
+        { "%", TokenType.Modulo },
 
         // Punctuation
         { "(", TokenType.LeftParen },
@@ -52,10 +62,19 @@ public class Token
         TokenType.IntType
     };
 
-    public static readonly List<TokenType> UnaryOperators = new()
+    public static readonly List<TokenType> UnaryOps = new()
     {
         TokenType.Complement,
-        TokenType.Negation
+        TokenType.Negate
+    };
+
+    public static readonly List<TokenType> BinaryOps = new()
+    {
+        TokenType.Negate,
+        TokenType.Add,
+        TokenType.Multiply,
+        TokenType.Divide,
+        TokenType.Modulo,
     };
 
     public readonly TokenType Type;
@@ -110,6 +129,22 @@ public class Token
             _ when StringMappings.TryGetValue(expectedType, out var value) => value,
             _ => throw new SyntaxException(token.Line, token.Column, "Unexpected token found!")
         };
+    }
+
+    public static int GetPrecedence(TokenType type)
+    {
+        switch (type)
+        {
+            case TokenType.Multiply:
+            case TokenType.Divide:
+            case TokenType.Modulo:
+                return 10;
+            case TokenType.Add:
+            case TokenType.Negate:
+                return 9;
+            default:
+                return 0;
+        }
     }
 
     public override string ToString()

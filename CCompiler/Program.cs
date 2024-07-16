@@ -23,7 +23,7 @@ public static class Program
         var fileName = Path.GetFileName(filePath);
         var newFileName = Path.ChangeExtension(fileName, ".s");
         var outputPath = Path.GetDirectoryName(filePath) + "\\" + newFileName;
-        
+
         try
         {
             Compile(outputPath, File.ReadAllText(filePath));
@@ -49,7 +49,7 @@ public static class Program
         var cSyntaxTree = new ProgramNode(tokens);
         cSyntaxTree.ConvertToTac();
         var assemblySyntaxTree = new AsmProgramNode(cSyntaxTree);
-        assemblySyntaxTree.DoAllocationPass();
+        assemblySyntaxTree.FinalPass();
         File.WriteAllText(outputPath, assemblySyntaxTree.ConvertToAsm());
     }
 }

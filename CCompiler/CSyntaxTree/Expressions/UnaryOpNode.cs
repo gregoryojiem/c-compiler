@@ -4,10 +4,10 @@ public class UnaryOpNode : ExpressionNode
 {
     public readonly Token UnaryOperator;
     public readonly ExpressionNode Expression;
-    
+
     public UnaryOpNode(TokenList tokens)
     {
         UnaryOperator = tokens.Pop();
-        Expression = CreateExpressionNode(tokens);
+        Expression = ParseExpressionFactor(tokens);
     }
 }

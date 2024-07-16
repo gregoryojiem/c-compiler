@@ -54,22 +54,27 @@ public class Lexer
             var currentChar = _inputCode[_positionInCode];
             GoToNextPos(currentChar);
 
-            if (commentStartFound && currentChar is '/')
+            switch (commentStartFound)
             {
-                HandleLineComment();
-                continue;
-            }
-
-            if (commentStartFound && currentChar is '*')
-            {
-                HandleBlockComment();
-                continue;
+                case true when currentChar is '/':
+                    HandleLineComment();
+                    commentStartFound = false;
+                    continue;
+                case true when currentChar is '*':
+                    HandleBlockComment();
+                    commentStartFound = false;
+                    continue;
+                case true: //comment wasn't found, go back
+                    _positionInCode -= 2;
+                    _currentColumn -= 2;
+                    return;
             }
 
             switch (currentChar)
             {
                 case ' ':
                 case '\t':
+                case '\r':
                 case '\n':
                 case '/':
                     break;
