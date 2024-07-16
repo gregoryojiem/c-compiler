@@ -49,12 +49,12 @@ public class AsmFunctionNode : IAsmNode
                 movlNode.FixOperands(fixedInstructions);
             }
 
-            if (instruction is BinaryNode binaryNode)
+            else if (instruction is BinaryNode binaryNode)
             {
                 binaryNode.FixOperands(fixedInstructions);
             }
 
-            if (instruction is DivlNode divlNode)
+            else if (instruction is DivlNode divlNode)
             {
                 divlNode.FixConstantOps(fixedInstructions);
             }
