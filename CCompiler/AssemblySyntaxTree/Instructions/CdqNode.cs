@@ -4,6 +4,6 @@ public class CdqNode : AsmInstructionNode
 {
     public override string ConvertToAsm()
     {
-        throw new NotImplementedException();
+        return "cdq";
     }
 }

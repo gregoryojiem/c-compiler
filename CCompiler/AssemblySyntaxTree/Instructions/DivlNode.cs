@@ -33,6 +33,6 @@ public class DivlNode : AsmInstructionNode, IAllocatableInstruction
 
     public override string ConvertToAsm()
     {
-        throw new NotImplementedException();
+        return "idivl\t" + _divisor; 
     }
 }
