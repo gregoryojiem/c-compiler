@@ -97,7 +97,7 @@ public class Token
             return new Token(type, tokenString, line, column);
         }
 
-        if (int.TryParse(tokenString, out _))
+        if (ValidIntegerCheck(tokenString))
         {
             return new Token(TokenType.IntegerLiteral, tokenString, line, column);
         }
@@ -108,6 +108,18 @@ public class Token
         }
 
         throw new SyntaxException(line, column, "Invalid token found: " + tokenString);
+    }
+
+    public static bool ValidToken(string tokenString)
+    {
+        return TokenMappings.TryGetValue(tokenString, out _) ||
+               ValidIntegerCheck(tokenString) ||
+               ValidIdentifierCheck(tokenString);
+    }
+
+    private static bool ValidIntegerCheck(string tokenString)
+    {
+        return int.TryParse(tokenString, out _);
     }
 
     private static bool ValidIdentifierCheck(string tokenString)
