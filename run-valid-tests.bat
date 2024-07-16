@@ -24,7 +24,8 @@ for /f "delims=" %%a in ('dir /b /s "c-examples\valid\*.*"') do (
         gcc "%%~dpna.c" -o "%%~dpna_gcc.exe" 
         call "%%~dpna_gcc.exe"
         set gcc_return=!errorlevel!
-        if !errorlevel! == !gcc_return! (
+        echo gcc return value: !gcc_return!
+        if !ccompiler_return! == !gcc_return! (
           echo Test result: PASS, return value matches gcc.
           set /a tests_passed+=1
         ) else (
@@ -43,5 +44,5 @@ for /f "delims=" %%a in ('dir /b /s "c-examples\valid\*.*"') do (
 
 echo Total tests passed: %tests_passed%/%total_tests%
 
-pause
 endlocal
+pause
