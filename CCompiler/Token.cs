@@ -62,12 +62,21 @@ public class Token
         TokenType.IntType
     };
 
-    public static readonly List<TokenType> UnaryOperators = new()
+    public static readonly List<TokenType> UnaryOps = new()
     {
         TokenType.Complement,
         TokenType.Negate
     };
 
+    public static readonly List<TokenType> BinaryOps = new()
+    {
+        TokenType.Negate,
+        TokenType.Plus,
+        TokenType.Multiply,
+        TokenType.Divide,
+        TokenType.Modulo,
+    };
+    
     public readonly TokenType Type;
     public readonly string Value;
     public readonly int Line;
@@ -122,6 +131,22 @@ public class Token
         };
     }
 
+    public static int GetPrecedence(TokenType type)
+    {
+        switch (type)
+        {
+            case TokenType.Multiply:
+            case TokenType.Divide:
+            case TokenType.Modulo:
+                return 10;
+            case TokenType.Plus:
+            case TokenType.Negate:
+                return 9;
+            default:
+                return 0;
+        }
+    }
+    
     public override string ToString()
     {
         return Value;
