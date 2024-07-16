@@ -60,15 +60,28 @@ public abstract class ExpressionNode
         {
             return baseNode;
         }
+
         if (expressionNode is UnaryOpNode unaryOpNode)
         {
-            var baseValue = (BaseValueNode)ConvertToTac(statementList, unaryOpNode.Expression);
+            var exprValue = (BaseValueNode)ConvertToTac(statementList, unaryOpNode.Expression);
             var unaryOp = unaryOpNode.UnaryOperator;
-            var tacNode = new TacUnaryOpNode(unaryOp, baseValue);
+            var tacNode = new TacUnaryOpNode(unaryOp, exprValue);
             var tempVar = new VariableNode("tmp" + _tempVariableCounter++);
             statementList.Add(new DeclarationNode(tempVar, tacNode));
             return tempVar;
         }
+
+        if (expressionNode is BinaryOpNode binaryOpNode)
+        {
+            var leftExprValue = (BaseValueNode)ConvertToTac(statementList, binaryOpNode.LeftExpression);
+            var rightExprValue = (BaseValueNode)ConvertToTac(statementList, binaryOpNode.RightExpression);
+            var binaryOp = binaryOpNode.BinaryOperator;
+            var tacNode = new TacBinaryOpNode(binaryOp, leftExprValue, rightExprValue);
+            var tempVar = new VariableNode("tmp" + _tempVariableCounter++);
+            statementList.Add(new DeclarationNode(tempVar, tacNode));
+            return tempVar;
+        }
+
         throw new NotImplementedException();
     }
 }
