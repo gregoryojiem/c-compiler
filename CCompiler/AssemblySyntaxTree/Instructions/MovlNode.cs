@@ -26,7 +26,7 @@ public class MovlNode : AsmInstructionNode, IAllocatableInstruction
         }
     }
 
-    public void FixDoubleStackOps(List<AsmInstructionNode> instructions)
+    public void FixOperands(List<AsmInstructionNode> instructions)
     {
         if (_src is not StackOp srcStackOp || _dst is not StackOp)
         {

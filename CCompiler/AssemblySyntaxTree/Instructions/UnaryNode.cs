@@ -20,7 +20,7 @@ public class UnaryNode : AsmInstructionNode, IAllocatableInstruction
             _dst = IAllocatableInstruction.HandleAllocation(variableMap, ref stackPos, dstPseudo);
         }
     }
-    
+
     public override string ConvertToAsm()
     {
         return UnaryOps.TokenTypeToUnaryOp(_unaryOp) + "\t" + _dst;

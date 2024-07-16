@@ -22,7 +22,7 @@ public class AsmProgramNode : IAsmNode
             function.FinalPass();
         }
     }
-    
+
     public string ConvertToAsm()
     {
         var outputAsm = "";

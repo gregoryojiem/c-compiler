@@ -23,7 +23,7 @@ public class AsmFunctionNode : IAsmNode
         DoAllocationPass();
         DoCorrectionPass();
     }
-    
+
     private void DoAllocationPass()
     {
         var variableMap = new Dictionary<string, int>();
@@ -48,10 +48,12 @@ public class AsmFunctionNode : IAsmNode
             {
                 movlNode.FixOperands(fixedInstructions);
             }
+
             if (instruction is BinaryNode binaryNode)
             {
                 binaryNode.FixOperands(fixedInstructions);
             }
+
             if (instruction is DivlNode divlNode)
             {
                 divlNode.FixConstantOps(fixedInstructions);
@@ -64,14 +66,14 @@ public class AsmFunctionNode : IAsmNode
 
         _instructions = fixedInstructions;
     }
-    
+
     public string ConvertToAsm()
     {
         var outputAsm = "";
         outputAsm += ".globl " + _name + "\n";
         outputAsm += _name + ":\n";
-        outputAsm += "\t" + "pushq\t%rbp" +"\n";
-        outputAsm += "\t" + "movq\t%rsp, %rbp" +"\n";
+        outputAsm += "\t" + "pushq\t%rbp" + "\n";
+        outputAsm += "\t" + "movq\t%rsp, %rbp" + "\n";
         foreach (var instruction in _instructions)
         {
             outputAsm += "\t" + instruction.ConvertToAsm() + "\n";

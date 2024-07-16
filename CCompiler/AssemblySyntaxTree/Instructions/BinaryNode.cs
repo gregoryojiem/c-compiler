@@ -27,7 +27,7 @@ public class BinaryNode : AsmInstructionNode, IAllocatableInstruction
             _dst = IAllocatableInstruction.HandleAllocation(variableMap, ref stackPos, dstPseudo);
         }
     }
-    
+
     public void FixOperands(List<AsmInstructionNode> instructions)
     {
         if (_binaryOp is TokenType.Multiply && _dst is StackOp)
@@ -40,11 +40,13 @@ public class BinaryNode : AsmInstructionNode, IAllocatableInstruction
             instructions.Add(new MovlNode(tempRegister, originalDst));
             return;
         }
+
         if (_binaryOp is TokenType.Multiply)
         {
             instructions.Add(this);
             return;
         }
+
         if (_src is not StackOp srcStackOp || _dst is not StackOp)
         {
             instructions.Add(this);
@@ -57,7 +59,7 @@ public class BinaryNode : AsmInstructionNode, IAllocatableInstruction
         instructions.Add(tempVariable);
         instructions.Add(this);
     }
-    
+
     public override string ConvertToAsm()
     {
         throw new NotImplementedException();

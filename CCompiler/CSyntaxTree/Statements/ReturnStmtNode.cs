@@ -6,7 +6,7 @@ namespace CCompiler.CSyntaxTree.Statements;
 public class ReturnStmtNode : StatementNode
 {
     public ExpressionNode ReturnValue;
-    
+
     public ReturnStmtNode(TokenList tokens)
     {
         tokens.PopExpected(TokenType.Return);

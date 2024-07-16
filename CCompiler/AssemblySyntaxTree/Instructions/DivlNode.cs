@@ -18,7 +18,7 @@ public class DivlNode : AsmInstructionNode, IAllocatableInstruction
             _divisor = IAllocatableInstruction.HandleAllocation(variableMap, ref stackPos, divisor);
         }
     }
-    
+
     public void FixConstantOps(List<AsmInstructionNode> fixedInstructions)
     {
         if (_divisor is ImmOp)
@@ -27,9 +27,10 @@ public class DivlNode : AsmInstructionNode, IAllocatableInstruction
             fixedInstructions.Add(new MovlNode(_divisor, scratchRegister));
             _divisor = scratchRegister;
         }
+
         fixedInstructions.Add(this);
     }
-    
+
     public override string ConvertToAsm()
     {
         throw new NotImplementedException();
