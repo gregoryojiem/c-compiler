@@ -8,4 +8,9 @@ public class VariableNode : BaseValueNode
     {
         Identifier = identifier;
     }
+
+    public override string ToString()
+    {
+        return Identifier;
+    }
 }

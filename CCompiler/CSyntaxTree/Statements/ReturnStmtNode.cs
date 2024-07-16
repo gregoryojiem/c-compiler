@@ -19,4 +19,9 @@ public class ReturnStmtNode : StatementNode
         ReturnValue = ExpressionNode.ConvertToTac(statementList, ReturnValue);
         statementList.Add(this);
     }
+
+    public override string ToString()
+    {
+        return "return " + ReturnValue;
+    }
 }
