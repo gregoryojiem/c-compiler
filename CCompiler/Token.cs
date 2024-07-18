@@ -163,15 +163,24 @@ public class Token
         return tokenString.All(c => char.IsLetterOrDigit(c) || c.Equals('_'));
     }
 
-    public static string GetTypeString(TokenType expectedType, Token token)
+    public static string GetTypeString(TokenType type)
     {
-        return expectedType switch
+        return type switch
         {
             TokenType.IntegerLiteral => "integer literal",
             TokenType.Identifier => "string literal",
-            _ when StringMappings.TryGetValue(expectedType, out var value) => value,
-            _ => throw new SyntaxException(token.Line, token.Column, "Unexpected token found!")
+            _ when StringMappings.TryGetValue(type, out var value) => value,
+            _ => ""
         };
+    }
+
+    public static string GetExpectedTypeString(TokenType expectedType, Token token)
+    {
+        var typeString = GetTypeString(expectedType);
+        if (typeString != "")
+            return typeString;
+
+        throw new SyntaxException(token.Line, token.Column, "Unexpected token found!");
     }
 
     public static int GetPrecedence(TokenType type)
