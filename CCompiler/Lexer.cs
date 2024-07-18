@@ -89,6 +89,9 @@ public class Lexer
                 case '\n':
                 case '/':
                     break;
+                case '#': //for now, macros and pre-processing is unimplemented
+                    HandleLineComment();
+                    break;
                 default:
                     _positionInCode--;
                     _currentColumn--;
