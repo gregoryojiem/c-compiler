@@ -8,8 +8,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="examples\invalid\invalid_parse_unary\" />
-      <Folder Include="SyntaxNodes\" />
+      <Compile Remove="examples\**" />
+      <Compile Remove="SyntaxNodes\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="examples\**" />
+      <EmbeddedResource Remove="SyntaxNodes\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="examples\**" />
+      <None Remove="SyntaxNodes\**" />
     </ItemGroup>
 
 </Project>
