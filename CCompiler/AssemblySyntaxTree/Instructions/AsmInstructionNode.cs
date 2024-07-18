@@ -30,22 +30,60 @@ public abstract class AsmInstructionNode : IAsmNode
     private static void ConvertDeclarationToAsm(List<AsmInstructionNode> instructions, DeclarationNode declarationNode)
     {
         var expression = declarationNode.ExpressionNode;
-        var pseudoReg = new PseudoRegOp(declarationNode.Variable.Identifier);
+        var pseudoRegId = declarationNode.Variable.Identifier;
 
-        if (expression is TacUnaryOpNode unaryOpNode)
+        switch (expression)
         {
-            var unaryOperator = unaryOpNode.UnaryOperator.Type;
-            var operandValue = IOperand.ExprToAsmOperand(unaryOpNode.Operand);
-            instructions.Add(new MovlNode(operandValue, pseudoReg));
-            instructions.Add(new UnaryNode(unaryOperator, pseudoReg));
-            return;
+            case TacUnaryOpNode { UnaryOperator.Type: TokenType.Not } relOpNode:
+                ConvertNotOp(instructions, relOpNode, pseudoRegId);
+                break;
+            case TacBinaryOpNode
+            {
+                BinaryOperator.Type: TokenType.Eq or TokenType.Neq or
+                TokenType.Lt or TokenType.Gt or
+                TokenType.LtOrEq or TokenType.GtOrEq
+            } relOpNode:
+                ConvertRelOp(instructions, relOpNode, pseudoRegId);
+                break;
+            case TacBinaryOpNode { BinaryOperator.Type: TokenType.And or TokenType.Or } relOpNode:
+                ConvertShortCircOp(instructions, relOpNode, pseudoRegId);
+                break;
+            case TacUnaryOpNode unaryOpNode:
+                ConvertUnaryOp(instructions, unaryOpNode, pseudoRegId);
+                break;
+            case TacBinaryOpNode binaryOpNode:
+                ConvertBinaryOp(instructions, binaryOpNode, pseudoRegId);
+                break;
         }
+    }
 
-        if (expression is not TacBinaryOpNode binaryOpNode) throw new NotImplementedException();
+    private static void ConvertNotOp(List<AsmInstructionNode> instructions, TacUnaryOpNode unaryNode, string varId)
+    {
+    }
 
-        var binaryOperator = binaryOpNode.BinaryOperator.Type;
-        var leftOperandValue = IOperand.ExprToAsmOperand(binaryOpNode.LeftOperand);
-        var rightOperandValue = IOperand.ExprToAsmOperand(binaryOpNode.RightOperand);
+    private static void ConvertRelOp(List<AsmInstructionNode> instructions, TacBinaryOpNode binaryNode, string varId)
+    {
+    }
+
+    private static void ConvertShortCircOp(List<AsmInstructionNode> instructions, TacBinaryOpNode ssOp, string varId)
+    {
+    }
+
+    private static void ConvertUnaryOp(List<AsmInstructionNode> instructions, TacUnaryOpNode unaryNode, string varId)
+    {
+        var pseudoReg = new PseudoRegOp(varId);
+        var unaryOperator = unaryNode.UnaryOperator.Type;
+        var operandValue = IOperand.ExprToAsmOperand(unaryNode.Operand);
+        instructions.Add(new MovlNode(operandValue, pseudoReg));
+        instructions.Add(new UnaryNode(unaryOperator, pseudoReg));
+    }
+
+    private static void ConvertBinaryOp(List<AsmInstructionNode> instructions, TacBinaryOpNode binaryNode, string varId)
+    {
+        var pseudoReg = new PseudoRegOp(varId);
+        var binaryOperator = binaryNode.BinaryOperator.Type;
+        var leftOperandValue = IOperand.ExprToAsmOperand(binaryNode.LeftOperand);
+        var rightOperandValue = IOperand.ExprToAsmOperand(binaryNode.RightOperand);
 
         if (binaryOperator != TokenType.Divide && binaryOperator != TokenType.Modulo)
         {
@@ -57,7 +95,7 @@ public abstract class AsmInstructionNode : IAsmNode
         instructions.Add(new MovlNode(leftOperandValue, new RegOp(RegOp.Register.Eax)));
         instructions.Add(new CdqNode());
         instructions.Add(new DivlNode(rightOperandValue));
-        instructions.Add(binaryOpNode.BinaryOperator.Type == TokenType.Divide
+        instructions.Add(binaryNode.BinaryOperator.Type == TokenType.Divide
             ? new MovlNode(new RegOp(RegOp.Register.Eax), pseudoReg)
             : new MovlNode(new RegOp(RegOp.Register.Edx), pseudoReg));
     }
