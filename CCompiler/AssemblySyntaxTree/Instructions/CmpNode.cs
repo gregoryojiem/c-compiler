@@ -28,15 +28,28 @@ public class CmpNode : AsmInstructionNode, IAllocatableInstruction
 
     public void FixOperands(List<AsmInstructionNode> instructions)
     {
-        if (_rightOp is not ImmOp)
+        var secondOpNotConst = _rightOp is not ImmOp;
+        var singleMemoryAddress = _leftOp is not StackOp || _rightOp is not StackOp;
+        if (secondOpNotConst && singleMemoryAddress)
         {
+            instructions.Add(this);
             return;
         }
 
-        var originalDst = _rightOp;
-        var tempRegister = new RegOp(RegOp.Register.R11d);
-        _rightOp = tempRegister;
-        instructions.Add(new MovlNode(originalDst, tempRegister));
+        if (!secondOpNotConst)
+        {
+            var originalDst = _rightOp;
+            var tempRegister = new RegOp(RegOp.Register.R11d);
+            _rightOp = tempRegister;
+            instructions.Add(new MovlNode(originalDst, tempRegister));
+            instructions.Add(this);
+            return;
+        }
+        
+        var scratchRegister = new RegOp(RegOp.Register.R10d);
+        var tempVariable = new MovlNode(_leftOp, scratchRegister);
+        _leftOp = scratchRegister;
+        instructions.Add(tempVariable);
         instructions.Add(this);
     }
 
