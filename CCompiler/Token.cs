@@ -16,6 +16,17 @@ public enum TokenType
     Divide,
     Modulo,
 
+    //Logical operators
+    Not,
+    And,
+    Or,
+    Eq,
+    Neq,
+    Lt,
+    Gt,
+    LtOrEq,
+    GtOrEq,
+
     // Punctuation
     LeftParen,
     RightParen,
@@ -46,6 +57,17 @@ public class Token
         { "/", TokenType.Divide },
         { "%", TokenType.Modulo },
 
+        // Logical Operators 
+        { "!", TokenType.Not },
+        { "&&", TokenType.And },
+        { "||", TokenType.Or },
+        { "==", TokenType.Eq },
+        { "!=", TokenType.Neq },
+        { "<", TokenType.Lt },
+        { ">", TokenType.Gt },
+        { "<=", TokenType.LtOrEq },
+        { ">=", TokenType.GtOrEq },
+
         // Punctuation
         { "(", TokenType.LeftParen },
         { ")", TokenType.RightParen },
@@ -65,7 +87,8 @@ public class Token
     public static readonly List<TokenType> UnaryOps = new()
     {
         TokenType.Complement,
-        TokenType.Negate
+        TokenType.Negate,
+        TokenType.Not
     };
 
     public static readonly List<TokenType> BinaryOps = new()
@@ -75,6 +98,14 @@ public class Token
         TokenType.Multiply,
         TokenType.Divide,
         TokenType.Modulo,
+        TokenType.And,
+        TokenType.Or,
+        TokenType.Eq,
+        TokenType.Neq,
+        TokenType.Lt,
+        TokenType.Gt,
+        TokenType.LtOrEq,
+        TokenType.GtOrEq,
     };
 
     public readonly TokenType Type;
@@ -154,8 +185,20 @@ public class Token
             case TokenType.Add:
             case TokenType.Negate:
                 return 9;
+            case TokenType.Lt:
+            case TokenType.Gt:
+            case TokenType.LtOrEq:
+            case TokenType.GtOrEq:
+                return 8;
+            case TokenType.Eq:
+            case TokenType.Neq:
+                return 7;
+            case TokenType.And:
+                return 6;
+            case TokenType.Or:
+                return 5;
             default:
-                return 0;
+                throw new NotImplementedException();
         }
     }
 

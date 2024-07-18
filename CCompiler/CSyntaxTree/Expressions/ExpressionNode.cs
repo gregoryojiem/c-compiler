@@ -7,6 +7,7 @@ namespace CCompiler.CSyntaxTree.Expressions;
 public abstract class ExpressionNode
 {
     protected static int TempVariableCounter;
+    protected static int TempLabelCounter;
 
     public static ExpressionNode ParseExpressionNode(TokenList tokens, int minPrecedence)
     {
