@@ -48,7 +48,10 @@ public class AsmFunctionNode : IAsmNode
             {
                 movlNode.FixOperands(fixedInstructions);
             }
-
+            else if (instruction is CmpNode cmpNode)
+            {
+                cmpNode.FixOperands(fixedInstructions);
+            }
             else if (instruction is BinaryNode binaryNode)
             {
                 binaryNode.FixOperands(fixedInstructions);
