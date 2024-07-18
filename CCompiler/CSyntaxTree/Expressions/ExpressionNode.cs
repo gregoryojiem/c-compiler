@@ -43,7 +43,8 @@ public abstract class ExpressionNode
         }
         else if (expressionStart == TokenType.IntegerLiteral)
         {
-            expressionNode = new ConstantNode(tokens);
+            var tokenString = tokens.PopExpected(TokenType.IntegerLiteral).Value;
+            expressionNode = new ConstantNode(int.Parse(tokenString));
         }
         else
         {
