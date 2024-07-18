@@ -2,15 +2,15 @@
 
 public class JumpNode : TacStatementNode
 {
-    private string _target;
+    public readonly string Target;
 
     public JumpNode(string target)
     {
-        _target = target;
+        Target = target;
     }
 
     public override string ToString()
     {
-        return "goto " + _target;
+        return "goto " + Target;
     }
 }

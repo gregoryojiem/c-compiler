@@ -2,15 +2,15 @@
 
 public class LabelNode : TacStatementNode
 {
-    private string _identifier;
+    public readonly string Identifier;
 
     public LabelNode(string identifier)
     {
-        _identifier = identifier;
+        Identifier = identifier;
     }
     
     public override string ToString()
     {
-        return _identifier + ":";
+        return Identifier + ":";
     }
 }

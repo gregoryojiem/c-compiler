@@ -4,20 +4,20 @@ namespace CCompiler.CSyntaxTree.TacStatements;
 
 public class JumpIfZeroNode : TacStatementNode
 {
-    private BaseValueNode _condition;
-    private string _target;
-    private bool _inverted;
+    public readonly BaseValueNode Condition;
+    public readonly string Target;
+    public readonly bool Inverted;
 
     public JumpIfZeroNode(BaseValueNode condition, string target, bool inverted)
     {
-        _condition = condition;
-        _target = target;
-        _inverted = inverted;
+        Condition = condition;
+        Target = target;
+        Inverted = inverted;
     }
 
     public override string ToString()
     {
-        var condition = _inverted ? "" : "!";
-        return "if (" + condition + _condition + ")" + " goto " + _target;
+        var condition = Inverted ? "" : "!";
+        return "if (" + condition + Condition + ")" + " goto " + Target;
     }
 }
