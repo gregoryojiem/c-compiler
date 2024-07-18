@@ -16,7 +16,7 @@ public class ReturnStmtNode : StatementNode
 
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        ReturnValue = ExpressionNode.ConvertToTac(statementList, ReturnValue);
+        ReturnValue = ReturnValue.ConvertToTac(statementList);
         statementList.Add(this);
     }
 
