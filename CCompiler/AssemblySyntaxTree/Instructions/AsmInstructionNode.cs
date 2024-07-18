@@ -2,6 +2,7 @@
 using CCompiler.CSyntaxTree.Expressions;
 using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.AssemblySyntaxTree.Instructions;
 
