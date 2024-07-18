@@ -15,7 +15,7 @@ public abstract class AsmInstructionNode : IAsmNode
         {
             case DeclarationNode declarationNode:
                 ConvertDeclarationToAsm(instructions, declarationNode);
-                return;
+                break;
             case JumpIfZeroNode jumpIfZeroNode:
             {
                 var condCode = jumpIfZeroNode.Inverted ? TokenType.Neq : TokenType.Eq;
@@ -39,7 +39,7 @@ public abstract class AsmInstructionNode : IAsmNode
                 var operandValue = IOperand.ExprToAsmOperand(returnStmtNode.ReturnValue);
                 instructions.Add(new MovlNode(operandValue, new RegOp(RegOp.Register.Eax)));
                 instructions.Add(new RetNode());
-                return;
+                break;
             }
             default:
                 throw new NotImplementedException();
