@@ -4,10 +4,10 @@ namespace CCompiler.CSyntaxTree.TacExpressions;
 
 public class TacUnaryOpNode : TacExpressionNode
 {
-    public Token UnaryOperator;
+    public TokenType UnaryOperator;
     public BaseValueNode Operand;
 
-    public TacUnaryOpNode(Token unaryOperator, BaseValueNode operand)
+    public TacUnaryOpNode(TokenType unaryOperator, BaseValueNode operand)
     {
         UnaryOperator = unaryOperator;
         Operand = operand;

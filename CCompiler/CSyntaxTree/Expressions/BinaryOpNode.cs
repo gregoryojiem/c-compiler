@@ -47,7 +47,7 @@ public class BinaryOpNode : ExpressionNode
             return resultNode;
         }
 
-        var tacNode = new TacBinaryOpNode(BinaryOperator, leftExprValue, rightExprValue);
+        var tacNode = new TacBinaryOpNode(BinaryOperator.Type, leftExprValue, rightExprValue);
         statementList.Add(new DeclarationNode(resultNode, tacNode));
         return resultNode;
     }

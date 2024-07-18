@@ -19,7 +19,7 @@ public class UnaryOpNode : ExpressionNode
     public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
     {
         var exprValue = (BaseValueNode)Expression.ConvertToTac(statementList);
-        var tacNode = new TacUnaryOpNode(UnaryOperator, exprValue);
+        var tacNode = new TacUnaryOpNode(UnaryOperator.Type, exprValue);
         var tempVar = new VariableNode("tmp_" + TempVariableCounter++);
         statementList.Add(new DeclarationNode(tempVar, tacNode));
         return tempVar;
