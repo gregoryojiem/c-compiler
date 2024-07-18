@@ -4,9 +4,9 @@ public class ConstantNode : BaseValueNode
 {
     public readonly int Value;
 
-    public ConstantNode(TokenList tokens)
+    public ConstantNode(int value)
     {
-        Value = int.Parse(tokens.PopExpected(TokenType.IntegerLiteral).Value);
+        Value = value;
     }
 
     public override string ToString()

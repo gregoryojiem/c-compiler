@@ -4,11 +4,11 @@ namespace CCompiler.CSyntaxTree.TacExpressions;
 
 public class TacBinaryOpNode : TacExpressionNode
 {
-    public Token BinaryOperator;
-    public BaseValueNode LeftOperand;
-    public BaseValueNode RightOperand;
+    public readonly TokenType BinaryOperator;
+    public readonly BaseValueNode LeftOperand;
+    public readonly BaseValueNode RightOperand;
 
-    public TacBinaryOpNode(Token binaryOperator, BaseValueNode leftOperand, BaseValueNode rightOperand)
+    public TacBinaryOpNode(TokenType binaryOperator, BaseValueNode leftOperand, BaseValueNode rightOperand)
     {
         BinaryOperator = binaryOperator;
         LeftOperand = leftOperand;
@@ -17,6 +17,6 @@ public class TacBinaryOpNode : TacExpressionNode
 
     public override string ToString()
     {
-        return "(" + LeftOperand + " " + BinaryOperator + " " + RightOperand + ")";
+        return "(" + LeftOperand + " " + Token.GetTypeString(BinaryOperator) + " " + RightOperand + ")";
     }
 }

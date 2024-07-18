@@ -39,7 +39,7 @@ public class TokenList
     {
         var token = Pop();
         if (token.Type == type) return token;
-        var expectedValue = Token.GetTypeString(type, token);
+        var expectedValue = Token.GetExpectedTypeString(type, token);
         throw new ParseException(token, $"Unexpected token '{token}', was expecting: '{expectedValue}'");
     }
 

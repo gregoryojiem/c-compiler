@@ -35,4 +35,18 @@ public interface IOperand
             _ => throw new NotImplementedException()
         };
     }
+
+    public static string GetConditionCode(TokenType condCode)
+    {
+        return condCode switch
+        {
+            TokenType.Eq => "e",
+            TokenType.Neq => "ne",
+            TokenType.Lt => "l",
+            TokenType.Gt => "g",
+            TokenType.LtOrEq => "le",
+            TokenType.GtOrEq => "ge",
+            _ => throw new NotImplementedException()
+        };
+    }
 }

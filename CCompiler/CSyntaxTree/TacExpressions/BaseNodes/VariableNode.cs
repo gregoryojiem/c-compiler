@@ -2,7 +2,7 @@
 
 public class VariableNode : BaseValueNode
 {
-    public string Identifier;
+    public readonly string Identifier;
 
     public VariableNode(string identifier)
     {

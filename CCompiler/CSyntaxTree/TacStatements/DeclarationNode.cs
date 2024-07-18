@@ -1,9 +1,9 @@
 ﻿using CCompiler.CSyntaxTree.TacExpressions;
 using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
-namespace CCompiler.CSyntaxTree.Statements;
+namespace CCompiler.CSyntaxTree.TacStatements;
 
-public class DeclarationNode : StatementNode
+public class DeclarationNode : TacStatementNode
 {
     public readonly VariableNode Variable;
     public readonly TacExpressionNode ExpressionNode;
@@ -13,12 +13,7 @@ public class DeclarationNode : StatementNode
         Variable = variable;
         ExpressionNode = expressionNode;
     }
-
-    public override void ConvertToTac(List<StatementNode> statementList)
-    {
-        throw new NotImplementedException();
-    }
-
+    
     public override string ToString()
     {
         return Variable + " = " + ExpressionNode;

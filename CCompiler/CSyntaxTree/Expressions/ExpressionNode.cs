@@ -6,7 +6,8 @@ namespace CCompiler.CSyntaxTree.Expressions;
 
 public abstract class ExpressionNode
 {
-    private static int _tempVariableCounter;
+    protected static int TempVariableCounter;
+    protected static int TempLabelCounter;
 
     public static ExpressionNode ParseExpressionNode(TokenList tokens, int minPrecedence)
     {
@@ -43,7 +44,8 @@ public abstract class ExpressionNode
         }
         else if (expressionStart == TokenType.IntegerLiteral)
         {
-            expressionNode = new ConstantNode(tokens);
+            var tokenString = tokens.PopExpected(TokenType.IntegerLiteral).Value;
+            expressionNode = new ConstantNode(int.Parse(tokenString));
         }
         else
         {
@@ -54,34 +56,5 @@ public abstract class ExpressionNode
         return expressionNode;
     }
 
-    public static TacExpressionNode ConvertToTac(List<StatementNode> statementList, ExpressionNode expressionNode)
-    {
-        if (expressionNode is BaseValueNode baseNode)
-        {
-            return baseNode;
-        }
-
-        if (expressionNode is UnaryOpNode unaryOpNode)
-        {
-            var exprValue = (BaseValueNode)ConvertToTac(statementList, unaryOpNode.Expression);
-            var unaryOp = unaryOpNode.UnaryOperator;
-            var tacNode = new TacUnaryOpNode(unaryOp, exprValue);
-            var tempVar = new VariableNode("tmp" + _tempVariableCounter++);
-            statementList.Add(new DeclarationNode(tempVar, tacNode));
-            return tempVar;
-        }
-
-        if (expressionNode is BinaryOpNode binaryOpNode)
-        {
-            var leftExprValue = (BaseValueNode)ConvertToTac(statementList, binaryOpNode.LeftExpression);
-            var rightExprValue = (BaseValueNode)ConvertToTac(statementList, binaryOpNode.RightExpression);
-            var binaryOp = binaryOpNode.BinaryOperator;
-            var tacNode = new TacBinaryOpNode(binaryOp, leftExprValue, rightExprValue);
-            var tempVar = new VariableNode("tmp" + _tempVariableCounter++);
-            statementList.Add(new DeclarationNode(tempVar, tacNode));
-            return tempVar;
-        }
-
-        throw new NotImplementedException();
-    }
+    public abstract TacExpressionNode ConvertToTac(List<StatementNode> statementList);
 }
