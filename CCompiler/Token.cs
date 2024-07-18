@@ -150,7 +150,8 @@ public class Token
 
     private static bool ValidIntegerCheck(string tokenString)
     {
-        return int.TryParse(tokenString, out _);
+        var success = int.TryParse(tokenString, out var result);
+        return success && result >= 0;
     }
 
     private static bool ValidIdentifierCheck(string tokenString)
