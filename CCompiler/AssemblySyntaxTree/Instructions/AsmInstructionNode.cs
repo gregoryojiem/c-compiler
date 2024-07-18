@@ -18,10 +18,10 @@ public abstract class AsmInstructionNode : IAsmNode
                 return;
             case JumpIfZeroNode jumpIfZeroNode:
             {
-                var equalityType = jumpIfZeroNode.Inverted ? TokenType.Neq : TokenType.Eq;
+                var condCode = jumpIfZeroNode.Inverted ? TokenType.Neq : TokenType.Eq;
                 var condition = IOperand.ExprToAsmOperand(jumpIfZeroNode.Condition);
                 instructions.Add(new CmpNode(new ImmOp(0), condition));
-                instructions.Add(new JmpCcNode(equalityType, jumpIfZeroNode.Target));
+                instructions.Add(new JmpCcNode(condCode, jumpIfZeroNode.Target));
                 break;
             }
             case JumpNode jumpNode:
@@ -112,12 +112,14 @@ public abstract class AsmInstructionNode : IAsmNode
             return;
         }
 
+        var axRegToUse = RegOp.Register.Eax;
+        var dxRegToUse = RegOp.Register.Edx;
         instructions.Add(new MovlNode(leftOperandValue, new RegOp(RegOp.Register.Eax)));
         instructions.Add(new CdqNode());
         instructions.Add(new DivlNode(rightOperandValue));
         instructions.Add(binaryNode.BinaryOperator == TokenType.Divide
-            ? new MovlNode(new RegOp(RegOp.Register.Eax), pseudoReg)
-            : new MovlNode(new RegOp(RegOp.Register.Edx), pseudoReg));
+            ? new MovlNode(new RegOp(axRegToUse), pseudoReg)
+            : new MovlNode(new RegOp(dxRegToUse), pseudoReg));
     }
 
     public abstract string ConvertToAsm();

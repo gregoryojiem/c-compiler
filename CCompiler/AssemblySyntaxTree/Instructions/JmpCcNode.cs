@@ -1,18 +1,20 @@
-﻿namespace CCompiler.AssemblySyntaxTree.Instructions;
+﻿using CCompiler.AssemblySyntaxTree.Operands;
+
+namespace CCompiler.AssemblySyntaxTree.Instructions;
 
 public class JmpCcNode : AsmInstructionNode
 {
-    private TokenType _equalityType;
+    private TokenType _condCode;
     private string _identifier;
     
-    public JmpCcNode(TokenType equalityType, string identifier)
+    public JmpCcNode(TokenType condCode, string identifier)
     {
-        _equalityType = equalityType;
+        _condCode = condCode;
         _identifier = identifier;
     }
 
     public override string ConvertToAsm()
     {
-        throw new NotImplementedException();
+        return "j" + IOperand.GetConditionCode(_condCode) + "\t\t." + _identifier;
     }
 }

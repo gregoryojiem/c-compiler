@@ -79,7 +79,8 @@ public class AsmFunctionNode : IAsmNode
         outputAsm += "\t" + "movq\t%rsp, %rbp" + "\n";
         foreach (var instruction in _instructions)
         {
-            outputAsm += "\t" + instruction.ConvertToAsm() + "\n";
+            var addTab = instruction is JmpLabelNode ? "" : "\t";
+            outputAsm += addTab + instruction.ConvertToAsm() + "\n";
         }
 
         return outputAsm;

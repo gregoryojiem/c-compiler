@@ -11,6 +11,6 @@ public class JmpLabelNode : AsmInstructionNode
 
     public override string ConvertToAsm()
     {
-        throw new NotImplementedException();
+        return "." + _identifier + ":";
     }
 }
