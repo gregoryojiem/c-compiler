@@ -1,6 +1,7 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
 using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Expressions;
 
@@ -19,7 +20,7 @@ public class UnaryOpNode : ExpressionNode
     {
         var exprValue = (BaseValueNode)Expression.ConvertToTac(statementList);
         var tacNode = new TacUnaryOpNode(UnaryOperator, exprValue);
-        var tempVar = new VariableNode("tmp" + TempVariableCounter++);
+        var tempVar = new VariableNode("tmp_" + TempVariableCounter++);
         statementList.Add(new DeclarationNode(tempVar, tacNode));
         return tempVar;
     }
