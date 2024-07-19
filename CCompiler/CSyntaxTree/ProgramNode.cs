@@ -22,7 +22,7 @@ public class ProgramNode
             function.Validate(variableMap);
         }
     }
-    
+
     public void ConvertToTac()
     {
         foreach (var function in Functions)

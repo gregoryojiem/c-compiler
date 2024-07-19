@@ -40,7 +40,7 @@ public class MovlNode : AsmInstructionNode, IAllocatableInstruction
         instructions.Add(tempVariable);
         instructions.Add(this);
     }
-    
+
     public override string ConvertToAsm()
     {
         return "movl\t" + _src + ", " + _dst;

@@ -64,7 +64,7 @@ public abstract class AsmInstructionNode : IAsmNode
             case TacBinaryOpNode
             {
                 BinaryOperator: TokenType.Eq or TokenType.Neq or
-                TokenType.Lt or TokenType.Gt or TokenType.LtOrEq or TokenType.GtOrEq 
+                TokenType.Lt or TokenType.Gt or TokenType.LtOrEq or TokenType.GtOrEq
             } relOpNode:
                 ConvertRelOp(instructions, relOpNode, pseudoRegId);
                 break;

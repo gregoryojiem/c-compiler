@@ -14,7 +14,7 @@ public class ReturnStmtNode : StatementNode
         ReturnValue = ExpressionNode.ParseExpressionNode(tokens, 0);
         tokens.PopExpected(TokenType.Semicolon);
     }
-    
+
     public ReturnStmtNode(int returnValue)
     {
         ReturnValue = new TacConstantNode(returnValue);

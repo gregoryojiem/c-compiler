@@ -23,7 +23,7 @@ public class TokenList
         TokenType.IntLiteral,
         TokenType.Identifier
     };
-    
+
     private static readonly List<TokenType> UnaryOps = new()
     {
         TokenType.Complement,
@@ -48,7 +48,7 @@ public class TokenList
         TokenType.GtOrEq,
         TokenType.Assignment
     };
-    
+
     private readonly List<Token> _tokens;
     private readonly int _lastLine;
     private readonly int _lastColumn;
@@ -69,7 +69,7 @@ public class TokenList
 
         return _tokens[0];
     }
-    
+
     public Token Pop()
     {
         if (_tokens.Count == 0)
@@ -107,12 +107,12 @@ public class TokenList
             _ => false
         };
     }
-    
+
     public bool NextTokenGroup(Group group)
     {
         return TokenTypeInGroup(Peek().Type, group);
     }
-    
+
     public bool Empty()
     {
         return _tokens.Count == 0;

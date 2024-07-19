@@ -43,6 +43,7 @@ public static class Program
             Console.WriteLine(ex.Message);
             return -3;
         }
+
         return 1;
     }
 

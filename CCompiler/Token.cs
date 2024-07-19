@@ -58,7 +58,7 @@ public class Token
         { "/", TokenType.Divide },
         { "%", TokenType.Modulo },
         { "=", TokenType.Assignment },
-        
+
         // Logical Operators 
         { "!", TokenType.Not },
         { "&&", TokenType.And },
@@ -82,7 +82,7 @@ public class Token
         TokenMappings.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
     public readonly TokenType Type;
-    public readonly string Value;
+    public string Value;
     public readonly int Line;
     public readonly int Column;
 

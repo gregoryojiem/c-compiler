@@ -14,7 +14,7 @@ public interface IOperand
             _ => throw new NotImplementedException()
         };
     }
-    
+
     public static string TokenTypeToUnaryOp(TokenType tokenType)
     {
         return tokenType switch
@@ -24,7 +24,7 @@ public interface IOperand
             _ => throw new NotImplementedException()
         };
     }
-    
+
     public static string TokenTypeToBinaryOp(TokenType tokenType)
     {
         return tokenType switch

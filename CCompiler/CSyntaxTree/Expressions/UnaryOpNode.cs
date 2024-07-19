@@ -34,7 +34,7 @@ public class UnaryOpNode : ExpressionNode
         statementList.Add(new AssignmentNode(tempVar, tacNode));
         return tempVar;
     }
-    
+
     public override string ToString()
     {
         return UnaryOperator.Value + "(" + Expression + ")";

@@ -16,14 +16,14 @@ public class SemanticException : Exception
 
     public static void UndeclaredVariableError(Token variable)
     {
-        throw new SemanticException(variable, "The variable " + variable + " has not been declared");
+        throw new SemanticException(variable, "The variable '" + variable + "' has not been declared");
     }
 
     public static void CheckDuplicateDeclaration(Dictionary<string, string> variableMap, Token variable)
     {
         if (variableMap.ContainsKey(variable.Value))
         {
-            throw new SemanticException(variable, "The variable " + variable + " has already been declared");
+            throw new SemanticException(variable, "The variable '" + variable + "' has already been declared");
         }
     }
     
