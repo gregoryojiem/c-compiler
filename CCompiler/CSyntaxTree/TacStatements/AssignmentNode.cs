@@ -3,12 +3,12 @@ using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
 namespace CCompiler.CSyntaxTree.TacStatements;
 
-public class DeclarationNode : TacStatementNode
+public class AssignmentNode : TacStatementNode
 {
     public readonly VariableNode Variable;
     public readonly TacExpressionNode ExpressionNode;
 
-    public DeclarationNode(VariableNode variable, TacExpressionNode expressionNode)
+    public AssignmentNode(VariableNode variable, TacExpressionNode expressionNode)
     {
         Variable = variable;
         ExpressionNode = expressionNode;

@@ -38,17 +38,17 @@ public class BinaryOpNode : ExpressionNode
             var endIdentifier = "cond_result_" + TempLabelCounter;
             var shortCircuitConst = BinaryOperator.Type is TokenType.And ? 0 : 1;
             statementList.Add(new JumpIfZeroNode(rightExprValue, shortCircuitId, jumpCondInverted));
-            statementList.Add(new DeclarationNode(resultNode, new ConstantNode(shortCircuitConst ^ 1)));
+            statementList.Add(new AssignmentNode(resultNode, new ConstantNode(shortCircuitConst ^ 1)));
             statementList.Add(new JumpNode(endIdentifier));
             statementList.Add(new LabelNode(shortCircuitId));
-            statementList.Add(new DeclarationNode(resultNode, new ConstantNode(shortCircuitConst)));
+            statementList.Add(new AssignmentNode(resultNode, new ConstantNode(shortCircuitConst)));
             statementList.Add(new LabelNode(endIdentifier));
             TempLabelCounter++;
             return resultNode;
         }
 
         var tacNode = new TacBinaryOpNode(BinaryOperator.Type, leftExprValue, rightExprValue);
-        statementList.Add(new DeclarationNode(resultNode, tacNode));
+        statementList.Add(new AssignmentNode(resultNode, tacNode));
         return resultNode;
     }
 

@@ -13,8 +13,8 @@ public abstract class AsmInstructionNode : IAsmNode
     {
         switch (cStatement)
         {
-            case DeclarationNode declarationNode:
-                ConvertDeclarationToAsm(instructions, declarationNode);
+            case AssignmentNode assignmentNode:
+                ConvertAssignmentToAsm(instructions, assignmentNode);
                 break;
             case JumpIfZeroNode jumpIfZeroNode:
             {
@@ -46,10 +46,10 @@ public abstract class AsmInstructionNode : IAsmNode
         }
     }
 
-    private static void ConvertDeclarationToAsm(List<AsmInstructionNode> instructions, DeclarationNode declarationNode)
+    private static void ConvertAssignmentToAsm(List<AsmInstructionNode> instructions, AssignmentNode assignmentNode)
     {
-        var expression = declarationNode.ExpressionNode;
-        var pseudoRegId = declarationNode.Variable.Identifier;
+        var expression = assignmentNode.ExpressionNode;
+        var pseudoRegId = assignmentNode.Variable.Identifier;
 
         switch (expression)
         {
