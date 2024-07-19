@@ -37,10 +37,8 @@ public abstract class ExpressionNode
 
     protected static ExpressionNode ParseExpressionFactor(TokenList tokens)
     {
-        var rightParenRequired = tokens.Peek().Type == TokenType.LeftParen;
-        if (rightParenRequired)
+        if (tokens.PopIfFound(TokenType.LeftParen))
         {
-            tokens.PopExpected(TokenType.LeftParen);
             var expressionNode = ParseExpressionNode(tokens, 0);
             tokens.PopExpected(TokenType.RightParen);
             return expressionNode;

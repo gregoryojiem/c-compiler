@@ -82,6 +82,14 @@ public class TokenList
         return token;
     }
 
+    public bool PopIfFound(TokenType type)
+    {
+        if (Peek().Type != type)
+            return false;
+        Pop();
+        return true;
+    }
+
     public Token PopExpected(TokenType type)
     {
         var token = Pop();

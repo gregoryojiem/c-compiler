@@ -14,11 +14,8 @@ public class DeclarationStmtNode : StatementNode
     {
         _type = tokens.PopExpected(TokenType.IntType).Type;
         _identifier = tokens.PopExpected(TokenType.Identifier);
-        if (tokens.Peek().Type == TokenType.Assignment)
-        {
-            tokens.Pop();
+        if (tokens.PopIfFound(TokenType.Assignment))
             _expression = ExpressionNode.ParseExpressionNode(tokens, 0);
-        }
 
         tokens.PopExpected(TokenType.Semicolon);
     }

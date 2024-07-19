@@ -35,13 +35,11 @@ public class FunctionNode
     {
         //TODO in the future, look into whether adding a FunctionBodyNode class would be worthwhile
         tokens.PopExpected(TokenType.LeftBrace);
-        while (tokens.Peek().Type != TokenType.RightBrace)
+        while (!tokens.PopIfFound(TokenType.RightBrace))
         {
             var statementNode = StatementNode.CreateStatementNode(tokens);
             Body.Add(statementNode);
         }
-
-        tokens.PopExpected(TokenType.RightBrace);
     }
 
     public void Validate(Dictionary<string, string> variableMap)
