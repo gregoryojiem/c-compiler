@@ -15,6 +15,7 @@ public enum TokenType
     Multiply,
     Divide,
     Modulo,
+    Assignment,
 
     //Logical operators
     Not,
@@ -36,7 +37,7 @@ public enum TokenType
 
     // Literals
     Identifier,
-    IntegerLiteral
+    IntLiteral
 }
 
 public class Token
@@ -56,7 +57,8 @@ public class Token
         { "*", TokenType.Multiply },
         { "/", TokenType.Divide },
         { "%", TokenType.Modulo },
-
+        { "=", TokenType.Assignment },
+        
         // Logical Operators 
         { "!", TokenType.Not },
         { "&&", TokenType.And },
@@ -78,35 +80,6 @@ public class Token
 
     private static readonly Dictionary<TokenType, string> StringMappings =
         TokenMappings.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
-
-    public static readonly List<TokenType> DataTypes = new()
-    {
-        TokenType.IntType
-    };
-
-    public static readonly List<TokenType> UnaryOps = new()
-    {
-        TokenType.Complement,
-        TokenType.Negate,
-        TokenType.Not
-    };
-
-    public static readonly List<TokenType> BinaryOps = new()
-    {
-        TokenType.Negate,
-        TokenType.Add,
-        TokenType.Multiply,
-        TokenType.Divide,
-        TokenType.Modulo,
-        TokenType.And,
-        TokenType.Or,
-        TokenType.Eq,
-        TokenType.Neq,
-        TokenType.Lt,
-        TokenType.Gt,
-        TokenType.LtOrEq,
-        TokenType.GtOrEq,
-    };
 
     public readonly TokenType Type;
     public readonly string Value;
@@ -130,7 +103,7 @@ public class Token
 
         if (ValidIntegerCheck(tokenString))
         {
-            return new Token(TokenType.IntegerLiteral, tokenString, line, column);
+            return new Token(TokenType.IntLiteral, tokenString, line, column);
         }
 
         if (ValidIdentifierCheck(tokenString))
@@ -168,7 +141,7 @@ public class Token
     {
         return type switch
         {
-            TokenType.IntegerLiteral => "integer literal",
+            TokenType.IntLiteral => "integer literal",
             TokenType.Identifier => "string literal",
             _ when StringMappings.TryGetValue(type, out var value) => value,
             _ => ""
@@ -207,6 +180,8 @@ public class Token
                 return 6;
             case TokenType.Or:
                 return 5;
+            case TokenType.Assignment:
+                return 4;
             default:
                 throw new NotImplementedException();
         }
