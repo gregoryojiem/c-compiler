@@ -14,4 +14,9 @@ public class NullStmtNode : StatementNode
     public override void ConvertToTac(List<StatementNode> statementList)
     {
     }
+
+    public override string ToString()
+    {
+        return ";";
+    }
 }
