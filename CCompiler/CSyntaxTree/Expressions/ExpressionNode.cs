@@ -6,7 +6,7 @@ namespace CCompiler.CSyntaxTree.Expressions;
 public abstract class ExpressionNode
 {
     public static int UniqueVariableCounter;
-    protected static int UniqueLabelCounter;
+    public static int UniqueLabelCounter;
 
     public static ExpressionNode ParseExpressionNode(TokenList tokens, int minPrecedence)
     {
@@ -15,19 +15,25 @@ public abstract class ExpressionNode
         while (tokens.NextTokenGroup(TokenList.Group.BinaryOp) && Token.GetPrecedence(nextToken) >= minPrecedence)
         {
             // assignment is right-associative in C 
-            var assignment = nextToken == TokenType.Assignment;
-            var nextPrecedence = Token.GetPrecedence(nextToken) + (assignment ? 0 : 1);
-            var binaryOp = tokens.Pop();
+            var increasePrecedence = nextToken != TokenType.Assignment && nextToken != TokenType.Ternary;
+            var nextPrecedence = Token.GetPrecedence(nextToken) + (increasePrecedence ? 1 : 0);
+            var operatorType = tokens.Pop().Type;
+
+            ExpressionNode? middleExpr = null;
+            if (operatorType == TokenType.Ternary)
+            {
+                middleExpr = ParseExpressionNode(tokens, 0);
+                tokens.PopExpected(TokenType.TernaryDelim);
+            }
+
             var rightExpr = ParseExpressionNode(tokens, nextPrecedence);
 
-            if (assignment)
-            {
+            if (middleExpr != null)
+                leftExpr = new TernaryOpNode(leftExpr, middleExpr, rightExpr);
+            else if (operatorType == TokenType.Assignment)
                 leftExpr = new AssignmentOpNode(leftExpr, rightExpr);
-            }
             else
-            {
-                leftExpr = new BinaryOpNode(binaryOp, leftExpr, rightExpr);
-            }
+                leftExpr = new BinaryOpNode(operatorType, leftExpr, rightExpr);
 
             nextToken = tokens.Peek().Type;
         }
