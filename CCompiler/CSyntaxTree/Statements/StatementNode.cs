@@ -4,10 +4,22 @@ public abstract class StatementNode
 {
     public static StatementNode CreateStatementNode(TokenList tokens)
     {
-        if (tokens.Peek().Type == TokenType.Return)
+        var nextToken = tokens.Peek().Type;
+        if (nextToken == TokenType.Semicolon)
         {
-            var returnStmtNode = new ReturnStmtNode(tokens);
-            return returnStmtNode;
+            return new NullStmtNode(tokens);
+        }
+        if (nextToken == TokenType.IntType)
+        {
+            return new DeclarationStmtNode(tokens);
+        }
+        if (TokenList.IsExpressionStart(nextToken))
+        {
+            return new ExpressionStmtNode(tokens);
+        }
+        if (nextToken == TokenType.Return)
+        {
+            return new ReturnStmtNode(tokens);
         }
 
         var unexpectedToken = tokens.Pop();
