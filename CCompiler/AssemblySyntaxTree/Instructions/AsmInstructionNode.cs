@@ -49,7 +49,7 @@ public abstract class AsmInstructionNode : IAsmNode
     private static void ConvertAssignmentToAsm(List<AsmInstructionNode> instructions, AssignmentNode assignmentNode)
     {
         var expression = assignmentNode.ExpressionNode;
-        var pseudoRegId = assignmentNode.Variable.Identifier;
+        var pseudoRegId = assignmentNode.TacVariable.Identifier;
 
         switch (expression)
         {
@@ -58,7 +58,7 @@ public abstract class AsmInstructionNode : IAsmNode
                 instructions.Add(new MovlNode(valToCopy, new PseudoRegOp(pseudoRegId)));
                 break;
             case TacUnaryOpNode { UnaryOperator: TokenType.Not } relOpNode:
-                var binaryNode = new TacBinaryOpNode(TokenType.Eq, relOpNode.Operand, new ConstantNode(0));
+                var binaryNode = new TacBinaryOpNode(TokenType.Eq, relOpNode.Operand, new TacConstantNode(0));
                 ConvertRelOp(instructions, binaryNode, pseudoRegId);
                 break;
             case TacBinaryOpNode

@@ -9,8 +9,8 @@ public interface IOperand
     {
         return expression switch
         {
-            ConstantNode constantNode => new ImmOp(constantNode.Value),
-            VariableNode variableNode => new PseudoRegOp(variableNode.Identifier),
+            TacConstantNode constantNode => new ImmOp(constantNode.Value),
+            TacVariableNode variableNode => new PseudoRegOp(variableNode.Identifier),
             _ => throw new NotImplementedException()
         };
     }
