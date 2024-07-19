@@ -60,6 +60,7 @@ public class FunctionNode
             statementNode.ConvertToTac(tacStatementBody);
         }
 
+        tacStatementBody.Add(new ReturnStmtNode(0)); // guarantees all functions have an epilogue
         Body = tacStatementBody;
     }
 }
