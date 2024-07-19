@@ -46,7 +46,8 @@ public class TokenList
         TokenType.Gt,
         TokenType.LtOrEq,
         TokenType.GtOrEq,
-        TokenType.Assignment
+        TokenType.Assignment,
+        TokenType.Ternary
     };
 
     private readonly List<Token> _tokens;
