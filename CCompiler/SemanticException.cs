@@ -11,7 +11,7 @@ public class SemanticException : Exception
 
     private SemanticException(Token token, string message)
     {
-        throw new ParseException(token.Line, token.Column, message);
+        throw new SemanticException(token.Line, token.Column, message);
     }
 
     public static void UndeclaredVariableError(Token variable)
