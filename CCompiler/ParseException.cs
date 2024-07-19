@@ -15,7 +15,7 @@ public class ParseException : Exception
     //TODO expected values, help messages
     public static void ValidReturnType(Token returnToken)
     {
-        if (!Token.DataTypes.Contains(returnToken.Type))
+        if (!TokenList.TokenTypeInGroup(returnToken.Type, TokenList.Group.DataType))
         {
             throw new ParseException(returnToken, $"Invalid function return type: {returnToken}");
         }
