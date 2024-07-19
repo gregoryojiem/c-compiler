@@ -20,13 +20,14 @@ public class SetCcNode : AsmInstructionNode, IAllocatableInstruction
             _dst = IAllocatableInstruction.HandleAllocation(variableMap, ref stackPos, dstPseudo);
         }
     }
-    
+
     public override string ConvertToAsm()
     {
         if (_dst is RegOp dstRegOp)
         {
             dstRegOp.SetByteRegister();
         }
+
         return "set" + IOperand.GetConditionCode(_relationalOp) + "\t" + _dst;
     }
 }

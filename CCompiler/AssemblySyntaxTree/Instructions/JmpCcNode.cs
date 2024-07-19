@@ -6,7 +6,7 @@ public class JmpCcNode : AsmInstructionNode
 {
     private TokenType _condCode;
     private string _identifier;
-    
+
     public JmpCcNode(TokenType condCode, string identifier)
     {
         _condCode = condCode;

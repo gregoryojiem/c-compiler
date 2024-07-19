@@ -3,19 +3,19 @@ using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
 namespace CCompiler.CSyntaxTree.TacStatements;
 
-public class DeclarationNode : TacStatementNode
+public class AssignmentNode : TacStatementNode
 {
-    public readonly VariableNode Variable;
+    public readonly TacVariableNode TacVariable;
     public readonly TacExpressionNode ExpressionNode;
 
-    public DeclarationNode(VariableNode variable, TacExpressionNode expressionNode)
+    public AssignmentNode(TacVariableNode tacVariable, TacExpressionNode expressionNode)
     {
-        Variable = variable;
+        TacVariable = tacVariable;
         ExpressionNode = expressionNode;
     }
     
     public override string ToString()
     {
-        return Variable + " = " + ExpressionNode;
+        return TacVariable + " = " + ExpressionNode;
     }
 }

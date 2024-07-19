@@ -12,7 +12,7 @@ public class TacUnaryOpNode : TacExpressionNode
         UnaryOperator = unaryOperator;
         Operand = operand;
     }
-    
+
     public override string ToString()
     {
         return Token.GetTypeString(UnaryOperator) + "(" + Operand + ")";

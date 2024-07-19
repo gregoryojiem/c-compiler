@@ -1,7 +1,54 @@
-﻿namespace CCompiler;
+﻿using System.Reflection;
+
+namespace CCompiler;
 
 public class TokenList
 {
+    public enum Group
+    {
+        DataType,
+        LiteralValue,
+        UnaryOp,
+        BinaryOp,
+        ExpressionStart
+    }
+
+    private static readonly List<TokenType> DataTypes = new()
+    {
+        TokenType.IntType
+    };
+
+    private static readonly List<TokenType> LiteralValues = new()
+    {
+        TokenType.IntLiteral,
+        TokenType.Identifier
+    };
+
+    private static readonly List<TokenType> UnaryOps = new()
+    {
+        TokenType.Complement,
+        TokenType.Negate,
+        TokenType.Not
+    };
+
+    private static readonly List<TokenType> BinaryOps = new()
+    {
+        TokenType.Negate,
+        TokenType.Add,
+        TokenType.Multiply,
+        TokenType.Divide,
+        TokenType.Modulo,
+        TokenType.And,
+        TokenType.Or,
+        TokenType.Eq,
+        TokenType.Neq,
+        TokenType.Lt,
+        TokenType.Gt,
+        TokenType.LtOrEq,
+        TokenType.GtOrEq,
+        TokenType.Assignment
+    };
+
     private readonly List<Token> _tokens;
     private readonly int _lastLine;
     private readonly int _lastColumn;
@@ -22,7 +69,7 @@ public class TokenList
 
         return _tokens[0];
     }
-    
+
     public Token Pop()
     {
         if (_tokens.Count == 0)
@@ -41,6 +88,29 @@ public class TokenList
         if (token.Type == type) return token;
         var expectedValue = Token.GetExpectedTypeString(type, token);
         throw new ParseException(token, $"Unexpected token '{token}', was expecting: '{expectedValue}'");
+    }
+
+    public static bool IsExpressionStart(TokenType type)
+    {
+        return type is TokenType.IntLiteral or TokenType.Identifier or TokenType.LeftParen || UnaryOps.Contains(type);
+    }
+
+    public static bool TokenTypeInGroup(TokenType type, Group group)
+    {
+        return group switch
+        {
+            Group.DataType when DataTypes.Contains(type) => true,
+            Group.LiteralValue when LiteralValues.Contains(type) => true,
+            Group.UnaryOp when UnaryOps.Contains(type) => true,
+            Group.BinaryOp when BinaryOps.Contains(type) => true,
+            Group.ExpressionStart when IsExpressionStart(type) => true,
+            _ => false
+        };
+    }
+
+    public bool NextTokenGroup(Group group)
+    {
+        return TokenTypeInGroup(Peek().Type, group);
     }
 
     public bool Empty()

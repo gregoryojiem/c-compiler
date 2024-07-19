@@ -45,7 +45,7 @@ public class CmpNode : AsmInstructionNode, IAllocatableInstruction
             instructions.Add(this);
             return;
         }
-        
+
         var scratchRegister = new RegOp(RegOp.Register.R10d);
         var tempVariable = new MovlNode(_leftOp, scratchRegister);
         _leftOp = scratchRegister;

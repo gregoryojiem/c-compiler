@@ -9,10 +9,10 @@ public class RegOp : IOperand
         R10d,
         R11d
     }
-    
+
     private readonly Register _register;
     private bool _useByteRegister;
-    
+
     public RegOp(Register register)
     {
         _register = register;
@@ -22,14 +22,14 @@ public class RegOp : IOperand
     {
         _useByteRegister = true;
     }
-    
+
     public override string ToString()
     {
         if (_useByteRegister)
         {
             return ToStringByte();
         }
-        
+
         return _register switch
         {
             Register.Eax => "%eax",

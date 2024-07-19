@@ -15,16 +15,26 @@ public class UnaryOpNode : ExpressionNode
         UnaryOperator = tokens.Pop();
         Expression = ParseExpressionFactor(tokens);
     }
-    
+
+    public override void VariableResolution(Dictionary<string, string> variableMap)
+    {
+        Expression.VariableResolution(variableMap);
+    }
+
+    public override Token GetRepresentativeToken()
+    {
+        return UnaryOperator;
+    }
+
     public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
     {
         var exprValue = (BaseValueNode)Expression.ConvertToTac(statementList);
         var tacNode = new TacUnaryOpNode(UnaryOperator.Type, exprValue);
-        var tempVar = new VariableNode("tmp_" + TempVariableCounter++);
-        statementList.Add(new DeclarationNode(tempVar, tacNode));
+        var tempVar = new TacVariableNode("tmp_" + UniqueVariableCounter++);
+        statementList.Add(new AssignmentNode(tempVar, tacNode));
         return tempVar;
     }
-    
+
     public override string ToString()
     {
         return UnaryOperator.Value + "(" + Expression + ")";

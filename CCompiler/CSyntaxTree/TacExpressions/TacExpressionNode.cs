@@ -9,4 +9,13 @@ public abstract class TacExpressionNode : ExpressionNode
     {
         return this;
     }
+
+    public override Token GetRepresentativeToken()
+    {
+        return null!;
+    }
+
+    public override void VariableResolution(Dictionary<string, string> variableMap)
+    {
+    }
 }

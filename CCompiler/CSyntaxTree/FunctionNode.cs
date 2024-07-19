@@ -44,6 +44,14 @@ public class FunctionNode
         tokens.PopExpected(TokenType.RightBrace);
     }
 
+    public void Validate(Dictionary<string, string> variableMap)
+    {
+        foreach (var statementNode in Body)
+        {
+            statementNode.SemanticPass(variableMap);
+        }
+    }
+
     public void ConvertToTac()
     {
         var tacStatementBody = new List<StatementNode>();
@@ -52,6 +60,7 @@ public class FunctionNode
             statementNode.ConvertToTac(tacStatementBody);
         }
 
+        tacStatementBody.Add(new ReturnStmtNode(0)); // guarantees all functions have an epilogue
         Body = tacStatementBody;
     }
 }

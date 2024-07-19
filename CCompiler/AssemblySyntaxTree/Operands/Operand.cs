@@ -9,12 +9,12 @@ public interface IOperand
     {
         return expression switch
         {
-            ConstantNode constantNode => new ImmOp(constantNode.Value),
-            VariableNode variableNode => new PseudoRegOp(variableNode.Identifier),
+            TacConstantNode constantNode => new ImmOp(constantNode.Value),
+            TacVariableNode variableNode => new PseudoRegOp(variableNode.Identifier),
             _ => throw new NotImplementedException()
         };
     }
-    
+
     public static string TokenTypeToUnaryOp(TokenType tokenType)
     {
         return tokenType switch
@@ -24,7 +24,7 @@ public interface IOperand
             _ => throw new NotImplementedException()
         };
     }
-    
+
     public static string TokenTypeToBinaryOp(TokenType tokenType)
     {
         return tokenType switch

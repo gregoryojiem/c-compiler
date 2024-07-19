@@ -13,8 +13,8 @@ public abstract class AsmInstructionNode : IAsmNode
     {
         switch (cStatement)
         {
-            case DeclarationNode declarationNode:
-                ConvertDeclarationToAsm(instructions, declarationNode);
+            case AssignmentNode assignmentNode:
+                ConvertAssignmentToAsm(instructions, assignmentNode);
                 break;
             case JumpIfZeroNode jumpIfZeroNode:
             {
@@ -46,10 +46,10 @@ public abstract class AsmInstructionNode : IAsmNode
         }
     }
 
-    private static void ConvertDeclarationToAsm(List<AsmInstructionNode> instructions, DeclarationNode declarationNode)
+    private static void ConvertAssignmentToAsm(List<AsmInstructionNode> instructions, AssignmentNode assignmentNode)
     {
-        var expression = declarationNode.ExpressionNode;
-        var pseudoRegId = declarationNode.Variable.Identifier;
+        var expression = assignmentNode.ExpressionNode;
+        var pseudoRegId = assignmentNode.TacVariable.Identifier;
 
         switch (expression)
         {
@@ -58,13 +58,13 @@ public abstract class AsmInstructionNode : IAsmNode
                 instructions.Add(new MovlNode(valToCopy, new PseudoRegOp(pseudoRegId)));
                 break;
             case TacUnaryOpNode { UnaryOperator: TokenType.Not } relOpNode:
-                var binaryNode = new TacBinaryOpNode(TokenType.Eq, relOpNode.Operand, new ConstantNode(0));
+                var binaryNode = new TacBinaryOpNode(TokenType.Eq, relOpNode.Operand, new TacConstantNode(0));
                 ConvertRelOp(instructions, binaryNode, pseudoRegId);
                 break;
             case TacBinaryOpNode
             {
                 BinaryOperator: TokenType.Eq or TokenType.Neq or
-                TokenType.Lt or TokenType.Gt or TokenType.LtOrEq or TokenType.GtOrEq 
+                TokenType.Lt or TokenType.Gt or TokenType.LtOrEq or TokenType.GtOrEq
             } relOpNode:
                 ConvertRelOp(instructions, relOpNode, pseudoRegId);
                 break;
