@@ -38,7 +38,11 @@ public static class Program
             Console.WriteLine(ex.Message);
             return -2;
         }
-
+        catch (SemanticException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return -3;
+        }
         return 1;
     }
 
