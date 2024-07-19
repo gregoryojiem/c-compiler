@@ -35,4 +35,9 @@ public class AssignmentOpNode : ExpressionNode
         statementList.Add(new AssignmentNode(assigneeVariable, assignedExpr));
         return assigneeVariable;
     }
+
+    public override string ToString()
+    {
+        return _leftExpression + " = " + _rightExpression;
+    }
 }
