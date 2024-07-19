@@ -4,20 +4,20 @@ namespace CCompiler.CSyntaxTree.Statements;
 
 public class ExpressionStmtNode : StatementNode
 {
-    private ExpressionNode _expressionNode;
+    private ExpressionNode _expression;
 
     public ExpressionStmtNode(TokenList tokens)
     {
-        _expressionNode = ExpressionNode.ParseExpressionNode(tokens, 0);
+        _expression = ExpressionNode.ParseExpressionNode(tokens, 0);
     }
 
     public override void SemanticPass(Dictionary<string, string> variableMap)
     {
-        _expressionNode.VariableResolution(variableMap);
+        _expression.VariableResolution(variableMap);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        throw new NotImplementedException();
+        _expression.ConvertToTac(statementList);
     }
 }

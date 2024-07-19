@@ -1,33 +1,38 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
+using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Expressions;
 
 public class AssignmentOpNode : ExpressionNode
 {
-    private readonly ExpressionNode LeftExpression;
-    private readonly ExpressionNode RightExpression;
+    private readonly ExpressionNode _leftExpression;
+    private ExpressionNode _rightExpression;
 
     public AssignmentOpNode(ExpressionNode leftExpression, ExpressionNode rightExpression)
     {
-        LeftExpression = leftExpression;
-        RightExpression = rightExpression;
+        _leftExpression = leftExpression;
+        _rightExpression = rightExpression;
     }
 
     public override void VariableResolution(Dictionary<string, string> variableMap)
     {
-        SemanticException.CheckValidAssignment(LeftExpression);
-        LeftExpression.VariableResolution(variableMap);
-        RightExpression.VariableResolution(variableMap);
+        SemanticException.CheckValidAssignment(_leftExpression);
+        _leftExpression.VariableResolution(variableMap);
+        _rightExpression.VariableResolution(variableMap);
     }
 
     public override Token GetRepresentativeToken()
     {
-        return LeftExpression.GetRepresentativeToken();
+        return _leftExpression.GetRepresentativeToken();
     }
 
     public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
     {
-        throw new NotImplementedException();
+        var assignedExpr = _rightExpression.ConvertToTac(statementList);
+        var assigneeVariable = (TacVariableNode)_leftExpression.ConvertToTac(statementList);
+        statementList.Add(new AssignmentNode(assigneeVariable, assignedExpr));
+        return assigneeVariable;
     }
 }

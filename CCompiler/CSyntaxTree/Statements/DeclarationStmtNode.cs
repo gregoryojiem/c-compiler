@@ -1,4 +1,6 @@
 ﻿using CCompiler.CSyntaxTree.Expressions;
+using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
@@ -17,6 +19,7 @@ public class DeclarationStmtNode : StatementNode
             tokens.Pop();
             _expression = ExpressionNode.ParseExpressionNode(tokens, 0);
         }
+
         tokens.PopExpected(TokenType.Semicolon);
     }
 
@@ -29,10 +32,14 @@ public class DeclarationStmtNode : StatementNode
         _identifier.Value = uniqueName;
         _expression?.VariableResolution(variableMap);
     }
-    
+
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        throw new NotImplementedException();
+        if (_expression == null)
+            return;
+        var variableName = _identifier.Value;
+        var assignedExpr = _expression.ConvertToTac(statementList);
+        statementList.Add(new AssignmentNode(new TacVariableNode(variableName), assignedExpr));
     }
 
     public override string ToString()

@@ -13,6 +13,5 @@ public class NullStmtNode : StatementNode
 
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        throw new NotImplementedException();
     }
 }
