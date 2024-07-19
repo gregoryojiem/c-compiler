@@ -9,14 +9,17 @@ public abstract class StatementNode
         {
             return new NullStmtNode(tokens);
         }
+
         if (nextToken == TokenType.IntType)
         {
             return new DeclarationStmtNode(tokens);
         }
+
         if (TokenList.IsExpressionStart(nextToken))
         {
             return new ExpressionStmtNode(tokens);
         }
+
         if (nextToken == TokenType.Return)
         {
             return new ReturnStmtNode(tokens);
@@ -25,6 +28,8 @@ public abstract class StatementNode
         var unexpectedToken = tokens.Pop();
         throw new ParseException(unexpectedToken, $"Invalid statement: {unexpectedToken.Value}");
     }
+
+    public abstract void SemanticPass(Dictionary<string, string> variableMap);
 
     public abstract void ConvertToTac(List<StatementNode> statementList);
 }

@@ -1,10 +1,10 @@
 ﻿namespace CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
-public class ConstantNode : BaseValueNode
+public class TacConstantNode : BaseValueNode
 {
     public readonly int Value;
 
-    public ConstantNode(int value)
+    public TacConstantNode(int value)
     {
         Value = value;
     }

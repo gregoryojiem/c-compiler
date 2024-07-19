@@ -1,14 +1,12 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
-using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
-using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Expressions;
 
 public abstract class ExpressionNode
 {
-    protected static int TempVariableCounter;
-    protected static int TempLabelCounter;
+    public static int UniqueVariableCounter;
+    protected static int UniqueLabelCounter;
 
     public static ExpressionNode ParseExpressionNode(TokenList tokens, int minPrecedence)
     {
@@ -55,17 +53,21 @@ public abstract class ExpressionNode
 
         if (tokens.Peek().Type == TokenType.IntLiteral)
         {
-            return new ConstantNode(int.Parse(tokens.Pop().Value));
+            return new ConstantNode(tokens.Pop());
         }
 
         if (tokens.Peek().Type == TokenType.Identifier)
         {
-            return new VariableNode(tokens.Pop().Value);
+            return new VariableNode(tokens.Pop());
         }
 
         var invalidToken = tokens.Pop();
         throw new ParseException(invalidToken, $"Expected valid expression, instead found: {invalidToken}");
     }
+
+    public abstract void VariableResolution(Dictionary<string, string> variableMap);
+
+    public abstract Token GetRepresentativeToken();
 
     public abstract TacExpressionNode ConvertToTac(List<StatementNode> statementList);
 }

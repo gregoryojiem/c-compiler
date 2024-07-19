@@ -1,10 +1,10 @@
 ﻿namespace CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
-public class VariableNode : BaseValueNode
+public class TacVariableNode : BaseValueNode
 {
     public readonly string Identifier;
 
-    public VariableNode(string identifier)
+    public TacVariableNode(string identifier)
     {
         Identifier = identifier;
     }

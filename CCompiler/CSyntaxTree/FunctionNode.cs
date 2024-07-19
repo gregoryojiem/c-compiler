@@ -44,6 +44,14 @@ public class FunctionNode
         tokens.PopExpected(TokenType.RightBrace);
     }
 
+    public void Validate(Dictionary<string, string> variableMap)
+    {
+        foreach (var statementNode in Body)
+        {
+            statementNode.SemanticPass(variableMap);
+        }
+    }
+
     public void ConvertToTac()
     {
         var tacStatementBody = new List<StatementNode>();

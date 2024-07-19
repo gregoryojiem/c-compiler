@@ -6,7 +6,7 @@ public class DeclarationStmtNode : StatementNode
 {
     private TokenType _type;
     private Token _identifier;
-    private ExpressionNode? _expressionNode;
+    private ExpressionNode? _expression;
 
     public DeclarationStmtNode(TokenList tokens)
     {
@@ -15,11 +15,21 @@ public class DeclarationStmtNode : StatementNode
         if (tokens.Peek().Type == TokenType.Assignment)
         {
             tokens.Pop();
-            _expressionNode = ExpressionNode.ParseExpressionNode(tokens, 0);
+            _expression = ExpressionNode.ParseExpressionNode(tokens, 0);
         }
         tokens.PopExpected(TokenType.Semicolon);
     }
 
+    public override void SemanticPass(Dictionary<string, string> variableMap)
+    {
+        SemanticException.CheckDuplicateDeclaration(variableMap, _identifier);
+        var variableName = _identifier.Value;
+        var uniqueName = variableName + "." + ExpressionNode.UniqueVariableCounter++;
+        variableMap.Add(variableName, uniqueName);
+        _identifier.Value = uniqueName;
+        _expression?.VariableResolution(variableMap);
+    }
+    
     public override void ConvertToTac(List<StatementNode> statementList)
     {
         throw new NotImplementedException();
@@ -27,6 +37,6 @@ public class DeclarationStmtNode : StatementNode
 
     public override string ToString()
     {
-        return Token.GetTypeString(_type) + " " + _identifier + " = " + _expressionNode;
+        return Token.GetTypeString(_type) + " " + _identifier + " = " + _expression;
     }
 }

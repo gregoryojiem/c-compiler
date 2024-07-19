@@ -11,6 +11,11 @@ public class ExpressionStmtNode : StatementNode
         _expressionNode = ExpressionNode.ParseExpressionNode(tokens, 0);
     }
 
+    public override void SemanticPass(Dictionary<string, string> variableMap)
+    {
+        _expressionNode.VariableResolution(variableMap);
+    }
+
     public override void ConvertToTac(List<StatementNode> statementList)
     {
         throw new NotImplementedException();

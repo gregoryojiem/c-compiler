@@ -47,6 +47,7 @@ public static class Program
         var lexer = new Lexer(inputCode);
         var tokens = lexer.TokenizeCode();
         var cSyntaxTree = new ProgramNode(tokens);
+        cSyntaxTree.Validate();
         cSyntaxTree.ConvertToTac();
         var assemblySyntaxTree = new AsmProgramNode(cSyntaxTree);
         assemblySyntaxTree.FinalPass();

@@ -14,6 +14,11 @@ public class ReturnStmtNode : StatementNode
         tokens.PopExpected(TokenType.Semicolon);
     }
 
+    public override void SemanticPass(Dictionary<string, string> variableMap)
+    {
+        ReturnValue.VariableResolution(variableMap);
+    }
+
     public override void ConvertToTac(List<StatementNode> statementList)
     {
         ReturnValue = ReturnValue.ConvertToTac(statementList);

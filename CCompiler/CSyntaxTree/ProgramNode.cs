@@ -14,6 +14,15 @@ public class ProgramNode
         }
     }
 
+    public void Validate()
+    {
+        var variableMap = new Dictionary<string, string>();
+        foreach (var function in Functions)
+        {
+            function.Validate(variableMap);
+        }
+    }
+    
     public void ConvertToTac()
     {
         foreach (var function in Functions)

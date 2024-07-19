@@ -6,7 +6,11 @@ public class NullStmtNode : StatementNode
     {
         tokens.PopExpected(TokenType.Semicolon);
     }
-    
+
+    public override void SemanticPass(Dictionary<string, string> variableMap)
+    {
+    }
+
     public override void ConvertToTac(List<StatementNode> statementList)
     {
         throw new NotImplementedException();
