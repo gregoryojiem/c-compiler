@@ -31,6 +31,6 @@ public class SemanticException : Exception
     {
         if (leftExpression is VariableNode) return;
         var expressionToken = leftExpression.GetRepresentativeToken();
-        throw new SemanticException(expressionToken, $"Cannot a value to {leftExpression}");
+        throw new SemanticException(expressionToken, $"Cannot assign a value to {leftExpression}");
     }
 }
