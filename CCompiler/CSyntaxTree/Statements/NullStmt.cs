@@ -1,8 +1,8 @@
 ﻿namespace CCompiler.CSyntaxTree.Statements;
 
-public class NullStmtNode : StatementNode
+public class NullStmt : StatementNode
 {
-    public NullStmtNode(TokenList tokens)
+    public NullStmt(TokenList tokens)
     {
         tokens.PopExpected(TokenType.Semicolon);
     }

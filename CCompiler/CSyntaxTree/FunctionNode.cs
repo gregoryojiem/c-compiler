@@ -33,6 +33,6 @@ public class FunctionNode
     public void ConvertToTac()
     {
         Body.ConvertToTac();
-        Body.AddStmt(new ReturnStmtNode(0)); // guarantees all functions have an epilogue
+        Body.AddStmt(new ReturnStmt(0)); // guarantees all functions have an epilogue
     }
 }

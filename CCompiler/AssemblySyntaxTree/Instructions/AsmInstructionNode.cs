@@ -34,9 +34,9 @@ public abstract class AsmInstructionNode : IAsmNode
                 instructions.Add(new JmpLabelNode(labelNode.Identifier));
                 break;
             }
-            case ReturnStmtNode returnStmtNode:
+            case ReturnStmt returnStmt:
             {
-                var operandValue = IOperand.ExprToAsmOperand(returnStmtNode.ReturnValue);
+                var operandValue = IOperand.ExprToAsmOperand(returnStmt.ReturnValue);
                 instructions.Add(new MovlNode(operandValue, new RegOp(RegOp.Register.Eax)));
                 instructions.Add(new RetNode());
                 break;

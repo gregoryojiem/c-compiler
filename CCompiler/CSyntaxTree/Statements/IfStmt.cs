@@ -4,13 +4,13 @@ using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class IfStmtNode : StatementNode
+public class IfStmt : StatementNode
 {
     private readonly ExpressionNode _condition;
     private readonly StatementNode _thenStmt;
     private readonly StatementNode? _elseStmt;
 
-    public IfStmtNode(TokenList tokens)
+    public IfStmt(TokenList tokens)
     {
         tokens.PopExpected(TokenType.If);
         tokens.PopExpected(TokenType.LeftParen);
@@ -25,10 +25,10 @@ public class IfStmtNode : StatementNode
     public override void SemanticPass(SymbolTable symbolTable)
     {
         _condition.VariableResolution(symbolTable);
-        if (_thenStmt is DeclarationStmtNode declarationStmtNode)
+        if (_thenStmt is DeclarationStmt declarationStmt)
         {
-            throw new SemanticException(declarationStmtNode.Identifier,
-                $"Cannot make declaration {declarationStmtNode} in non-scoped if statement");
+            throw new SemanticException(declarationStmt.Identifier,
+                $"Cannot make declaration {declarationStmt} in non-scoped if statement");
         }
 
         _thenStmt.SemanticPass(symbolTable);

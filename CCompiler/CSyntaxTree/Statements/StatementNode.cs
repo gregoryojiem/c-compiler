@@ -8,18 +8,18 @@ public abstract class StatementNode
         switch (nextToken)
         {
             case TokenType.IntType:
-                return new DeclarationStmtNode(tokens);
+                return new DeclarationStmt(tokens);
             case TokenType.If:
-                return new IfStmtNode(tokens);
+                return new IfStmt(tokens);
             case TokenType.LeftBrace:
-                return new CompoundStmtNode(tokens);
+                return new CompoundStmt(tokens);
             case TokenType.Return:
-                return new ReturnStmtNode(tokens);
+                return new ReturnStmt(tokens);
             case TokenType.Semicolon:
-                return new NullStmtNode(tokens);
+                return new NullStmt(tokens);
             default:
                 if (TokenList.IsExpressionStart(nextToken))
-                    return new ExpressionStmtNode(tokens);
+                    return new ExpressionStmt(tokens);
                 break;
         }
 

@@ -2,11 +2,11 @@
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class ExpressionStmtNode : StatementNode
+public class ExpressionStmt : StatementNode
 {
-    private ExpressionNode _expression;
+    private readonly ExpressionNode _expression;
 
-    public ExpressionStmtNode(TokenList tokens)
+    public ExpressionStmt(TokenList tokens)
     {
         _expression = ExpressionNode.ParseExpressionNode(tokens, 0);
         tokens.PopExpected(TokenType.Semicolon);

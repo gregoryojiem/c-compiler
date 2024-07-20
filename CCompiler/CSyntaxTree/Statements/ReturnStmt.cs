@@ -4,18 +4,18 @@ using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class ReturnStmtNode : StatementNode
+public class ReturnStmt : StatementNode
 {
     public ExpressionNode ReturnValue;
 
-    public ReturnStmtNode(TokenList tokens)
+    public ReturnStmt(TokenList tokens)
     {
         tokens.PopExpected(TokenType.Return);
         ReturnValue = ExpressionNode.ParseExpressionNode(tokens, 0);
         tokens.PopExpected(TokenType.Semicolon);
     }
 
-    public ReturnStmtNode(int returnValue)
+    public ReturnStmt(int returnValue)
     {
         ReturnValue = new TacConstantNode(returnValue);
     }

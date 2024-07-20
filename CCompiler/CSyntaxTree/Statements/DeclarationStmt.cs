@@ -4,13 +4,13 @@ using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class DeclarationStmtNode : StatementNode
+public class DeclarationStmt : StatementNode
 {
-    private readonly TokenType _type;
     public readonly Token Identifier;
+    private readonly TokenType _type;
     private readonly ExpressionNode? _expression;
 
-    public DeclarationStmtNode(TokenList tokens)
+    public DeclarationStmt(TokenList tokens)
     {
         _type = tokens.PopExpected(TokenType.IntType).Type;
         Identifier = tokens.PopExpected(TokenType.Identifier);

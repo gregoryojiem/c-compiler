@@ -1,28 +1,28 @@
 ﻿namespace CCompiler.CSyntaxTree.Statements;
 
-public class CompoundStmtNode : StatementNode
+public class CompoundStmt : StatementNode
 {
-    public readonly BlockNode Body;
+    private readonly BlockNode _body;
 
-    public CompoundStmtNode(TokenList tokens)
+    public CompoundStmt(TokenList tokens)
     {
-        Body = new BlockNode(tokens);
+        _body = new BlockNode(tokens);
     }
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
         symbolTable.NewScope();
-        Body.Validate(symbolTable);
+        _body.Validate(symbolTable);
         symbolTable.ExitScope();
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        Body.ConvertToTac(statementList);
+        _body.ConvertToTac(statementList);
     }
 
     public override string ToString()
     {
-        return Body.ToString();
+        return _body.ToString();
     }
 }
