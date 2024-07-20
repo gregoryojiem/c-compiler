@@ -11,6 +11,8 @@ public abstract class StatementNode
                 return new DeclarationStmtNode(tokens);
             case TokenType.If:
                 return new IfStmtNode(tokens);
+            case TokenType.LeftBrace:
+                return new CompoundStmtNode(tokens);
             case TokenType.Return:
                 return new ReturnStmtNode(tokens);
             case TokenType.Semicolon:

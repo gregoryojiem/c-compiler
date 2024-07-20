@@ -12,12 +12,17 @@ public class AsmFunctionNode : IAsmNode
     {
         _name = functionNode.Name.Value;
         _instructions = new List<AsmInstructionNode>();
-        foreach (var statement in functionNode.Body)
+        AsmParseBlock(functionNode.Body);
+    }
+
+    private void AsmParseBlock(BlockNode blockNode)
+    {
+        foreach (var statement in blockNode._statements)
         {
             AsmInstructionNode.ConvertCToAsmInstructions(_instructions, statement);
         }
     }
-
+    
     public void FinalPass()
     {
         DoAllocationPass();

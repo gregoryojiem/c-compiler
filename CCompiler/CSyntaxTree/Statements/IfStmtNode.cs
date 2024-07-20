@@ -25,9 +25,10 @@ public class IfStmtNode : StatementNode
     public override void SemanticPass(SymbolTable symbolTable)
     {
         _condition.VariableResolution(symbolTable);
-        if (_thenStmt is DeclarationStmtNode)
+        if (_thenStmt is DeclarationStmtNode declarationStmtNode)
         {
-            throw new NotImplementedException();
+            throw new SemanticException(declarationStmtNode.Identifier,
+                $"Cannot make declaration {declarationStmtNode} in non-scoped if statement");
         }
 
         _thenStmt.SemanticPass(symbolTable);
