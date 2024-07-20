@@ -35,7 +35,7 @@ public class BinaryOpNode : ExpressionNode
         var shortCircuit = BinaryOperator is TokenType.And or TokenType.Or;
         var jumpCondInverted = BinaryOperator is TokenType.Or;
         var shortCircuitType = BinaryOperator is TokenType.And ? "and_false_" : "or_true_";
-        var shortCircuitId = shortCircuitType + UniqueLabelCounter;
+        var shortCircuitId = shortCircuitType + SymbolTable.LabelId;
 
         if (shortCircuit)
         {
@@ -43,10 +43,10 @@ public class BinaryOpNode : ExpressionNode
         }
 
         var rightExprValue = (BaseValueNode)RightExpression.ConvertToTac(statementList);
-        var resultNode = new TacVariableNode("tmp_" + UniqueVariableCounter++);
+        var resultNode = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
         if (shortCircuit)
         {
-            var endIdentifier = "cond_result_" + UniqueLabelCounter;
+            var endIdentifier = "cond_result_" + SymbolTable.LabelId;
             var shortCircuitConst = BinaryOperator is TokenType.And ? 0 : 1;
             statementList.Add(new JumpIfZeroNode(rightExprValue, shortCircuitId, jumpCondInverted));
             statementList.Add(new AssignmentNode(resultNode, new TacConstantNode(shortCircuitConst ^ 1)));
@@ -54,7 +54,7 @@ public class BinaryOpNode : ExpressionNode
             statementList.Add(new LabelNode(shortCircuitId));
             statementList.Add(new AssignmentNode(resultNode, new TacConstantNode(shortCircuitConst)));
             statementList.Add(new LabelNode(endIdentifier));
-            UniqueLabelCounter++;
+            SymbolTable.LabelId++;
             return resultNode;
         }
 

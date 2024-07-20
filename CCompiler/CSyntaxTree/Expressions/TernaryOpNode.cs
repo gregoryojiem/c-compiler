@@ -32,16 +32,16 @@ public class TernaryOpNode : ExpressionNode
 
     public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
     {
-        var finalResultVar = new TacVariableNode("tmp_" + UniqueVariableCounter++);
+        var finalResultVar = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
 
         //evaluate condition
         var tacCondition = (BaseValueNode)_condition.ConvertToTac(statementList);
-        var jumpToFalse = "tern_false" + UniqueLabelCounter++;
+        var jumpToFalse = "tern_false" + SymbolTable.LabelId++;
         statementList.Add(new JumpIfZeroNode(tacCondition, jumpToFalse, false));
 
         //handle true case
         var trueResult = _trueResult.ConvertToTac(statementList);
-        var jumpToEnd = "tern_end" + UniqueLabelCounter++;
+        var jumpToEnd = "tern_end" + SymbolTable.LabelId++;
         statementList.Add(new AssignmentNode(finalResultVar, trueResult));
         statementList.Add(new JumpNode(jumpToEnd));
 

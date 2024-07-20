@@ -38,8 +38,8 @@ public class IfStmt : StatementNode
     public override void ConvertToTac(List<StatementNode> statementList)
     {
         var handleElse = _elseStmt != null;
-        var elseId = handleElse ? ExpressionNode.UniqueLabelCounter++ : 0;
-        var ifId = ExpressionNode.UniqueLabelCounter++;
+        var elseId = handleElse ? SymbolTable.LabelId++ : 0;
+        var ifId = SymbolTable.LabelId++;
         var elseStartLabel = "else_start_" + elseId;
         var ifEndLabel = "if_end_" + ifId;
         var ifLabelToUse = handleElse ? elseStartLabel : ifEndLabel;

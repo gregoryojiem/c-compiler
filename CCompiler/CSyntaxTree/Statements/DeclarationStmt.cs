@@ -25,7 +25,7 @@ public class DeclarationStmt : ForInitialClause
     {
         SemanticException.CheckDuplicateDeclaration(symbolTable, Identifier);
         var variableName = Identifier.Value;
-        var uniqueName = variableName + "." + ExpressionNode.UniqueVariableCounter++;
+        var uniqueName = variableName + "." + SymbolTable.VariableId++;
         symbolTable.AddVariable(variableName, uniqueName);
         Identifier.Value = uniqueName;
         _expression?.VariableResolution(symbolTable);

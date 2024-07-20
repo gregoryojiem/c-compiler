@@ -5,9 +5,6 @@ namespace CCompiler.CSyntaxTree.Expressions;
 
 public abstract class ExpressionNode
 {
-    public static int UniqueVariableCounter;
-    public static int UniqueLabelCounter;
-
     public static ExpressionNode ParseExpression(TokenList tokens, int minPrecedence = 0)
     {
         var leftExpr = ParseExpressionFactor(tokens);
