@@ -7,10 +7,9 @@ public class BreakStmt : StatementNode
         tokens.PopExpected(TokenType.Break);
         tokens.PopExpected(TokenType.Semicolon);
     }
-    
+
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        throw new NotImplementedException();
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

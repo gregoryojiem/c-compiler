@@ -7,10 +7,9 @@ public class ContinueStmt : StatementNode
         tokens.PopExpected(TokenType.Continue);
         tokens.PopExpected(TokenType.Semicolon);
     }
-    
+
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        throw new NotImplementedException();
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

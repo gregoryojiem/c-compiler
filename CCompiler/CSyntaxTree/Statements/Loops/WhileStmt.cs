@@ -18,7 +18,8 @@ public class WhileStmt : StatementNode
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        throw new NotImplementedException();
+        _condition.VariableResolution(symbolTable);
+        _body.SemanticPass(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

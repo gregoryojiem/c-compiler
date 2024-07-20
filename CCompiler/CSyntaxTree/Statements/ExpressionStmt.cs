@@ -3,7 +3,7 @@ using CCompiler.CSyntaxTree.Statements.Loops;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class ExpressionStmt : StatementNode, IForInitialClause
+public class ExpressionStmt : ForInitialClause
 {
     private readonly ExpressionNode _expression;
 

@@ -5,7 +5,7 @@ using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class DeclarationStmt : StatementNode, IForInitialClause
+public class DeclarationStmt : ForInitialClause
 {
     public readonly Token Identifier;
     private readonly TokenType _type;

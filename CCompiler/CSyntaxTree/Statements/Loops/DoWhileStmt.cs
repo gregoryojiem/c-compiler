@@ -20,7 +20,8 @@ public class DoWhileStmt : StatementNode
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        throw new NotImplementedException();
+        _body.SemanticPass(symbolTable);
+        _condition.VariableResolution(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

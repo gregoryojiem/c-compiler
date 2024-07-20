@@ -4,15 +4,28 @@ public class SymbolTable
 {
     private readonly Stack<Dictionary<string, string>> _outerScopes;
     private Dictionary<string, string> _currentScope;
+    private bool mergeNextScope;
 
     public SymbolTable()
     {
         _outerScopes = new Stack<Dictionary<string, string>>();
         _currentScope = new Dictionary<string, string>();
+        mergeNextScope = false;
+    }
+
+    public void MergeNextScope()
+    {
+        mergeNextScope = true;
     }
 
     public void NewScope()
     {
+        if (mergeNextScope)
+        {
+            mergeNextScope = false;
+            return;
+        }
+
         _outerScopes.Push(_currentScope);
         _currentScope = new Dictionary<string, string>();
     }

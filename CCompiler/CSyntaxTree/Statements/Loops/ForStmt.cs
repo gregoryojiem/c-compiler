@@ -4,7 +4,7 @@ namespace CCompiler.CSyntaxTree.Statements.Loops;
 
 public class ForStmt : StatementNode
 {
-    private readonly IForInitialClause _initialClause;
+    private readonly ForInitialClause _initialClause;
     private readonly ExpressionNode? _condition;
     private readonly ExpressionNode? _post;
     private readonly StatementNode _body;
@@ -13,7 +13,7 @@ public class ForStmt : StatementNode
     {
         tokens.PopExpected(TokenType.For);
         tokens.PopExpected(TokenType.LeftParen);
-        _initialClause = IForInitialClause.Parse(tokens);
+        _initialClause = ForInitialClause.Parse(tokens);
         if (tokens.Peek().Type != TokenType.Semicolon)
         {
             _condition = ExpressionNode.ParseExpression(tokens);
@@ -31,7 +31,15 @@ public class ForStmt : StatementNode
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        throw new NotImplementedException();
+        symbolTable.NewScope();
+        if (_body is CompoundStmt)
+            symbolTable.MergeNextScope();
+        
+        _initialClause.SemanticPass(symbolTable);
+        _condition?.VariableResolution(symbolTable);
+        _post?.VariableResolution(symbolTable);
+        _body.SemanticPass(symbolTable);
+        symbolTable.ExitScope();
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)
@@ -41,7 +49,6 @@ public class ForStmt : StatementNode
 
     public override string ToString()
     {
-
         var indent = BlockNode.GetIndent(_body);
         BlockNode.IncreaseIndent(_body);
         var output = "for (" + _initialClause + " " + _condition + "; " + _post + ")" + indent + _body;

@@ -1,8 +1,8 @@
 ﻿namespace CCompiler.CSyntaxTree.Statements.Loops;
 
-public interface IForInitialClause
+public abstract class ForInitialClause : StatementNode
 {
-    public static IForInitialClause Parse(TokenList tokens)
+    public static ForInitialClause Parse(TokenList tokens)
     {
         if (tokens.NextTokenGroup(TokenList.Group.DataType))
         {

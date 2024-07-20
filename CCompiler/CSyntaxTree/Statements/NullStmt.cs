@@ -2,7 +2,7 @@
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class NullStmt : StatementNode, IForInitialClause
+public class NullStmt : ForInitialClause
 {
     public NullStmt(TokenList tokens)
     {
