@@ -17,4 +17,9 @@ public class ContinueStmt : StatementNode
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        return "continue;";
+    }
 }

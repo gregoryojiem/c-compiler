@@ -33,6 +33,6 @@ public class ReturnStmt : StatementNode
 
     public override string ToString()
     {
-        return "return " + ReturnValue;
+        return "return " + ReturnValue + ";";
     }
 }

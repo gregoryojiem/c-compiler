@@ -25,4 +25,13 @@ public class WhileStmt : StatementNode
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        var indent = BlockNode.GetIndent(_body);
+        BlockNode.IncreaseIndent(_body);
+        var output = "while (" + _condition + ")" + indent + _body;
+        BlockNode.DecreaseIndent(_body);
+        return output;
+    }
 }

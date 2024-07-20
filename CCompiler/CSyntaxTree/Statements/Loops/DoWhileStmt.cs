@@ -27,4 +27,14 @@ public class DoWhileStmt : StatementNode
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        var indent = BlockNode.GetIndent(_body);
+        BlockNode.IncreaseIndent(_body);
+        var output = "do" + indent + _body + " while (" + _condition + ");";
+        BlockNode.DecreaseIndent(_body);
+        return output;
+
+    }
 }

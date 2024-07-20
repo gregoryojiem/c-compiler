@@ -25,6 +25,6 @@ public class ExpressionStmt : StatementNode, IForInitialClause
 
     public override string ToString()
     {
-        return _expression.ToString() ?? string.Empty;
+        return _expression + ";";
     }
 }

@@ -29,4 +29,9 @@ public class ProgramNode
             function.ConvertToTac();
         }
     }
+
+    public override string ToString()
+    {
+        return Functions.Aggregate("", (current, function) => current + (function + "\n"));
+    }
 }

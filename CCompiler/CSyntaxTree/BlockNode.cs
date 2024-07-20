@@ -4,6 +4,7 @@ namespace CCompiler.CSyntaxTree;
 
 public class BlockNode
 {
+    public static int IndentationLevel = 1;
     public List<StatementNode> _statements;
 
     public BlockNode(TokenList tokens)
@@ -49,9 +50,39 @@ public class BlockNode
             statementNode.ConvertToTac(tacStatements);
         }
     }
+
+    public static string GetIndent(StatementNode? stmt, bool addNewline = true, int modifier = 0)
+    {
+        var indent =  new string('\t', IndentationLevel + modifier);
+        if (addNewline)
+            indent = "\n" + indent;
+        if (stmt is CompoundStmt)
+            indent = " ";
+        return indent;
+    }
+    
+    public static void IncreaseIndent(StatementNode stmt)
+    {
+        if (stmt is not CompoundStmt)
+        {
+            IndentationLevel++;
+        }
+    }
+    
+    public static void DecreaseIndent(StatementNode stmt)
+    {
+        if (stmt is not CompoundStmt)
+        {
+            IndentationLevel--;
+        }
+    }
     
     public override string ToString()
     {
-        return _statements.Aggregate("", (current, statementNode) => current + (statementNode + "\n"));
+        var indent = new string('\t', IndentationLevel);
+        IndentationLevel++;
+        var bodyString = _statements.Aggregate("", (current, statement) => current + indent + statement + "\n");
+        IndentationLevel--;
+        return "{\n" + bodyString + new string('\t', IndentationLevel - 1) + "}";
     }
 }

@@ -60,6 +60,20 @@ public class IfStmt : StatementNode
 
     public override string ToString()
     {
-        return "if " + _condition + " " + _thenStmt + " else " + _elseStmt;
+        var thenIndent = BlockNode.GetIndent(_thenStmt);
+        var elseIndent = BlockNode.GetIndent(_elseStmt);
+
+        BlockNode.IncreaseIndent(_thenStmt);
+        var output = "if " + _condition + thenIndent + _thenStmt + "\n";
+        BlockNode.DecreaseIndent(_thenStmt);
+
+        if (_elseStmt == null)
+            return output;
+
+        var elseStartIndent = BlockNode.GetIndent(this, false, -1);
+        BlockNode.IncreaseIndent(_elseStmt);
+        output += elseStartIndent + "else " + elseIndent + _elseStmt;
+        BlockNode.DecreaseIndent(_elseStmt);
+        return output;
     }
 }

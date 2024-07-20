@@ -18,14 +18,15 @@ public class ForStmt : StatementNode
         {
             _condition = ExpressionNode.ParseExpression(tokens);
         }
+
         tokens.PopExpected(TokenType.Semicolon);
         if (tokens.Peek().Type != TokenType.RightParen)
         {
             _post = ExpressionNode.ParseExpression(tokens);
         }
+
         tokens.PopExpected(TokenType.RightParen);
         _body = ParseStatementNode(tokens);
-
     }
 
     public override void SemanticPass(SymbolTable symbolTable)
@@ -36,5 +37,15 @@ public class ForStmt : StatementNode
     public override void ConvertToTac(List<StatementNode> statementList)
     {
         throw new NotImplementedException();
+    }
+
+    public override string ToString()
+    {
+
+        var indent = BlockNode.GetIndent(_body);
+        BlockNode.IncreaseIndent(_body);
+        var output = "for (" + _initialClause + " " + _condition + "; " + _post + ")" + indent + _body;
+        BlockNode.DecreaseIndent(_body);
+        return output;
     }
 }

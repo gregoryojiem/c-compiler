@@ -42,6 +42,6 @@ public class DeclarationStmt : StatementNode, IForInitialClause
 
     public override string ToString()
     {
-        return Token.GetTypeString(_type) + " " + Identifier + " = " + _expression;
+        return Token.GetTypeString(_type) + " " + Identifier + " = " + _expression + ";";
     }
 }

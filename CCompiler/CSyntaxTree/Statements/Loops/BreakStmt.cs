@@ -17,4 +17,9 @@ public class BreakStmt : StatementNode
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        return "break;";
+    }
 }

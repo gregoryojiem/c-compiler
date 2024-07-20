@@ -21,10 +21,10 @@ public class FunctionNode
         while (tokens.Pop().Type != TokenType.RightParen)
         {
         }
-        
+
         Body = new BlockNode(tokens);
     }
-    
+
     public void Validate()
     {
         Body.Validate(new SymbolTable());
@@ -34,5 +34,10 @@ public class FunctionNode
     {
         Body.ConvertToTac();
         Body.AddStmt(new ReturnStmt(0)); // guarantees all functions have an epilogue
+    }
+
+    public override string ToString() //TODO argument handling
+    {
+        return _returnType + " " + Name + "()\n" + Body;
     }
 }
