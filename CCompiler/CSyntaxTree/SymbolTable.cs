@@ -50,11 +50,6 @@ public class SymbolTable
         return null;
     }
 
-    public bool ExistsInOuterScope(string identifier)
-    {
-        return _outerScopes.Any(scope => scope.ContainsKey(identifier));
-    }
-
     public bool ExistsInCurrentScope(string identifier)
     {
         return _currentScope.ContainsKey(identifier);
