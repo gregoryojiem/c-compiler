@@ -25,7 +25,7 @@ public abstract class StatementNode
         throw new ParseException(unexpectedToken, $"Invalid statement: {unexpectedToken.Value}");
     }
 
-    public abstract void SemanticPass(Dictionary<string, string> variableMap);
+    public abstract void SemanticPass(SymbolTable symbolTable);
 
     public abstract void ConvertToTac(List<StatementNode> statementList);
 }

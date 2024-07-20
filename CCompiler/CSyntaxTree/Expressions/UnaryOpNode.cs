@@ -16,9 +16,9 @@ public class UnaryOpNode : ExpressionNode
         Expression = ParseExpressionFactor(tokens);
     }
 
-    public override void VariableResolution(Dictionary<string, string> variableMap)
+    public override void VariableResolution(SymbolTable symbolTable)
     {
-        Expression.VariableResolution(variableMap);
+        Expression.VariableResolution(symbolTable);
     }
 
     public override Token GetRepresentativeToken()

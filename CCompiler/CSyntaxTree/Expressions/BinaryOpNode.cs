@@ -18,10 +18,10 @@ public class BinaryOpNode : ExpressionNode
         RightExpression = rightExpression;
     }
 
-    public override void VariableResolution(Dictionary<string, string> variableMap)
+    public override void VariableResolution(SymbolTable symbolTable)
     {
-        LeftExpression.VariableResolution(variableMap);
-        RightExpression.VariableResolution(variableMap);
+        LeftExpression.VariableResolution(symbolTable);
+        RightExpression.VariableResolution(symbolTable);
     }
 
     public override Token GetRepresentativeToken()

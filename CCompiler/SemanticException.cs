@@ -1,4 +1,5 @@
-﻿using CCompiler.CSyntaxTree.Expressions;
+﻿using CCompiler.CSyntaxTree;
+using CCompiler.CSyntaxTree.Expressions;
 
 namespace CCompiler;
 
@@ -9,19 +10,14 @@ public class SemanticException : Exception
     {
     }
 
-    private SemanticException(Token token, string message)
+    public SemanticException(Token token, string message)
     {
         throw new SemanticException(token.Line, token.Column, message);
     }
 
-    public static void UndeclaredVariableError(Token variable)
+    public static void CheckDuplicateDeclaration(SymbolTable symbolTable, Token variable)
     {
-        throw new SemanticException(variable, "The variable '" + variable + "' has not been declared");
-    }
-
-    public static void CheckDuplicateDeclaration(Dictionary<string, string> variableMap, Token variable)
-    {
-        if (variableMap.ContainsKey(variable.Value))
+        if (symbolTable.ExistsInCurrentScope(variable.Value))
         {
             throw new SemanticException(variable, "The variable '" + variable + "' has already been declared");
         }

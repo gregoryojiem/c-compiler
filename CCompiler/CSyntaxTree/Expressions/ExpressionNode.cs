@@ -69,7 +69,7 @@ public abstract class ExpressionNode
         throw new ParseException(invalidToken, $"Expected valid expression, instead found: {invalidToken}");
     }
 
-    public abstract void VariableResolution(Dictionary<string, string> variableMap);
+    public abstract void VariableResolution(SymbolTable symbolTable);
 
     public abstract Token GetRepresentativeToken();
 

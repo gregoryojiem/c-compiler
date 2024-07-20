@@ -18,11 +18,11 @@ public class TernaryOpNode : ExpressionNode
         _falseResult = falseResult;
     }
 
-    public override void VariableResolution(Dictionary<string, string> variableMap)
+    public override void VariableResolution(SymbolTable symbolTable)
     {
-        _condition.VariableResolution(variableMap);
-        _trueResult.VariableResolution(variableMap);
-        _falseResult.VariableResolution(variableMap);
+        _condition.VariableResolution(symbolTable);
+        _trueResult.VariableResolution(symbolTable);
+        _falseResult.VariableResolution(symbolTable);
     }
 
     public override Token GetRepresentativeToken()

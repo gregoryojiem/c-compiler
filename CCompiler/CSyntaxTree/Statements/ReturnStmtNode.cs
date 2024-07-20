@@ -20,9 +20,9 @@ public class ReturnStmtNode : StatementNode
         ReturnValue = new TacConstantNode(returnValue);
     }
 
-    public override void SemanticPass(Dictionary<string, string> variableMap)
+    public override void SemanticPass(SymbolTable symbolTable)
     {
-        ReturnValue.VariableResolution(variableMap);
+        ReturnValue.VariableResolution(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

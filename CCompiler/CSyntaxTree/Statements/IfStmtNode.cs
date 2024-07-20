@@ -22,15 +22,16 @@ public class IfStmtNode : StatementNode
             _elseStmt = CreateStatementNode(tokens);
     }
 
-    public override void SemanticPass(Dictionary<string, string> variableMap)
+    public override void SemanticPass(SymbolTable symbolTable)
     {
-        _condition.VariableResolution(variableMap);
+        _condition.VariableResolution(symbolTable);
         if (_thenStmt is DeclarationStmtNode)
         {
             throw new NotImplementedException();
         }
-        _thenStmt.SemanticPass(variableMap);
-        _elseStmt?.SemanticPass(variableMap);
+
+        _thenStmt.SemanticPass(symbolTable);
+        _elseStmt?.SemanticPass(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

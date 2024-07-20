@@ -7,7 +7,7 @@ namespace CCompiler.CSyntaxTree.Statements;
 public class DeclarationStmtNode : StatementNode
 {
     private TokenType _type;
-    private Token _identifier;
+    public readonly Token _identifier;
     private ExpressionNode? _expression;
 
     public DeclarationStmtNode(TokenList tokens)
@@ -20,14 +20,14 @@ public class DeclarationStmtNode : StatementNode
         tokens.PopExpected(TokenType.Semicolon);
     }
 
-    public override void SemanticPass(Dictionary<string, string> variableMap)
+    public override void SemanticPass(SymbolTable symbolTable)
     {
-        SemanticException.CheckDuplicateDeclaration(variableMap, _identifier);
+        SemanticException.CheckDuplicateDeclaration(symbolTable, _identifier);
         var variableName = _identifier.Value;
         var uniqueName = variableName + "." + ExpressionNode.UniqueVariableCounter++;
-        variableMap.Add(variableName, uniqueName);
+        symbolTable.AddVariable(variableName, uniqueName);
         _identifier.Value = uniqueName;
-        _expression?.VariableResolution(variableMap);
+        _expression?.VariableResolution(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)
