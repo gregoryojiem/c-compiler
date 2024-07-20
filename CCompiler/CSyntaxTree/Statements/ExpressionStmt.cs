@@ -1,14 +1,15 @@
 ﻿using CCompiler.CSyntaxTree.Expressions;
+using CCompiler.CSyntaxTree.Statements.Loops;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class ExpressionStmt : StatementNode
+public class ExpressionStmt : StatementNode, IForInitialClause
 {
     private readonly ExpressionNode _expression;
 
     public ExpressionStmt(TokenList tokens)
     {
-        _expression = ExpressionNode.ParseExpressionNode(tokens, 0);
+        _expression = ExpressionNode.ParseExpression(tokens);
         tokens.PopExpected(TokenType.Semicolon);
     }
 

@@ -1,10 +1,11 @@
 ﻿using CCompiler.CSyntaxTree.Expressions;
+using CCompiler.CSyntaxTree.Statements.Loops;
 using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class DeclarationStmt : StatementNode
+public class DeclarationStmt : StatementNode, IForInitialClause
 {
     public readonly Token Identifier;
     private readonly TokenType _type;
@@ -15,7 +16,7 @@ public class DeclarationStmt : StatementNode
         _type = tokens.PopExpected(TokenType.IntType).Type;
         Identifier = tokens.PopExpected(TokenType.Identifier);
         if (tokens.PopIfFound(TokenType.Assignment))
-            _expression = ExpressionNode.ParseExpressionNode(tokens, 0);
+            _expression = ExpressionNode.ParseExpression(tokens);
 
         tokens.PopExpected(TokenType.Semicolon);
     }

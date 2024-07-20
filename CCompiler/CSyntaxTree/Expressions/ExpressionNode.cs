@@ -8,7 +8,7 @@ public abstract class ExpressionNode
     public static int UniqueVariableCounter;
     public static int UniqueLabelCounter;
 
-    public static ExpressionNode ParseExpressionNode(TokenList tokens, int minPrecedence)
+    public static ExpressionNode ParseExpression(TokenList tokens, int minPrecedence = 0)
     {
         var leftExpr = ParseExpressionFactor(tokens);
         var nextToken = tokens.Peek().Type;
@@ -22,11 +22,11 @@ public abstract class ExpressionNode
             ExpressionNode? middleExpr = null;
             if (operatorType == TokenType.Ternary)
             {
-                middleExpr = ParseExpressionNode(tokens, 0);
+                middleExpr = ParseExpression(tokens);
                 tokens.PopExpected(TokenType.TernaryDelim);
             }
 
-            var rightExpr = ParseExpressionNode(tokens, nextPrecedence);
+            var rightExpr = ParseExpression(tokens, nextPrecedence);
 
             if (middleExpr != null)
                 leftExpr = new TernaryOpNode(leftExpr, middleExpr, rightExpr);
@@ -45,7 +45,7 @@ public abstract class ExpressionNode
     {
         if (tokens.PopIfFound(TokenType.LeftParen))
         {
-            var expressionNode = ParseExpressionNode(tokens, 0);
+            var expressionNode = ParseExpression(tokens);
             tokens.PopExpected(TokenType.RightParen);
             return expressionNode;
         }

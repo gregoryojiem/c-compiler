@@ -13,7 +13,7 @@ public class BlockNode
         tokens.PopExpected(TokenType.LeftBrace);
         while (!tokens.PopIfFound(TokenType.RightBrace))
         {
-            var statementNode = StatementNode.CreateStatementNode(tokens);
+            var statementNode = StatementNode.ParseStatementNode(tokens);
             _statements.Add(statementNode);
         }
     }

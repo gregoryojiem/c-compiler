@@ -14,12 +14,12 @@ public class IfStmt : StatementNode
     {
         tokens.PopExpected(TokenType.If);
         tokens.PopExpected(TokenType.LeftParen);
-        _condition = ExpressionNode.ParseExpressionNode(tokens, 0);
+        _condition = ExpressionNode.ParseExpression(tokens);
         tokens.PopExpected(TokenType.RightParen);
-        _thenStmt = CreateStatementNode(tokens);
+        _thenStmt = ParseStatementNode(tokens);
 
         if (tokens.PopIfFound(TokenType.Else))
-            _elseStmt = CreateStatementNode(tokens);
+            _elseStmt = ParseStatementNode(tokens);
     }
 
     public override void SemanticPass(SymbolTable symbolTable)

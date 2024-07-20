@@ -11,7 +11,7 @@ public class ReturnStmt : StatementNode
     public ReturnStmt(TokenList tokens)
     {
         tokens.PopExpected(TokenType.Return);
-        ReturnValue = ExpressionNode.ParseExpressionNode(tokens, 0);
+        ReturnValue = ExpressionNode.ParseExpression(tokens);
         tokens.PopExpected(TokenType.Semicolon);
     }
 

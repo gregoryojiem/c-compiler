@@ -1,28 +1,32 @@
-﻿namespace CCompiler.CSyntaxTree.Statements;
+﻿using CCompiler.CSyntaxTree.Statements.Loops;
+
+namespace CCompiler.CSyntaxTree.Statements;
 
 public abstract class StatementNode
 {
-    public static StatementNode CreateStatementNode(TokenList tokens)
+    public static StatementNode ParseStatementNode(TokenList tokens)
     {
         var nextToken = tokens.Peek().Type;
-        switch (nextToken)
+        return nextToken switch
         {
-            case TokenType.IntType:
-                return new DeclarationStmt(tokens);
-            case TokenType.If:
-                return new IfStmt(tokens);
-            case TokenType.LeftBrace:
-                return new CompoundStmt(tokens);
-            case TokenType.Return:
-                return new ReturnStmt(tokens);
-            case TokenType.Semicolon:
-                return new NullStmt(tokens);
-            default:
-                if (TokenList.IsExpressionStart(nextToken))
-                    return new ExpressionStmt(tokens);
-                break;
-        }
+            TokenType.IntType => new DeclarationStmt(tokens),
+            TokenType.If => new IfStmt(tokens),
+            TokenType.While => new WhileStmt(tokens),
+            TokenType.Do => new DoWhileStmt(tokens),
+            TokenType.For => new ForStmt(tokens),
+            TokenType.Break => new BreakStmt(tokens),
+            TokenType.Continue => new ContinueStmt(tokens),
+            TokenType.LeftBrace => new CompoundStmt(tokens),
+            TokenType.Return => new ReturnStmt(tokens),
+            TokenType.Semicolon => new NullStmt(tokens),
+            _ => HandleUnknownToken(tokens, nextToken)
+        };
+    }
 
+    private static StatementNode HandleUnknownToken(TokenList tokens, TokenType token)
+    {
+        if (TokenList.IsExpressionStart(token))
+            return new ExpressionStmt(tokens);
         var unexpectedToken = tokens.Pop();
         throw new ParseException(unexpectedToken, $"Invalid statement: {unexpectedToken.Value}");
     }

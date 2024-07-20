@@ -1,6 +1,8 @@
-﻿namespace CCompiler.CSyntaxTree.Statements;
+﻿using CCompiler.CSyntaxTree.Statements.Loops;
 
-public class NullStmt : StatementNode
+namespace CCompiler.CSyntaxTree.Statements;
+
+public class NullStmt : StatementNode, IForInitialClause
 {
     public NullStmt(TokenList tokens)
     {
