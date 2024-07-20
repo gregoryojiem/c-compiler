@@ -15,7 +15,7 @@ public abstract class TacExpressionNode : ExpressionNode
         return null!;
     }
 
-    public override void VariableResolution(Dictionary<string, string> variableMap)
+    public override void VariableResolution(SymbolTable symbolTable)
     {
     }
 }

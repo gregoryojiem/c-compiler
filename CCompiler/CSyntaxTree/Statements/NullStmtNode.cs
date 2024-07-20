@@ -7,7 +7,7 @@ public class NullStmtNode : StatementNode
         tokens.PopExpected(TokenType.Semicolon);
     }
 
-    public override void SemanticPass(Dictionary<string, string> variableMap)
+    public override void SemanticPass(SymbolTable symbolTable)
     {
     }
 

@@ -13,14 +13,9 @@ public class VariableNode : ExpressionNode
         _identifier = identifier;
     }
 
-    public override void VariableResolution(Dictionary<string, string> variableMap)
+    public override void VariableResolution(SymbolTable symbolTable)
     {
-        var variableName = _identifier.Value;
-        variableMap.TryGetValue(variableName, out var uniqueName);
-        if (uniqueName != null)
-            _identifier.Value = uniqueName;
-        else
-            SemanticException.UndeclaredVariableError(_identifier);
+        _identifier.Value = symbolTable.GetUniqueId(_identifier);
     }
 
     public override Token GetRepresentativeToken()

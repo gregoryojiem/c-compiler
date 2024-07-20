@@ -16,11 +16,11 @@ public class AssignmentOpNode : ExpressionNode
         _rightExpression = rightExpression;
     }
 
-    public override void VariableResolution(Dictionary<string, string> variableMap)
+    public override void VariableResolution(SymbolTable symbolTable)
     {
         SemanticException.CheckValidAssignment(_leftExpression);
-        _leftExpression.VariableResolution(variableMap);
-        _rightExpression.VariableResolution(variableMap);
+        _leftExpression.VariableResolution(symbolTable);
+        _rightExpression.VariableResolution(symbolTable);
     }
 
     public override Token GetRepresentativeToken()
@@ -34,5 +34,10 @@ public class AssignmentOpNode : ExpressionNode
         var assigneeVariable = (TacVariableNode)_leftExpression.ConvertToTac(statementList);
         statementList.Add(new AssignmentNode(assigneeVariable, assignedExpr));
         return assigneeVariable;
+    }
+
+    public override string ToString()
+    {
+        return _leftExpression + " = " + _rightExpression;
     }
 }

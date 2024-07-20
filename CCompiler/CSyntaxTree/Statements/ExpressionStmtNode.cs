@@ -12,9 +12,9 @@ public class ExpressionStmtNode : StatementNode
         tokens.PopExpected(TokenType.Semicolon);
     }
 
-    public override void SemanticPass(Dictionary<string, string> variableMap)
+    public override void SemanticPass(SymbolTable symbolTable)
     {
-        _expression.VariableResolution(variableMap);
+        _expression.VariableResolution(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

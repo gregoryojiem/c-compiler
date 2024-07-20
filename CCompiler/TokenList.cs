@@ -46,7 +46,8 @@ public class TokenList
         TokenType.Gt,
         TokenType.LtOrEq,
         TokenType.GtOrEq,
-        TokenType.Assignment
+        TokenType.Assignment,
+        TokenType.Ternary
     };
 
     private readonly List<Token> _tokens;
@@ -80,6 +81,14 @@ public class TokenList
         var token = _tokens[0];
         _tokens.RemoveAt(0);
         return token;
+    }
+
+    public bool PopIfFound(TokenType type)
+    {
+        if (Peek().Type != type)
+            return false;
+        Pop();
+        return true;
     }
 
     public Token PopExpected(TokenType type)

@@ -13,7 +13,7 @@ public class ConstantNode : ExpressionNode
         _valueToken = value;
     }
 
-    public override void VariableResolution(Dictionary<string, string> variableMap)
+    public override void VariableResolution(SymbolTable symbolTable)
     {
     }
 

@@ -5,6 +5,8 @@ public enum TokenType
     // Keywords
     IntType,
     Return,
+    If,
+    Else,
 
     // Operators
     Decrement,
@@ -16,6 +18,8 @@ public enum TokenType
     Divide,
     Modulo,
     Assignment,
+    Ternary,
+    TernaryDelim,
 
     //Logical operators
     Not,
@@ -47,6 +51,8 @@ public class Token
         // Keywords
         { "int", TokenType.IntType },
         { "return", TokenType.Return },
+        { "if", TokenType.If },
+        { "else", TokenType.Else },
 
         // Operators
         { "--", TokenType.Decrement },
@@ -58,6 +64,8 @@ public class Token
         { "/", TokenType.Divide },
         { "%", TokenType.Modulo },
         { "=", TokenType.Assignment },
+        { "?", TokenType.Ternary },
+        { ":", TokenType.TernaryDelim },
 
         // Logical Operators 
         { "!", TokenType.Not },
@@ -180,8 +188,10 @@ public class Token
                 return 6;
             case TokenType.Or:
                 return 5;
-            case TokenType.Assignment:
+            case TokenType.Ternary:
                 return 4;
+            case TokenType.Assignment:
+                return 3;
             default:
                 throw new NotImplementedException();
         }
