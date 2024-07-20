@@ -2,7 +2,7 @@
 
 namespace CCompiler.CSyntaxTree.Statements.Loops;
 
-public class ForStmt : StatementNode
+public class ForStmt : LoopStmt
 {
     private readonly ForInitialClause _initialClause;
     private readonly ExpressionNode? _condition;
@@ -31,6 +31,8 @@ public class ForStmt : StatementNode
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
+        symbolTable.EnterLoop("for_loop");
+        SetLabel(symbolTable);
         symbolTable.NewScope();
         if (_body is CompoundStmt)
             symbolTable.MergeNextScope();
@@ -40,6 +42,7 @@ public class ForStmt : StatementNode
         _post?.VariableResolution(symbolTable);
         _body.SemanticPass(symbolTable);
         symbolTable.ExitScope();
+        symbolTable.ExitLoop();
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

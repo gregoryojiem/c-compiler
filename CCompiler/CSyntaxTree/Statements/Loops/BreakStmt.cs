@@ -1,6 +1,6 @@
 ﻿namespace CCompiler.CSyntaxTree.Statements.Loops;
 
-public class BreakStmt : StatementNode
+public class BreakStmt : LoopStmt
 {
     public BreakStmt(TokenList tokens)
     {
@@ -10,6 +10,7 @@ public class BreakStmt : StatementNode
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
+        SetLabel(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

@@ -2,7 +2,7 @@
 
 namespace CCompiler.CSyntaxTree.Statements.Loops;
 
-public class WhileStmt : StatementNode
+public class WhileStmt : LoopStmt
 {
     private readonly ExpressionNode _condition;
     private readonly StatementNode _body;
@@ -18,8 +18,11 @@ public class WhileStmt : StatementNode
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
+        symbolTable.EnterLoop("while_loop");
+        SetLabel(symbolTable);
         _condition.VariableResolution(symbolTable);
         _body.SemanticPass(symbolTable);
+        symbolTable.ExitLoop();
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)

@@ -1,6 +1,6 @@
 ﻿namespace CCompiler.CSyntaxTree.Statements.Loops;
 
-public class ContinueStmt : StatementNode
+public class ContinueStmt : LoopStmt
 {
     public ContinueStmt(TokenList tokens)
     {
@@ -10,6 +10,7 @@ public class ContinueStmt : StatementNode
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
+        SetLabel(symbolTable);
     }
 
     public override void ConvertToTac(List<StatementNode> statementList)
