@@ -11,6 +11,6 @@ public class JumpNode : TacStatementNode
 
     public override string ToString()
     {
-        return "goto " + Target;
+        return "goto " + Target.Replace(".", "_") + ";";
     }
 }

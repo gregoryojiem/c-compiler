@@ -11,6 +11,6 @@ public class LabelNode : TacStatementNode
     
     public override string ToString()
     {
-        return Identifier + ":";
+        return Identifier.Replace(".", "_") + ":";
     }
 }

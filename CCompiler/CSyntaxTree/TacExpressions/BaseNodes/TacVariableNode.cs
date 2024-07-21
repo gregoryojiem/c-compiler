@@ -11,6 +11,6 @@ public class TacVariableNode : BaseValueNode
 
     public override string ToString()
     {
-        return Identifier;
+        return Identifier.Replace(".", "_");
     }
 }

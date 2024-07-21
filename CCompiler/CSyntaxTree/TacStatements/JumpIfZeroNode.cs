@@ -18,6 +18,6 @@ public class JumpIfZeroNode : TacStatementNode
     public override string ToString()
     {
         var condition = Inverted ? "" : "!";
-        return "if (" + condition + Condition + ")" + " goto " + Target;
+        return "if (" + condition + Condition + ")" + "\n\t\tgoto " + Target.Replace(".", "_") + ";";
     }
 }

@@ -82,13 +82,22 @@ public class BlockNode
     {
         var indent = new string('\t', IndentationLevel);
         IndentationLevel++;
-        var bodyString = "";
+        var outputBlock = "";
+        var declarations = new List<string>();
         foreach (var statement in _statements)
         {
+            var declaration = "";
+            if (statement is AssignmentNode assignment && !declarations.Contains(assignment.TacVariable.Identifier))
+            {
+                declarations.Add(assignment.TacVariable.Identifier);
+                declaration = "int ";
+            }
+
             var indentToUse = statement is LabelNode ? indent[..^1] : indent;
-            bodyString = bodyString + indentToUse + statement + "\n";
+            outputBlock += indentToUse + declaration + statement + "\n";
         }
+
         IndentationLevel--;
-        return "{\n" + bodyString + new string('\t', IndentationLevel - 1) + "}";
+        return "{\n" + outputBlock + new string('\t', IndentationLevel - 1) + "}";
     }
 }
