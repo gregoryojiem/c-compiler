@@ -12,7 +12,8 @@ public class BlockNode
     public BlockNode(TokenList tokens)
     {
         _blockItems = new List<BlockItem>();
-
+        TacBlockItems = new List<TacStatementNode>();
+        
         tokens.PopExpected(TokenType.LeftBrace);
         while (!tokens.PopIfFound(TokenType.RightBrace))
         {
@@ -35,13 +36,10 @@ public class BlockNode
 
     public void ConvertToTac()
     {
-        var tacBlockItems = new List<TacStatementNode>();
         foreach (var blockItem in _blockItems)
         {
-            blockItem.ConvertToTac(tacBlockItems);
+            blockItem.ConvertToTac(TacBlockItems);
         }
-
-        TacBlockItems = tacBlockItems;
     }
 
     public void ConvertToTac(List<TacStatementNode> tacBlockItems)
