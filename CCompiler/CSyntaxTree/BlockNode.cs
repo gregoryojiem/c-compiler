@@ -8,12 +8,12 @@ public class BlockNode
     private static int _indentationLevel = 1;
     private readonly List<BlockItem> _blockItems;
     public readonly List<TacStatementNode> TacBlockItems;
-    
+
     public BlockNode(TokenList tokens)
     {
         _blockItems = new List<BlockItem>();
         TacBlockItems = new List<TacStatementNode>();
-        
+
         tokens.PopExpected(TokenType.LeftBrace);
         while (!tokens.PopIfFound(TokenType.RightBrace))
         {

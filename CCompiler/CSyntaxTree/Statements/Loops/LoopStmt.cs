@@ -15,6 +15,7 @@ public abstract class LoopStmt : StatementNode
         {
             throw new Exception("GetLabel called before label has been generated");
         }
+
         return _label;
     }
 }

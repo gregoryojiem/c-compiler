@@ -5,7 +5,7 @@ namespace CCompiler.CSyntaxTree.Statements.Loops;
 public class BreakStmt : LoopStmt
 {
     private Token _breakToken;
-    
+
     public BreakStmt(TokenList tokens)
     {
         _breakToken = tokens.PopExpected(TokenType.Break);

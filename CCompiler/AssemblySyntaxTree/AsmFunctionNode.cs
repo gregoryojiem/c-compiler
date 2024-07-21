@@ -22,7 +22,7 @@ public class AsmFunctionNode : AsmNode
             AsmInstructionNode.ConvertCToAsmInstructions(_instructions, blockItem);
         }
     }
-    
+
     public void FinalPass()
     {
         DoAllocationPass();
