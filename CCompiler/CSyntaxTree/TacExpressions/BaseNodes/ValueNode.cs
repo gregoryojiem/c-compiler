@@ -2,6 +2,6 @@
 
 namespace CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
-public abstract class BaseValueNode : TacExpressionNode
+public abstract class ValueNode : TacExpressionNode
 {
 }

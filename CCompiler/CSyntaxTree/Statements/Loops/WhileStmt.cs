@@ -33,7 +33,7 @@ public class WhileStmt : LoopStmt
         var breakLabel = new LabelNode("break_" + GetLabel());
 
         blockItems.Add(continueLabel);
-        var tacCondition = (BaseValueNode)_condition.ConvertToTac(blockItems);
+        var tacCondition = (ValueNode)_condition.ConvertToTac(blockItems);
         blockItems.Add(new JumpIfZeroNode(tacCondition, breakLabel.Identifier, false));
         _body.ConvertToTac(blockItems);
         blockItems.Add(new JumpNode(continueLabel.Identifier));

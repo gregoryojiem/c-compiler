@@ -38,7 +38,7 @@ public class IfStmt : StatementNode
         var ifEndLabel = "if_end_" + ifId;
         var ifLabelToUse = handleElse ? elseStartLabel : ifEndLabel;
 
-        var tacCondition = (BaseValueNode)_condition.ConvertToTac(blockItems);
+        var tacCondition = (ValueNode)_condition.ConvertToTac(blockItems);
         blockItems.Add(new JumpIfZeroNode(tacCondition, ifLabelToUse, false));
         _thenStmt.ConvertToTac(blockItems);
 

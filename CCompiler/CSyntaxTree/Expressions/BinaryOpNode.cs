@@ -31,7 +31,7 @@ public class BinaryOpNode : ExpressionNode
 
     public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
     {
-        var leftExprValue = (BaseValueNode)LeftExpression.ConvertToTac(blockItems);
+        var leftExprValue = (ValueNode)LeftExpression.ConvertToTac(blockItems);
         var shortCircuit = BinaryOperator is TokenType.And or TokenType.Or;
         var jumpCondInverted = BinaryOperator is TokenType.Or;
         var shortCircuitType = BinaryOperator is TokenType.And ? "and_false_" : "or_true_";
@@ -42,7 +42,7 @@ public class BinaryOpNode : ExpressionNode
             blockItems.Add(new JumpIfZeroNode(leftExprValue, shortCircuitId, jumpCondInverted));
         }
 
-        var rightExprValue = (BaseValueNode)RightExpression.ConvertToTac(blockItems);
+        var rightExprValue = (ValueNode)RightExpression.ConvertToTac(blockItems);
         var resultNode = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
         if (shortCircuit)
         {

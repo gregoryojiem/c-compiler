@@ -35,7 +35,7 @@ public class TernaryOpNode : ExpressionNode
         var finalResultVar = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
 
         //evaluate condition
-        var tacCondition = (BaseValueNode)_condition.ConvertToTac(blockItems);
+        var tacCondition = (ValueNode)_condition.ConvertToTac(blockItems);
         var jumpToFalse = "tern_false" + SymbolTable.LabelId++;
         blockItems.Add(new JumpIfZeroNode(tacCondition, jumpToFalse, false));
 

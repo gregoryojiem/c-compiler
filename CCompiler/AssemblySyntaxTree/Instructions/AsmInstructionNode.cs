@@ -54,7 +54,7 @@ public abstract class AsmInstructionNode : IAsmNode
 
         switch (expression)
         {
-            case BaseValueNode:
+            case ValueNode:
                 var valToCopy = IOperand.ExprToAsmOperand(expression);
                 instructions.Add(new MovlNode(valToCopy, new PseudoRegOp(pseudoRegId)));
                 break;

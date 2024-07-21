@@ -38,7 +38,7 @@ public class DoWhileStmt : LoopStmt
         blockItems.Add(startLabel);
         _body.ConvertToTac(blockItems);
         blockItems.Add(continueLabel);
-        var tacCondition = (BaseValueNode)_condition.ConvertToTac(blockItems);
+        var tacCondition = (ValueNode)_condition.ConvertToTac(blockItems);
         blockItems.Add(new JumpIfZeroNode(tacCondition, startLabel.Identifier, true));
         blockItems.Add(breakLabel);
     }
