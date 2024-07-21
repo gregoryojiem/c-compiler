@@ -3,7 +3,7 @@ using CCompiler.CSyntaxTree.Statements.Loops;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class ExpressionStmt : ForInitialClause
+public class ExpressionStmt : StatementNode
 {
     private readonly ExpressionNode _expression;
 
@@ -18,9 +18,9 @@ public class ExpressionStmt : ForInitialClause
         _expression.VariableResolution(symbolTable);
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
-        _expression.ConvertToTac(statementList);
+        _expression.ConvertToTac(blockItems);
     }
 
     public override string ToString()

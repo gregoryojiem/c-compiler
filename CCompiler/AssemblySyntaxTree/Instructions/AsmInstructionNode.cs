@@ -1,4 +1,5 @@
 ﻿using CCompiler.AssemblySyntaxTree.Operands;
+using CCompiler.CSyntaxTree;
 using CCompiler.CSyntaxTree.Expressions;
 using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
@@ -9,9 +10,9 @@ namespace CCompiler.AssemblySyntaxTree.Instructions;
 
 public abstract class AsmInstructionNode : IAsmNode
 {
-    public static void ConvertCToAsmInstructions(List<AsmInstructionNode> instructions, StatementNode cStatement)
+    public static void ConvertCToAsmInstructions(List<AsmInstructionNode> instructions, BlockItem blockItem)
     {
-        switch (cStatement)
+        switch (blockItem)
         {
             case AssignmentNode assignmentNode:
                 ConvertAssignmentToAsm(instructions, assignmentNode);

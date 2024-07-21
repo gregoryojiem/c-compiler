@@ -25,17 +25,11 @@ public class IfStmt : StatementNode
     public override void SemanticPass(SymbolTable symbolTable)
     {
         _condition.VariableResolution(symbolTable);
-        if (_thenStmt is DeclarationStmt declarationStmt)
-        {
-            throw new SemanticException(declarationStmt.Identifier,
-                $"Cannot make declaration {declarationStmt} in non-scoped if statement");
-        }
-
         _thenStmt.SemanticPass(symbolTable);
         _elseStmt?.SemanticPass(symbolTable);
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
         var handleElse = _elseStmt != null;
         var elseId = handleElse ? SymbolTable.LabelId++ : 0;
@@ -44,18 +38,18 @@ public class IfStmt : StatementNode
         var ifEndLabel = "if_end_" + ifId;
         var ifLabelToUse = handleElse ? elseStartLabel : ifEndLabel;
 
-        var tacCondition = (BaseValueNode)_condition.ConvertToTac(statementList);
-        statementList.Add(new JumpIfZeroNode(tacCondition, ifLabelToUse, false));
-        _thenStmt.ConvertToTac(statementList);
+        var tacCondition = (BaseValueNode)_condition.ConvertToTac(blockItems);
+        blockItems.Add(new JumpIfZeroNode(tacCondition, ifLabelToUse, false));
+        _thenStmt.ConvertToTac(blockItems);
 
         if (_elseStmt != null)
         {
-            statementList.Add(new JumpNode(ifEndLabel));
-            statementList.Add(new LabelNode(elseStartLabel));
-            _elseStmt.ConvertToTac(statementList);
+            blockItems.Add(new JumpNode(ifEndLabel));
+            blockItems.Add(new LabelNode(elseStartLabel));
+            _elseStmt.ConvertToTac(blockItems);
         }
 
-        statementList.Add(new LabelNode(ifEndLabel));
+        blockItems.Add(new LabelNode(ifEndLabel));
     }
 
     public override string ToString()

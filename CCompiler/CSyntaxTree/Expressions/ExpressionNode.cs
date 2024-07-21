@@ -70,5 +70,5 @@ public abstract class ExpressionNode
 
     public abstract Token GetRepresentativeToken();
 
-    public abstract TacExpressionNode ConvertToTac(List<StatementNode> statementList);
+    public abstract TacExpressionNode ConvertToTac(List<BlockItem> blockItems);
 }

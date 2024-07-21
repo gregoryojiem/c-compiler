@@ -25,10 +25,10 @@ public class ReturnStmt : StatementNode
         ReturnValue.VariableResolution(symbolTable);
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
-        ReturnValue = ReturnValue.ConvertToTac(statementList);
-        statementList.Add(this);
+        ReturnValue = ReturnValue.ConvertToTac(blockItems);
+        blockItems.Add(this);
     }
 
     public override string ToString()

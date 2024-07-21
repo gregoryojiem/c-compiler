@@ -17,9 +17,9 @@ public class AsmFunctionNode : IAsmNode
 
     private void AsmParseBlock(BlockNode blockNode)
     {
-        foreach (var statement in blockNode._statements)
+        foreach (var blockItem in blockNode.BlockItems)
         {
-            AsmInstructionNode.ConvertCToAsmInstructions(_instructions, statement);
+            AsmInstructionNode.ConvertCToAsmInstructions(_instructions, blockItem);
         }
     }
     

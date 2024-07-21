@@ -6,73 +6,72 @@ namespace CCompiler.CSyntaxTree;
 public class BlockNode
 {
     public static int IndentationLevel = 1;
-    public List<StatementNode> _statements;
+    public List<BlockItem> BlockItems;
 
     public BlockNode(TokenList tokens)
     {
-        _statements = new List<StatementNode>();
+        BlockItems = new List<BlockItem>();
 
         tokens.PopExpected(TokenType.LeftBrace);
         while (!tokens.PopIfFound(TokenType.RightBrace))
         {
-            var statementNode = StatementNode.ParseStatementNode(tokens);
-            _statements.Add(statementNode);
+            BlockItems.Add(BlockItem.ParseBlockItem(tokens));
         }
     }
 
-    public void AddStmt(StatementNode stmt)
+    public void AddBlockItem(BlockItem blockItem)
     {
-        _statements.Add(stmt);
+        BlockItems.Add(blockItem);
     }
 
     public void Validate(SymbolTable symbolTable)
     {
-        foreach (var statementNode in _statements)
+        foreach (var blockItem in BlockItems)
         {
-            statementNode.SemanticPass(symbolTable);
+            blockItem.SemanticPass(symbolTable);
         }
     }
 
     public void ConvertToTac()
     {
-        var tacStatements = new List<StatementNode>();
-        foreach (var statementNode in _statements)
+        var tacBlockItems = new List<BlockItem>();
+        foreach (var blockItem in BlockItems)
         {
-            statementNode.ConvertToTac(tacStatements);
+            blockItem.ConvertToTac(tacBlockItems);
         }
 
-        _statements = tacStatements;
+        BlockItems = tacBlockItems;
     }
 
-    public void ConvertToTac(List<StatementNode> tacStatements)
+    public void ConvertToTac(List<BlockItem> tacBlockItems)
     {
-        foreach (var statementNode in _statements)
+        foreach (var blockItem in BlockItems)
         {
-            statementNode.ConvertToTac(tacStatements);
+            blockItem.ConvertToTac(tacBlockItems);
         }
     }
 
-    public static string GetIndent(StatementNode? stmt, bool addNewline = true, int modifier = 0)
+    public static string GetIndent(BlockItem? blockItem, bool addNewline = true, int modifier = 0)
     {
         var indent = new string('\t', IndentationLevel + modifier);
         if (addNewline)
             indent = "\n" + indent;
-        if (stmt is CompoundStmt)
+        if (blockItem is CompoundStmt)
             indent = " ";
         return indent;
     }
 
-    public static void IncreaseIndent(StatementNode stmt)
+    public static void IncreaseIndent(BlockItem blockItem)
     {
-        if (stmt is not CompoundStmt)
+        if (blockItem is not CompoundStmt)
         {
             IndentationLevel++;
         }
     }
 
-    public static void DecreaseIndent(StatementNode stmt)
+    public static void DecreaseIndent(BlockItem blockItem)
     {
-        if (stmt is not CompoundStmt)
+        if (blockItem is not CompoundStmt)
         {
             IndentationLevel--;
         }
@@ -84,17 +83,17 @@ public class BlockNode
         IndentationLevel++;
         var outputBlock = "";
         var declarations = new List<string>();
-        foreach (var statement in _statements)
+        foreach (var blockItem in BlockItems)
         {
             var declaration = "";
-            if (statement is AssignmentNode assignment && !declarations.Contains(assignment.TacVariable.Identifier))
+            if (blockItem is AssignmentNode assignment && !declarations.Contains(assignment.TacVariable.Identifier))
             {
                 declarations.Add(assignment.TacVariable.Identifier);
                 declaration = "int ";
             }
 
-            var indentToUse = statement is LabelNode ? indent[..^1] : indent;
-            outputBlock += indentToUse + declaration + statement + "\n";
+            var indentToUse = blockItem is LabelNode ? indent[..^1] : indent;
+            outputBlock += indentToUse + declaration + blockItem + "\n";
         }
 
         IndentationLevel--;

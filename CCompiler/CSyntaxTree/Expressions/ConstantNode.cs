@@ -22,7 +22,7 @@ public class ConstantNode : ExpressionNode
         return _valueToken;
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
     {
         return new TacConstantNode(int.Parse(_valueToken.Value));
     }

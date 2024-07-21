@@ -3,15 +3,15 @@ using CCompiler.CSyntaxTree.Statements.Loops;
 using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 using CCompiler.CSyntaxTree.TacStatements;
 
-namespace CCompiler.CSyntaxTree.Statements;
+namespace CCompiler.CSyntaxTree;
 
-public class DeclarationStmt : ForInitialClause
+public class DeclarationNode : BlockItem
 {
     public readonly Token Identifier;
     private readonly TokenType _type;
     private readonly ExpressionNode? _expression;
 
-    public DeclarationStmt(TokenList tokens)
+    public DeclarationNode(TokenList tokens)
     {
         _type = tokens.PopExpected(TokenType.IntType).Type;
         Identifier = tokens.PopExpected(TokenType.Identifier);
@@ -31,13 +31,13 @@ public class DeclarationStmt : ForInitialClause
         _expression?.VariableResolution(symbolTable);
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
         if (_expression == null)
             return;
         var variableName = Identifier.Value;
-        var assignedExpr = _expression.ConvertToTac(statementList);
-        statementList.Add(new AssignmentNode(new TacVariableNode(variableName), assignedExpr));
+        var assignedExpr = _expression.ConvertToTac(blockItems);
+        blockItems.Add(new AssignmentNode(new TacVariableNode(variableName), assignedExpr));
     }
 
     public override string ToString()

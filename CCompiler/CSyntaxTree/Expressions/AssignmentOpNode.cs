@@ -28,11 +28,11 @@ public class AssignmentOpNode : ExpressionNode
         return _leftExpression.GetRepresentativeToken();
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
     {
-        var assignedExpr = _rightExpression.ConvertToTac(statementList);
-        var assigneeVariable = (TacVariableNode)_leftExpression.ConvertToTac(statementList);
-        statementList.Add(new AssignmentNode(assigneeVariable, assignedExpr));
+        var assignedExpr = _rightExpression.ConvertToTac(blockItems);
+        var assigneeVariable = (TacVariableNode)_leftExpression.ConvertToTac(blockItems);
+        blockItems.Add(new AssignmentNode(assigneeVariable, assignedExpr));
         return assigneeVariable;
     }
 

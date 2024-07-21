@@ -16,9 +16,9 @@ public class CompoundStmt : StatementNode
         symbolTable.ExitScope();
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
-        _body.ConvertToTac(statementList);
+        _body.ConvertToTac(blockItems);
     }
 
     public override string ToString()

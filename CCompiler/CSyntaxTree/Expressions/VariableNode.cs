@@ -23,7 +23,7 @@ public class VariableNode : ExpressionNode
         return _identifier;
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
     {
         return new TacVariableNode(_identifier.Value);
     }

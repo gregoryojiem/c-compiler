@@ -2,14 +2,13 @@
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public abstract class StatementNode
+public abstract class StatementNode : BlockItem
 {
     public static StatementNode ParseStatementNode(TokenList tokens)
     {
         var nextToken = tokens.Peek().Type;
         return nextToken switch
         {
-            TokenType.IntType => new DeclarationStmt(tokens),
             TokenType.If => new IfStmt(tokens),
             TokenType.While => new WhileStmt(tokens),
             TokenType.Do => new DoWhileStmt(tokens),
@@ -30,8 +29,4 @@ public abstract class StatementNode
         var unexpectedToken = tokens.Pop();
         throw new ParseException(unexpectedToken, $"Invalid statement: {unexpectedToken.Value}");
     }
-
-    public abstract void SemanticPass(SymbolTable symbolTable);
-
-    public abstract void ConvertToTac(List<StatementNode> statementList);
 }

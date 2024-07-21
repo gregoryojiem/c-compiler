@@ -29,18 +29,18 @@ public class DoWhileStmt : LoopStmt
         symbolTable.ExitLoop();
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
         var startLabel = new LabelNode("start_" + GetLabel());
         var continueLabel = new LabelNode("continue_" + GetLabel());
         var breakLabel = new LabelNode("break_" + GetLabel());
 
-        statementList.Add(startLabel);
-        _body.ConvertToTac(statementList);
-        statementList.Add(continueLabel);
-        var tacCondition = (BaseValueNode)_condition.ConvertToTac(statementList);
-        statementList.Add(new JumpIfZeroNode(tacCondition, startLabel.Identifier, true));
-        statementList.Add(breakLabel);
+        blockItems.Add(startLabel);
+        _body.ConvertToTac(blockItems);
+        blockItems.Add(continueLabel);
+        var tacCondition = (BaseValueNode)_condition.ConvertToTac(blockItems);
+        blockItems.Add(new JumpIfZeroNode(tacCondition, startLabel.Identifier, true));
+        blockItems.Add(breakLabel);
     }
 
     public override string ToString()

@@ -5,7 +5,7 @@ namespace CCompiler.CSyntaxTree.TacExpressions;
 
 public abstract class TacExpressionNode : ExpressionNode
 {
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
     {
         return this;
     }

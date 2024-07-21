@@ -33,7 +33,7 @@ public class FunctionNode
     public void ConvertToTac()
     {
         Body.ConvertToTac();
-        Body.AddStmt(new ReturnStmt(0)); // guarantees all functions have an epilogue
+        Body.AddBlockItem(new ReturnStmt(0)); // guarantees all functions have an epilogue
     }
 
     public override string ToString() //TODO argument handling

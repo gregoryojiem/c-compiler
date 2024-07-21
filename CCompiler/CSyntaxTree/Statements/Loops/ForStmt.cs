@@ -6,7 +6,7 @@ namespace CCompiler.CSyntaxTree.Statements.Loops;
 
 public class ForStmt : LoopStmt
 {
-    private readonly ForInitialClause _initialClause;
+    private readonly BlockItem _initialClause;
     private readonly ExpressionNode? _condition;
     private readonly ExpressionNode? _post;
     private readonly StatementNode _body;
@@ -15,7 +15,13 @@ public class ForStmt : LoopStmt
     {
         tokens.PopExpected(TokenType.For);
         tokens.PopExpected(TokenType.LeftParen);
-        _initialClause = ForInitialClause.Parse(tokens);
+        _initialClause = ParseBlockItem(tokens);
+        if (_initialClause is not (DeclarationNode or ExpressionStmt or NullStmt))
+        {
+            throw new ParseException(tokens.Peek(), $"Invalid for loop initializer {tokens.Peek()}," +
+                                                    " expected expression, declaration, or semicolon");
+        }
+
         if (tokens.Peek().Type != TokenType.Semicolon)
         {
             _condition = ExpressionNode.ParseExpression(tokens);
@@ -45,25 +51,25 @@ public class ForStmt : LoopStmt
         symbolTable.ExitLoop();
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
         var startLabel = new LabelNode("start_" + GetLabel());
         var continueLabel = new LabelNode("continue_" + GetLabel());
         var breakLabel = new LabelNode("break_" + GetLabel());
 
-        _initialClause.ConvertToTac(statementList);
-        statementList.Add(startLabel);
+        _initialClause.ConvertToTac(blockItems);
+        blockItems.Add(startLabel);
         if (_condition != null)
         {
-            var tacCondition = (BaseValueNode)_condition.ConvertToTac(statementList);
-            statementList.Add(new JumpIfZeroNode(tacCondition, breakLabel.Identifier, false));
+            var tacCondition = (BaseValueNode)_condition.ConvertToTac(blockItems);
+            blockItems.Add(new JumpIfZeroNode(tacCondition, breakLabel.Identifier, false));
         }
 
-        _body.ConvertToTac(statementList);
-        statementList.Add(continueLabel);
-        _post?.ConvertToTac(statementList);
-        statementList.Add(new JumpNode(startLabel.Identifier));
-        statementList.Add(breakLabel);
+        _body.ConvertToTac(blockItems);
+        blockItems.Add(continueLabel);
+        _post?.ConvertToTac(blockItems);
+        blockItems.Add(new JumpNode(startLabel.Identifier));
+        blockItems.Add(breakLabel);
     }
 
     public override string ToString()

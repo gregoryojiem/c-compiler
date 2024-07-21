@@ -2,7 +2,7 @@
 
 namespace CCompiler.CSyntaxTree.Statements;
 
-public class NullStmt : ForInitialClause
+public class NullStmt : StatementNode
 {
     public NullStmt(TokenList tokens)
     {
@@ -13,7 +13,7 @@ public class NullStmt : ForInitialClause
     {
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<BlockItem> blockItems)
     {
     }
 
