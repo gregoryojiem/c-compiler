@@ -1,4 +1,6 @@
 ﻿using CCompiler.CSyntaxTree.Expressions;
+using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements.Loops;
 
@@ -45,7 +47,23 @@ public class ForStmt : LoopStmt
 
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        throw new NotImplementedException();
+        var startLabel = new LabelNode("start_" + GetLabel());
+        var continueLabel = new LabelNode("continue_" + GetLabel());
+        var breakLabel = new LabelNode("break_" + GetLabel());
+
+        _initialClause.ConvertToTac(statementList);
+        statementList.Add(startLabel);
+        if (_condition != null)
+        {
+            var tacCondition = (BaseValueNode)_condition.ConvertToTac(statementList);
+            statementList.Add(new JumpIfZeroNode(tacCondition, breakLabel.Identifier, false));
+        }
+
+        _body.ConvertToTac(statementList);
+        statementList.Add(continueLabel);
+        _post?.ConvertToTac(statementList);
+        statementList.Add(new JumpNode(startLabel.Identifier));
+        statementList.Add(breakLabel);
     }
 
     public override string ToString()

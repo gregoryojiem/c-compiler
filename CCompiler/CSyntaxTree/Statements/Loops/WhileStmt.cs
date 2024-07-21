@@ -1,4 +1,6 @@
 ﻿using CCompiler.CSyntaxTree.Expressions;
+using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements.Loops;
 
@@ -27,7 +29,15 @@ public class WhileStmt : LoopStmt
 
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        throw new NotImplementedException();
+        var continueLabel = new LabelNode("continue_" + GetLabel());
+        var breakLabel = new LabelNode("break_" + GetLabel());
+
+        statementList.Add(continueLabel);
+        var tacCondition = (BaseValueNode)_condition.ConvertToTac(statementList);
+        statementList.Add(new JumpIfZeroNode(tacCondition, breakLabel.Identifier, false));
+        _body.ConvertToTac(statementList);
+        statementList.Add(new JumpNode(continueLabel.Identifier));
+        statementList.Add(breakLabel);
     }
 
     public override string ToString()

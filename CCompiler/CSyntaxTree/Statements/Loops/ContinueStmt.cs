@@ -1,4 +1,6 @@
-﻿namespace CCompiler.CSyntaxTree.Statements.Loops;
+﻿using CCompiler.CSyntaxTree.TacStatements;
+
+namespace CCompiler.CSyntaxTree.Statements.Loops;
 
 public class ContinueStmt : LoopStmt
 {
@@ -15,7 +17,7 @@ public class ContinueStmt : LoopStmt
 
     public override void ConvertToTac(List<StatementNode> statementList)
     {
-        throw new NotImplementedException();
+        statementList.Add(new JumpNode("continue_" + GetLabel()));
     }
 
     public override string ToString()
