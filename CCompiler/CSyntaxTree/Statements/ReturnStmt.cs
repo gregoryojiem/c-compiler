@@ -7,32 +7,32 @@ namespace CCompiler.CSyntaxTree.Statements;
 
 public class ReturnStmt : StatementNode
 {
-    public readonly ExpressionNode ReturnValue;
+    private readonly ExpressionNode _returnValue;
 
     public ReturnStmt(TokenList tokens)
     {
         tokens.PopExpected(TokenType.Return);
-        ReturnValue = ExpressionNode.ParseExpression(tokens);
+        _returnValue = ExpressionNode.ParseExpression(tokens);
         tokens.PopExpected(TokenType.Semicolon);
     }
 
     public ReturnStmt(int returnValue)
     {
-        ReturnValue = new TacConstantNode(returnValue);
+        _returnValue = new TacConstantNode(returnValue);
     }
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        ReturnValue.VariableResolution(symbolTable);
+        _returnValue.VariableResolution(symbolTable);
     }
 
     public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        tacStatements.Add(new TacReturnNode(ReturnValue.ConvertToTac(tacStatements)));
+        tacStatements.Add(new TacReturnNode(_returnValue.ConvertToTac(tacStatements)));
     }
 
     public override string ToString()
     {
-        return "return " + ReturnValue + ";";
+        return "return " + _returnValue + ";";
     }
 }

@@ -4,7 +4,7 @@ namespace CCompiler.AssemblySyntaxTree.Instructions;
 
 public class BinaryNode : AsmInstructionNode, IAllocatableInstruction
 {
-    private TokenType _binaryOp;
+    private readonly TokenType _binaryOp;
     private IOperand _src;
     private IOperand _dst;
 

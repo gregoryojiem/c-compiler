@@ -8,7 +8,7 @@ namespace CCompiler.CSyntaxTree.Expressions;
 public class AssignmentOpNode : ExpressionNode
 {
     private readonly ExpressionNode _leftExpression;
-    private ExpressionNode _rightExpression;
+    private readonly ExpressionNode _rightExpression;
 
     public AssignmentOpNode(ExpressionNode leftExpression, ExpressionNode rightExpression)
     {

@@ -2,7 +2,7 @@
 
 public class JmpLabelNode : AsmInstructionNode
 {
-    private string _identifier;
+    private readonly string _identifier;
 
     public JmpLabelNode(string identifier)
     {

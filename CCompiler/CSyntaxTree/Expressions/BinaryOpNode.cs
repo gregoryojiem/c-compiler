@@ -7,9 +7,9 @@ namespace CCompiler.CSyntaxTree.Expressions;
 
 public class BinaryOpNode : ExpressionNode
 {
-    public readonly TokenType BinaryOperator;
-    public readonly ExpressionNode LeftExpression;
-    public readonly ExpressionNode RightExpression;
+    private readonly TokenType BinaryOperator;
+    private readonly ExpressionNode LeftExpression;
+    private readonly ExpressionNode RightExpression;
 
     public BinaryOpNode(TokenType binaryOperator, ExpressionNode leftExpression, ExpressionNode rightExpression)
     {

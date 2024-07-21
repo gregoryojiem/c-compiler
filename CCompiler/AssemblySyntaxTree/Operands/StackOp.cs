@@ -2,7 +2,7 @@
 
 public class StackOp : IOperand
 {
-    private int _offset;
+    private readonly int _offset;
 
     public StackOp(int offset)
     {

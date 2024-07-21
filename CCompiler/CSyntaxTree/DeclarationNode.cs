@@ -7,14 +7,14 @@ namespace CCompiler.CSyntaxTree;
 
 public class DeclarationNode : BlockItem
 {
-    public readonly Token Identifier;
+    private readonly Token _identifier;
     private readonly TokenType _type;
     private readonly ExpressionNode? _expression;
 
     public DeclarationNode(TokenList tokens)
     {
         _type = tokens.PopExpected(TokenType.IntType).Type;
-        Identifier = tokens.PopExpected(TokenType.Identifier);
+        _identifier = tokens.PopExpected(TokenType.Identifier);
         if (tokens.PopIfFound(TokenType.Assignment))
             _expression = ExpressionNode.ParseExpression(tokens);
 
@@ -23,11 +23,11 @@ public class DeclarationNode : BlockItem
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        SemanticException.CheckDuplicateDeclaration(symbolTable, Identifier);
-        var variableName = Identifier.Value;
+        SemanticException.CheckDuplicateDeclaration(symbolTable, _identifier);
+        var variableName = _identifier.Value;
         var uniqueName = variableName + "." + SymbolTable.VariableId++;
         symbolTable.AddVariable(variableName, uniqueName);
-        Identifier.Value = uniqueName;
+        _identifier.Value = uniqueName;
         _expression?.VariableResolution(symbolTable);
     }
 
@@ -35,13 +35,13 @@ public class DeclarationNode : BlockItem
     {
         if (_expression == null)
             return;
-        var variableName = Identifier.Value;
+        var variableName = _identifier.Value;
         var assignedExpr = _expression.ConvertToTac(tacStatements);
         tacStatements.Add(new AssignmentNode(new TacVariableNode(variableName), assignedExpr));
     }
 
     public override string ToString()
     {
-        return Token.GetTypeString(_type) + " " + Identifier + " = " + _expression + ";";
+        return Token.GetTypeString(_type) + " " + _identifier + " = " + _expression + ";";
     }
 }

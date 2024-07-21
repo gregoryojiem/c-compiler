@@ -4,7 +4,7 @@ namespace CCompiler.CSyntaxTree.TacStatements;
 
 public class TacReturnNode : TacStatementNode
 {
-    public TacExpressionNode ReturnValue;
+    public readonly TacExpressionNode ReturnValue;
 
     public TacReturnNode(TacExpressionNode returnValue)
     {
