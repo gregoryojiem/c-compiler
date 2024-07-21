@@ -1,5 +1,6 @@
 ﻿namespace CCompiler.AssemblySyntaxTree;
 
-public interface IAsmNode
+public abstract class AsmNode
 {
+    public abstract override string ToString();
 }

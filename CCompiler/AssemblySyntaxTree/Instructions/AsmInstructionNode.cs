@@ -8,7 +8,7 @@ using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.AssemblySyntaxTree.Instructions;
 
-public abstract class AsmInstructionNode : IAsmNode
+public abstract class AsmInstructionNode : AsmNode
 {
     public static void ConvertCToAsmInstructions(List<AsmInstructionNode> instructions, TacStatementNode tacStatement)
     {
@@ -122,6 +122,4 @@ public abstract class AsmInstructionNode : IAsmNode
             ? new MovlNode(new RegOp(axRegToUse), pseudoReg)
             : new MovlNode(new RegOp(dxRegToUse), pseudoReg));
     }
-
-    public abstract string ToString();
 }

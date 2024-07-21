@@ -2,7 +2,7 @@
 
 namespace CCompiler.AssemblySyntaxTree;
 
-public class AsmProgramNode : IAsmNode
+public class AsmProgramNode : AsmNode
 {
     private readonly List<AsmFunctionNode> _asmFunctions;
 

@@ -3,7 +3,7 @@ using CCompiler.CSyntaxTree;
 
 namespace CCompiler.AssemblySyntaxTree;
 
-public class AsmFunctionNode : IAsmNode
+public class AsmFunctionNode : AsmNode
 {
     private readonly string _name;
     private List<AsmInstructionNode> _instructions;
