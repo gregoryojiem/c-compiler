@@ -4,15 +4,17 @@ namespace CCompiler.CSyntaxTree.Statements.Loops;
 
 public class ContinueStmt : LoopStmt
 {
+    private readonly Token _continueToken;
+
     public ContinueStmt(TokenList tokens)
     {
-        tokens.PopExpected(TokenType.Continue);
+        _continueToken = tokens.PopExpected(TokenType.Continue);
         tokens.PopExpected(TokenType.Semicolon);
     }
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        SetLabel(symbolTable);
+        SetLabel(symbolTable, _continueToken);
     }
 
     public override void ConvertToTac(List<TacStatementNode> tacStatements)

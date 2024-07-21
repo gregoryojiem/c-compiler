@@ -26,8 +26,12 @@ public class SymbolTable
         _currentLoopId.Pop();
     }
     
-    public string GetCurrentLoopId()
+    public string GetCurrentLoopId(Token? currentToken)
     {
+        if (currentToken != null && _currentLoopId.Count == 0)
+        {
+            throw new SemanticException(currentToken, $"Cannot call {currentToken} outside of a loop");
+        }
         return _currentLoopId.Peek();
     }
 

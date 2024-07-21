@@ -4,15 +4,17 @@ namespace CCompiler.CSyntaxTree.Statements.Loops;
 
 public class BreakStmt : LoopStmt
 {
+    private Token _breakToken;
+    
     public BreakStmt(TokenList tokens)
     {
-        tokens.PopExpected(TokenType.Break);
+        _breakToken = tokens.PopExpected(TokenType.Break);
         tokens.PopExpected(TokenType.Semicolon);
     }
 
     public override void SemanticPass(SymbolTable symbolTable)
     {
-        SetLabel(symbolTable);
+        SetLabel(symbolTable, _breakToken);
     }
 
     public override void ConvertToTac(List<TacStatementNode> tacStatements)

@@ -4,9 +4,9 @@ public abstract class LoopStmt : StatementNode
 {
     private string? _label;
 
-    protected void SetLabel(SymbolTable symbolTable)
+    protected void SetLabel(SymbolTable symbolTable, Token? currentToken = null)
     {
-        _label = symbolTable.GetCurrentLoopId();
+        _label = symbolTable.GetCurrentLoopId(currentToken);
     }
 
     public string GetLabel()
