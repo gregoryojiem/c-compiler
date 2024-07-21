@@ -8,19 +8,12 @@ public class SymbolTable
     private readonly Stack<Dictionary<string, string>> _outerScopeVariables;
     private Dictionary<string, string> _currentVariables;
     private readonly Stack<string> _currentLoopId;
-    private bool _mergeNextScope;
 
     public SymbolTable()
     {
         _outerScopeVariables = new Stack<Dictionary<string, string>>();
         _currentVariables = new Dictionary<string, string>();
         _currentLoopId = new Stack<string>();
-        _mergeNextScope = false;
-    }
-
-    public void MergeNextScope()
-    {
-        _mergeNextScope = true;
     }
 
     public void EnterLoop(string loopType)
@@ -40,12 +33,6 @@ public class SymbolTable
 
     public void NewScope()
     {
-        if (_mergeNextScope)
-        {
-            _mergeNextScope = false;
-            return;
-        }
-
         _outerScopeVariables.Push(_currentVariables);
         _currentVariables = new Dictionary<string, string>();
     }

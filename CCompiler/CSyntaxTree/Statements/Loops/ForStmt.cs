@@ -34,9 +34,7 @@ public class ForStmt : LoopStmt
         symbolTable.EnterLoop("for_loop");
         SetLabel(symbolTable);
         symbolTable.NewScope();
-        if (_body is CompoundStmt)
-            symbolTable.MergeNextScope();
-        
+
         _initialClause.SemanticPass(symbolTable);
         _condition?.VariableResolution(symbolTable);
         _post?.VariableResolution(symbolTable);
