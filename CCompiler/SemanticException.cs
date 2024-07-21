@@ -22,7 +22,7 @@ public class SemanticException : Exception
             throw new SemanticException(variable, "The variable '" + variable + "' has already been declared");
         }
     }
-    
+
     public static void CheckValidAssignment(ExpressionNode leftExpression)
     {
         if (leftExpression is VariableNode) return;

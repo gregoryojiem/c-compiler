@@ -1,4 +1,5 @@
 ﻿using CCompiler.AssemblySyntaxTree.Operands;
+using CCompiler.CSyntaxTree;
 using CCompiler.CSyntaxTree.Expressions;
 using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
@@ -7,11 +8,11 @@ using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.AssemblySyntaxTree.Instructions;
 
-public abstract class AsmInstructionNode : IAsmNode
+public abstract class AsmInstructionNode : AsmNode
 {
-    public static void ConvertCToAsmInstructions(List<AsmInstructionNode> instructions, StatementNode cStatement)
+    public static void ConvertCToAsmInstructions(List<AsmInstructionNode> instructions, TacStatementNode tacStatement)
     {
-        switch (cStatement)
+        switch (tacStatement)
         {
             case AssignmentNode assignmentNode:
                 ConvertAssignmentToAsm(instructions, assignmentNode);
@@ -34,9 +35,9 @@ public abstract class AsmInstructionNode : IAsmNode
                 instructions.Add(new JmpLabelNode(labelNode.Identifier));
                 break;
             }
-            case ReturnStmtNode returnStmtNode:
+            case TacReturnNode returnStmt:
             {
-                var operandValue = IOperand.ExprToAsmOperand(returnStmtNode.ReturnValue);
+                var operandValue = IOperand.ExprToAsmOperand(returnStmt.ReturnValue);
                 instructions.Add(new MovlNode(operandValue, new RegOp(RegOp.Register.Eax)));
                 instructions.Add(new RetNode());
                 break;
@@ -53,7 +54,7 @@ public abstract class AsmInstructionNode : IAsmNode
 
         switch (expression)
         {
-            case BaseValueNode:
+            case ValueNode:
                 var valToCopy = IOperand.ExprToAsmOperand(expression);
                 instructions.Add(new MovlNode(valToCopy, new PseudoRegOp(pseudoRegId)));
                 break;
@@ -121,6 +122,4 @@ public abstract class AsmInstructionNode : IAsmNode
             ? new MovlNode(new RegOp(axRegToUse), pseudoReg)
             : new MovlNode(new RegOp(dxRegToUse), pseudoReg));
     }
-
-    public abstract string ConvertToAsm();
 }

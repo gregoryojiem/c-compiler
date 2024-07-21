@@ -5,10 +5,10 @@ namespace CCompiler.CSyntaxTree.TacExpressions;
 public class TacBinaryOpNode : TacExpressionNode
 {
     public readonly TokenType BinaryOperator;
-    public readonly BaseValueNode LeftOperand;
-    public readonly BaseValueNode RightOperand;
+    public readonly ValueNode LeftOperand;
+    public readonly ValueNode RightOperand;
 
-    public TacBinaryOpNode(TokenType binaryOperator, BaseValueNode leftOperand, BaseValueNode rightOperand)
+    public TacBinaryOpNode(TokenType binaryOperator, ValueNode leftOperand, ValueNode rightOperand)
     {
         BinaryOperator = binaryOperator;
         LeftOperand = leftOperand;

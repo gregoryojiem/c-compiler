@@ -54,7 +54,7 @@ public class CmpNode : AsmInstructionNode, IAllocatableInstruction
     }
 
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "cmpl\t" + _leftOp + ", " + _rightOp;
     }

@@ -3,7 +3,7 @@ using CCompiler.CSyntaxTree;
 
 namespace CCompiler.AssemblySyntaxTree;
 
-public class AsmFunctionNode : IAsmNode
+public class AsmFunctionNode : AsmNode
 {
     private readonly string _name;
     private List<AsmInstructionNode> _instructions;
@@ -17,12 +17,12 @@ public class AsmFunctionNode : IAsmNode
 
     private void AsmParseBlock(BlockNode blockNode)
     {
-        foreach (var statement in blockNode._statements)
+        foreach (var blockItem in blockNode.TacBlockItems)
         {
-            AsmInstructionNode.ConvertCToAsmInstructions(_instructions, statement);
+            AsmInstructionNode.ConvertCToAsmInstructions(_instructions, blockItem);
         }
     }
-    
+
     public void FinalPass()
     {
         DoAllocationPass();
@@ -75,7 +75,7 @@ public class AsmFunctionNode : IAsmNode
         _instructions = fixedInstructions;
     }
 
-    public string ConvertToAsm()
+    public override string ToString()
     {
         var outputAsm = "";
         outputAsm += ".globl " + _name + "\n";
@@ -85,7 +85,7 @@ public class AsmFunctionNode : IAsmNode
         foreach (var instruction in _instructions)
         {
             var addTab = instruction is JmpLabelNode ? "" : "\t";
-            outputAsm += addTab + instruction.ConvertToAsm() + "\n";
+            outputAsm += addTab + instruction.ToString() + "\n";
         }
 
         return outputAsm;

@@ -1,33 +1,32 @@
-﻿namespace CCompiler.CSyntaxTree.Statements;
+﻿using CCompiler.CSyntaxTree.Statements.Loops;
 
-public abstract class StatementNode
+namespace CCompiler.CSyntaxTree.Statements;
+
+public abstract class StatementNode : BlockItem
 {
-    public static StatementNode CreateStatementNode(TokenList tokens)
+    public static StatementNode ParseStatementNode(TokenList tokens)
     {
         var nextToken = tokens.Peek().Type;
-        switch (nextToken)
+        return nextToken switch
         {
-            case TokenType.IntType:
-                return new DeclarationStmtNode(tokens);
-            case TokenType.If:
-                return new IfStmtNode(tokens);
-            case TokenType.LeftBrace:
-                return new CompoundStmtNode(tokens);
-            case TokenType.Return:
-                return new ReturnStmtNode(tokens);
-            case TokenType.Semicolon:
-                return new NullStmtNode(tokens);
-            default:
-                if (TokenList.IsExpressionStart(nextToken))
-                    return new ExpressionStmtNode(tokens);
-                break;
-        }
+            TokenType.If => new IfStmt(tokens),
+            TokenType.While => new WhileStmt(tokens),
+            TokenType.Do => new DoWhileStmt(tokens),
+            TokenType.For => new ForStmt(tokens),
+            TokenType.Break => new BreakStmt(tokens),
+            TokenType.Continue => new ContinueStmt(tokens),
+            TokenType.LeftBrace => new CompoundStmt(tokens),
+            TokenType.Return => new ReturnStmt(tokens),
+            TokenType.Semicolon => new NullStmt(tokens),
+            _ => HandleUnknownToken(tokens, nextToken)
+        };
+    }
 
+    private static StatementNode HandleUnknownToken(TokenList tokens, TokenType token)
+    {
+        if (TokenList.IsExpressionStart(token))
+            return new ExpressionStmt(tokens);
         var unexpectedToken = tokens.Pop();
         throw new ParseException(unexpectedToken, $"Invalid statement: {unexpectedToken.Value}");
     }
-
-    public abstract void SemanticPass(SymbolTable symbolTable);
-
-    public abstract void ConvertToTac(List<StatementNode> statementList);
 }

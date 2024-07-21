@@ -8,7 +8,7 @@ public abstract class TacStatementNode : StatementNode
     {
     }
 
-    public override void ConvertToTac(List<StatementNode> statementList)
+    public override void ConvertToTac(List<TacStatementNode> blockItems)
     {
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
 using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Expressions;
 
@@ -23,7 +24,7 @@ public class VariableNode : ExpressionNode
         return _identifier;
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
         return new TacVariableNode(_identifier.Value);
     }

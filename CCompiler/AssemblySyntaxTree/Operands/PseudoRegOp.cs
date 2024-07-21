@@ -2,7 +2,7 @@
 
 public class PseudoRegOp : IOperand
 {
-    public string Identifier;
+    public readonly string Identifier;
 
     public PseudoRegOp(string identifier)
     {

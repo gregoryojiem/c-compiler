@@ -4,7 +4,7 @@ namespace CCompiler.AssemblySyntaxTree.Instructions;
 
 public class BinaryNode : AsmInstructionNode, IAllocatableInstruction
 {
-    private TokenType _binaryOp;
+    private readonly TokenType _binaryOp;
     private IOperand _src;
     private IOperand _dst;
 
@@ -60,7 +60,7 @@ public class BinaryNode : AsmInstructionNode, IAllocatableInstruction
         instructions.Add(this);
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return IOperand.TokenTypeToBinaryOp(_binaryOp) + "\t" + _src + ", " + _dst;
     }

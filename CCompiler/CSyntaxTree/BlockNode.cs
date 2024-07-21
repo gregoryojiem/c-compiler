@@ -1,57 +1,101 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree;
 
 public class BlockNode
 {
-    public List<StatementNode> _statements;
+    private static int _indentationLevel = 1;
+    private readonly List<BlockItem> _blockItems;
+    public readonly List<TacStatementNode> TacBlockItems;
 
     public BlockNode(TokenList tokens)
     {
-        _statements = new List<StatementNode>();
+        _blockItems = new List<BlockItem>();
+        TacBlockItems = new List<TacStatementNode>();
 
         tokens.PopExpected(TokenType.LeftBrace);
         while (!tokens.PopIfFound(TokenType.RightBrace))
         {
-            var statementNode = StatementNode.CreateStatementNode(tokens);
-            _statements.Add(statementNode);
+            _blockItems.Add(BlockItem.ParseBlockItem(tokens));
         }
     }
 
-    public void AddStmt(StatementNode stmt)
+    public void AddTacStmt(TacStatementNode tacStatement)
     {
-        _statements.Add(stmt);
+        TacBlockItems.Add(tacStatement);
     }
 
     public void Validate(SymbolTable symbolTable)
     {
-        foreach (var statementNode in _statements)
+        foreach (var blockItem in _blockItems)
         {
-            statementNode.SemanticPass(symbolTable);
+            blockItem.SemanticPass(symbolTable);
         }
     }
 
     public void ConvertToTac()
     {
-        var tacStatements = new List<StatementNode>();
-        foreach (var statementNode in _statements)
+        foreach (var blockItem in _blockItems)
         {
-            statementNode.ConvertToTac(tacStatements);
+            blockItem.ConvertToTac(TacBlockItems);
         }
-
-        _statements = tacStatements;
     }
 
-    public void ConvertToTac(List<StatementNode> tacStatements)
+    public void ConvertToTac(List<TacStatementNode> tacBlockItems)
     {
-        foreach (var statementNode in _statements)
+        foreach (var blockItem in _blockItems)
         {
-            statementNode.ConvertToTac(tacStatements);
+            blockItem.ConvertToTac(tacBlockItems);
         }
     }
-    
+
+    public static string GetIndent(BlockItem? blockItem, bool addNewline = true, int modifier = 0)
+    {
+        var indent = new string('\t', _indentationLevel + modifier);
+        if (addNewline)
+            indent = "\n" + indent;
+        if (blockItem is CompoundStmt)
+            indent = " ";
+        return indent;
+    }
+
+    public static void IncreaseIndent(BlockItem blockItem)
+    {
+        if (blockItem is not CompoundStmt)
+        {
+            _indentationLevel++;
+        }
+    }
+
+    public static void DecreaseIndent(BlockItem blockItem)
+    {
+        if (blockItem is not CompoundStmt)
+        {
+            _indentationLevel--;
+        }
+    }
+
     public override string ToString()
     {
-        return _statements.Aggregate("", (current, statementNode) => current + (statementNode + "\n"));
+        var indent = new string('\t', _indentationLevel);
+        _indentationLevel++;
+        var outputBlock = "";
+        var declarations = new List<string>();
+        foreach (var blockItem in _blockItems)
+        {
+            var declaration = "";
+            if (blockItem is AssignmentNode assignment && !declarations.Contains(assignment.TacVariable.Identifier))
+            {
+                declarations.Add(assignment.TacVariable.Identifier);
+                declaration = "int ";
+            }
+
+            var indentToUse = blockItem is LabelNode ? indent[..^1] : indent;
+            outputBlock += indentToUse + declaration + blockItem + "\n";
+        }
+
+        _indentationLevel--;
+        return "{\n" + outputBlock + new string('\t', _indentationLevel - 1) + "}";
     }
 }

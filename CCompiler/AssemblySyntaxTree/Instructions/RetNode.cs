@@ -2,7 +2,7 @@
 
 public class RetNode : AsmInstructionNode
 {
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         var outputAsm = "";
         outputAsm += "movq\t%rbp, %rsp" + "\n";

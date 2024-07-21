@@ -16,6 +16,6 @@ public class AssignmentNode : TacStatementNode
     
     public override string ToString()
     {
-        return TacVariable + " = " + ExpressionNode;
+        return TacVariable + " = " + ExpressionNode + ";";
     }
 }

@@ -8,7 +8,7 @@ namespace CCompiler.CSyntaxTree.Expressions;
 public class AssignmentOpNode : ExpressionNode
 {
     private readonly ExpressionNode _leftExpression;
-    private ExpressionNode _rightExpression;
+    private readonly ExpressionNode _rightExpression;
 
     public AssignmentOpNode(ExpressionNode leftExpression, ExpressionNode rightExpression)
     {
@@ -28,11 +28,11 @@ public class AssignmentOpNode : ExpressionNode
         return _leftExpression.GetRepresentativeToken();
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        var assignedExpr = _rightExpression.ConvertToTac(statementList);
-        var assigneeVariable = (TacVariableNode)_leftExpression.ConvertToTac(statementList);
-        statementList.Add(new AssignmentNode(assigneeVariable, assignedExpr));
+        var assignedExpr = _rightExpression.ConvertToTac(tacStatements);
+        var assigneeVariable = (TacVariableNode)_leftExpression.ConvertToTac(tacStatements);
+        tacStatements.Add(new AssignmentNode(assigneeVariable, assignedExpr));
         return assigneeVariable;
     }
 

@@ -7,8 +7,8 @@ namespace CCompiler.CSyntaxTree.Expressions;
 
 public class UnaryOpNode : ExpressionNode
 {
-    public readonly Token UnaryOperator;
-    public readonly ExpressionNode Expression;
+    private readonly Token UnaryOperator;
+    private readonly ExpressionNode Expression;
 
     public UnaryOpNode(TokenList tokens)
     {
@@ -26,12 +26,12 @@ public class UnaryOpNode : ExpressionNode
         return UnaryOperator;
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        var exprValue = (BaseValueNode)Expression.ConvertToTac(statementList);
+        var exprValue = (ValueNode)Expression.ConvertToTac(tacStatements);
         var tacNode = new TacUnaryOpNode(UnaryOperator.Type, exprValue);
-        var tempVar = new TacVariableNode("tmp_" + UniqueVariableCounter++);
-        statementList.Add(new AssignmentNode(tempVar, tacNode));
+        var tempVar = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
+        tacStatements.Add(new AssignmentNode(tempVar, tacNode));
         return tempVar;
     }
 

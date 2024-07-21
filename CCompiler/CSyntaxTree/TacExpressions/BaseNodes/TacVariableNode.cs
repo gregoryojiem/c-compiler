@@ -1,6 +1,6 @@
 ﻿namespace CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
 
-public class TacVariableNode : BaseValueNode
+public class TacVariableNode : ValueNode
 {
     public readonly string Identifier;
 
@@ -11,6 +11,6 @@ public class TacVariableNode : BaseValueNode
 
     public override string ToString()
     {
-        return Identifier;
+        return Identifier.Replace(".", "_");
     }
 }

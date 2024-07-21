@@ -2,14 +2,14 @@
 
 public class JmpNode : AsmInstructionNode
 {
-    private string _identifier;
+    private readonly string _identifier;
 
     public JmpNode(string identifier)
     {
         _identifier = identifier;
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "jmp\t\t." + _identifier;
     }

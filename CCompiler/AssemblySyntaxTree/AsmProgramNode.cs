@@ -2,7 +2,7 @@
 
 namespace CCompiler.AssemblySyntaxTree;
 
-public class AsmProgramNode : IAsmNode
+public class AsmProgramNode : AsmNode
 {
     private readonly List<AsmFunctionNode> _asmFunctions;
 
@@ -23,12 +23,12 @@ public class AsmProgramNode : IAsmNode
         }
     }
 
-    public string ConvertToAsm()
+    public override string ToString()
     {
         var outputAsm = "";
         foreach (var function in _asmFunctions)
         {
-            outputAsm += function.ConvertToAsm();
+            outputAsm += function.ToString();
         }
 
         return outputAsm;

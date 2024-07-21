@@ -4,7 +4,7 @@ namespace CCompiler.AssemblySyntaxTree.Instructions;
 
 public class UnaryNode : AsmInstructionNode, IAllocatableInstruction
 {
-    private TokenType _unaryOp;
+    private readonly TokenType _unaryOp;
     private IOperand _dst;
 
     public UnaryNode(TokenType unaryOp, IOperand dst)
@@ -21,7 +21,7 @@ public class UnaryNode : AsmInstructionNode, IAllocatableInstruction
         }
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return IOperand.TokenTypeToUnaryOp(_unaryOp) + "\t" + _dst;
     }

@@ -7,6 +7,11 @@ public enum TokenType
     Return,
     If,
     Else,
+    Do,
+    While,
+    For,
+    Break,
+    Continue,
 
     // Operators
     Decrement,
@@ -53,6 +58,11 @@ public class Token
         { "return", TokenType.Return },
         { "if", TokenType.If },
         { "else", TokenType.Else },
+        { "do", TokenType.Do },
+        { "while", TokenType.While },
+        { "for", TokenType.For },
+        { "break", TokenType.Break },
+        { "continue", TokenType.Continue },
 
         // Operators
         { "--", TokenType.Decrement },

@@ -4,11 +4,11 @@ namespace CCompiler.CSyntaxTree.TacStatements;
 
 public class JumpIfZeroNode : TacStatementNode
 {
-    public readonly BaseValueNode Condition;
+    public readonly ValueNode Condition;
     public readonly string Target;
     public readonly bool Inverted;
 
-    public JumpIfZeroNode(BaseValueNode condition, string target, bool inverted)
+    public JumpIfZeroNode(ValueNode condition, string target, bool inverted)
     {
         Condition = condition;
         Target = target;
@@ -18,6 +18,6 @@ public class JumpIfZeroNode : TacStatementNode
     public override string ToString()
     {
         var condition = Inverted ? "" : "!";
-        return "if (" + condition + Condition + ")" + " goto " + Target;
+        return "if (" + condition + Condition + ")" + "\n\t\tgoto " + Target.Replace(".", "_") + ";";
     }
 }

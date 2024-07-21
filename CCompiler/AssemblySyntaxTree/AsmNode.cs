@@ -1,6 +1,6 @@
 ﻿namespace CCompiler.AssemblySyntaxTree;
 
-public interface IAsmNode
+public abstract class AsmNode
 {
-    public string ConvertToAsm();
+    public abstract override string ToString();
 }

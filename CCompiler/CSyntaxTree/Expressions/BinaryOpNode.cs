@@ -7,9 +7,9 @@ namespace CCompiler.CSyntaxTree.Expressions;
 
 public class BinaryOpNode : ExpressionNode
 {
-    public readonly TokenType BinaryOperator;
-    public readonly ExpressionNode LeftExpression;
-    public readonly ExpressionNode RightExpression;
+    private readonly TokenType BinaryOperator;
+    private readonly ExpressionNode LeftExpression;
+    private readonly ExpressionNode RightExpression;
 
     public BinaryOpNode(TokenType binaryOperator, ExpressionNode leftExpression, ExpressionNode rightExpression)
     {
@@ -29,37 +29,37 @@ public class BinaryOpNode : ExpressionNode
         return LeftExpression.GetRepresentativeToken();
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        var leftExprValue = (BaseValueNode)LeftExpression.ConvertToTac(statementList);
+        var leftExprValue = (ValueNode)LeftExpression.ConvertToTac(tacStatements);
         var shortCircuit = BinaryOperator is TokenType.And or TokenType.Or;
         var jumpCondInverted = BinaryOperator is TokenType.Or;
         var shortCircuitType = BinaryOperator is TokenType.And ? "and_false_" : "or_true_";
-        var shortCircuitId = shortCircuitType + UniqueLabelCounter;
+        var shortCircuitId = shortCircuitType + SymbolTable.LabelId;
 
         if (shortCircuit)
         {
-            statementList.Add(new JumpIfZeroNode(leftExprValue, shortCircuitId, jumpCondInverted));
+            tacStatements.Add(new JumpIfZeroNode(leftExprValue, shortCircuitId, jumpCondInverted));
         }
 
-        var rightExprValue = (BaseValueNode)RightExpression.ConvertToTac(statementList);
-        var resultNode = new TacVariableNode("tmp_" + UniqueVariableCounter++);
+        var rightExprValue = (ValueNode)RightExpression.ConvertToTac(tacStatements);
+        var resultNode = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
         if (shortCircuit)
         {
-            var endIdentifier = "cond_result_" + UniqueLabelCounter;
+            var endIdentifier = "cond_result_" + SymbolTable.LabelId;
             var shortCircuitConst = BinaryOperator is TokenType.And ? 0 : 1;
-            statementList.Add(new JumpIfZeroNode(rightExprValue, shortCircuitId, jumpCondInverted));
-            statementList.Add(new AssignmentNode(resultNode, new TacConstantNode(shortCircuitConst ^ 1)));
-            statementList.Add(new JumpNode(endIdentifier));
-            statementList.Add(new LabelNode(shortCircuitId));
-            statementList.Add(new AssignmentNode(resultNode, new TacConstantNode(shortCircuitConst)));
-            statementList.Add(new LabelNode(endIdentifier));
-            UniqueLabelCounter++;
+            tacStatements.Add(new JumpIfZeroNode(rightExprValue, shortCircuitId, jumpCondInverted));
+            tacStatements.Add(new AssignmentNode(resultNode, new TacConstantNode(shortCircuitConst ^ 1)));
+            tacStatements.Add(new JumpNode(endIdentifier));
+            tacStatements.Add(new LabelNode(shortCircuitId));
+            tacStatements.Add(new AssignmentNode(resultNode, new TacConstantNode(shortCircuitConst)));
+            tacStatements.Add(new LabelNode(endIdentifier));
+            SymbolTable.LabelId++;
             return resultNode;
         }
 
         var tacNode = new TacBinaryOpNode(BinaryOperator, leftExprValue, rightExprValue);
-        statementList.Add(new AssignmentNode(resultNode, tacNode));
+        tacStatements.Add(new AssignmentNode(resultNode, tacNode));
         return resultNode;
     }
 

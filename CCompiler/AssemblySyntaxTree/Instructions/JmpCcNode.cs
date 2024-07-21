@@ -4,8 +4,8 @@ namespace CCompiler.AssemblySyntaxTree.Instructions;
 
 public class JmpCcNode : AsmInstructionNode
 {
-    private TokenType _condCode;
-    private string _identifier;
+    private readonly TokenType _condCode;
+    private readonly string _identifier;
 
     public JmpCcNode(TokenType condCode, string identifier)
     {
@@ -13,7 +13,7 @@ public class JmpCcNode : AsmInstructionNode
         _identifier = identifier;
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "j" + IOperand.GetConditionCode(_condCode) + "\t\t." + _identifier;
     }

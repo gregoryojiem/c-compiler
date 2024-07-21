@@ -30,26 +30,26 @@ public class TernaryOpNode : ExpressionNode
         return _condition.GetRepresentativeToken();
     }
 
-    public override TacExpressionNode ConvertToTac(List<StatementNode> statementList)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        var finalResultVar = new TacVariableNode("tmp_" + UniqueVariableCounter++);
+        var finalResultVar = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
 
         //evaluate condition
-        var tacCondition = (BaseValueNode)_condition.ConvertToTac(statementList);
-        var jumpToFalse = "tern_false" + UniqueLabelCounter++;
-        statementList.Add(new JumpIfZeroNode(tacCondition, jumpToFalse, false));
+        var tacCondition = (ValueNode)_condition.ConvertToTac(tacStatements);
+        var jumpToFalse = "tern_false" + SymbolTable.LabelId++;
+        tacStatements.Add(new JumpIfZeroNode(tacCondition, jumpToFalse, false));
 
         //handle true case
-        var trueResult = _trueResult.ConvertToTac(statementList);
-        var jumpToEnd = "tern_end" + UniqueLabelCounter++;
-        statementList.Add(new AssignmentNode(finalResultVar, trueResult));
-        statementList.Add(new JumpNode(jumpToEnd));
+        var trueResult = _trueResult.ConvertToTac(tacStatements);
+        var jumpToEnd = "tern_end" + SymbolTable.LabelId++;
+        tacStatements.Add(new AssignmentNode(finalResultVar, trueResult));
+        tacStatements.Add(new JumpNode(jumpToEnd));
 
         //handle false case
-        statementList.Add(new LabelNode(jumpToFalse));
-        var falseResult = _falseResult.ConvertToTac(statementList);
-        statementList.Add(new AssignmentNode(finalResultVar, falseResult));
-        statementList.Add(new LabelNode(jumpToEnd));
+        tacStatements.Add(new LabelNode(jumpToFalse));
+        var falseResult = _falseResult.ConvertToTac(tacStatements);
+        tacStatements.Add(new AssignmentNode(finalResultVar, falseResult));
+        tacStatements.Add(new LabelNode(jumpToEnd));
         return finalResultVar;
     }
 

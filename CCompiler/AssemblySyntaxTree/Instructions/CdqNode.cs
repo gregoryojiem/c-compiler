@@ -2,7 +2,7 @@
 
 public class CdqNode : AsmInstructionNode
 {
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "cdq";
     }
