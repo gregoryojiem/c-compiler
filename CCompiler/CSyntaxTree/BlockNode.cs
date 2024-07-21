@@ -1,4 +1,5 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree;
 
@@ -53,14 +54,14 @@ public class BlockNode
 
     public static string GetIndent(StatementNode? stmt, bool addNewline = true, int modifier = 0)
     {
-        var indent =  new string('\t', IndentationLevel + modifier);
+        var indent = new string('\t', IndentationLevel + modifier);
         if (addNewline)
             indent = "\n" + indent;
         if (stmt is CompoundStmt)
             indent = " ";
         return indent;
     }
-    
+
     public static void IncreaseIndent(StatementNode stmt)
     {
         if (stmt is not CompoundStmt)
@@ -68,7 +69,7 @@ public class BlockNode
             IndentationLevel++;
         }
     }
-    
+
     public static void DecreaseIndent(StatementNode stmt)
     {
         if (stmt is not CompoundStmt)
@@ -76,12 +77,17 @@ public class BlockNode
             IndentationLevel--;
         }
     }
-    
+
     public override string ToString()
     {
         var indent = new string('\t', IndentationLevel);
         IndentationLevel++;
-        var bodyString = _statements.Aggregate("", (current, statement) => current + indent + statement + "\n");
+        var bodyString = "";
+        foreach (var statement in _statements)
+        {
+            var indentToUse = statement is LabelNode ? indent[..^1] : indent;
+            bodyString = bodyString + indentToUse + statement + "\n";
+        }
         IndentationLevel--;
         return "{\n" + bodyString + new string('\t', IndentationLevel - 1) + "}";
     }
