@@ -1,4 +1,6 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
+using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree;
 
@@ -33,7 +35,7 @@ public class FunctionNode
     public void ConvertToTac()
     {
         Body.ConvertToTac();
-        Body.AddBlockItem(new ReturnStmt(0)); // guarantees all functions have an epilogue
+        Body.AddTacStmt(new TacReturnNode(new TacConstantNode(0))); // guarantees all functions have an epilogue
     }
 
     public override string ToString() //TODO argument handling
