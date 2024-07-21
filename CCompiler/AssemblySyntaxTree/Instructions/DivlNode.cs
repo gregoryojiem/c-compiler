@@ -31,7 +31,7 @@ public class DivlNode : AsmInstructionNode, IAllocatableInstruction
         fixedInstructions.Add(this);
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "idivl\t" + _divisor;
     }

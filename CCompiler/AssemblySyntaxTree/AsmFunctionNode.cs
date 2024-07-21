@@ -75,7 +75,7 @@ public class AsmFunctionNode : IAsmNode
         _instructions = fixedInstructions;
     }
 
-    public string ConvertToAsm()
+    public override string ToString()
     {
         var outputAsm = "";
         outputAsm += ".globl " + _name + "\n";
@@ -85,7 +85,7 @@ public class AsmFunctionNode : IAsmNode
         foreach (var instruction in _instructions)
         {
             var addTab = instruction is JmpLabelNode ? "" : "\t";
-            outputAsm += addTab + instruction.ConvertToAsm() + "\n";
+            outputAsm += addTab + instruction.ToString() + "\n";
         }
 
         return outputAsm;

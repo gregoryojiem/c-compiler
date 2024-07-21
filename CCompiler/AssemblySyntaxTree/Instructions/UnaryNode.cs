@@ -21,7 +21,7 @@ public class UnaryNode : AsmInstructionNode, IAllocatableInstruction
         }
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return IOperand.TokenTypeToUnaryOp(_unaryOp) + "\t" + _dst;
     }

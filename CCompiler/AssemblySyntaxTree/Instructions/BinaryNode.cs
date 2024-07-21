@@ -60,7 +60,7 @@ public class BinaryNode : AsmInstructionNode, IAllocatableInstruction
         instructions.Add(this);
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return IOperand.TokenTypeToBinaryOp(_binaryOp) + "\t" + _src + ", " + _dst;
     }

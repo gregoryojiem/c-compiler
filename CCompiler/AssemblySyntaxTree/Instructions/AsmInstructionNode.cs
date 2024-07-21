@@ -122,5 +122,5 @@ public abstract class AsmInstructionNode : IAsmNode
             : new MovlNode(new RegOp(dxRegToUse), pseudoReg));
     }
 
-    public abstract string ConvertToAsm();
+    public abstract string ToString();
 }

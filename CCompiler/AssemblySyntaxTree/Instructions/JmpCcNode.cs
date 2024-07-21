@@ -13,7 +13,7 @@ public class JmpCcNode : AsmInstructionNode
         _identifier = identifier;
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "j" + IOperand.GetConditionCode(_condCode) + "\t\t." + _identifier;
     }

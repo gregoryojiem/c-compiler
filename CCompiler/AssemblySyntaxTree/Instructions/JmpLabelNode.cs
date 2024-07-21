@@ -9,7 +9,7 @@ public class JmpLabelNode : AsmInstructionNode
         _identifier = identifier;
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "." + _identifier + ":";
     }

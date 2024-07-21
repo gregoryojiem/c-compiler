@@ -56,6 +56,6 @@ public static class Program
         cSyntaxTree.ConvertToTac();
         var assemblySyntaxTree = new AsmProgramNode(cSyntaxTree);
         assemblySyntaxTree.FinalPass();
-        File.WriteAllText(outputPath, assemblySyntaxTree.ConvertToAsm());
+        File.WriteAllText(outputPath, assemblySyntaxTree.ToString());
     }
 }

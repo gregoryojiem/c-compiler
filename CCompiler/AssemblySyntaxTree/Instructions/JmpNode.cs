@@ -9,7 +9,7 @@ public class JmpNode : AsmInstructionNode
         _identifier = identifier;
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         return "jmp\t\t." + _identifier;
     }

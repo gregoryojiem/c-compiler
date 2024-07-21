@@ -21,7 +21,7 @@ public class SetCcNode : AsmInstructionNode, IAllocatableInstruction
         }
     }
 
-    public override string ConvertToAsm()
+    public override string ToString()
     {
         if (_dst is RegOp dstRegOp)
         {
