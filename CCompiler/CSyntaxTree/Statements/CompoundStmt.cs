@@ -1,4 +1,6 @@
-﻿namespace CCompiler.CSyntaxTree.Statements;
+﻿using CCompiler.CSyntaxTree.TacStatements;
+
+namespace CCompiler.CSyntaxTree.Statements;
 
 public class CompoundStmt : StatementNode
 {
@@ -16,9 +18,9 @@ public class CompoundStmt : StatementNode
         symbolTable.ExitScope();
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        _body.ConvertToTac(blockItems);
+        _body.ConvertToTac(tacStatements);
     }
 
     public override string ToString()

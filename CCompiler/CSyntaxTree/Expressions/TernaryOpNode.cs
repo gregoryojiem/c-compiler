@@ -30,26 +30,26 @@ public class TernaryOpNode : ExpressionNode
         return _condition.GetRepresentativeToken();
     }
 
-    public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
         var finalResultVar = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
 
         //evaluate condition
-        var tacCondition = (ValueNode)_condition.ConvertToTac(blockItems);
+        var tacCondition = (ValueNode)_condition.ConvertToTac(tacStatements);
         var jumpToFalse = "tern_false" + SymbolTable.LabelId++;
-        blockItems.Add(new JumpIfZeroNode(tacCondition, jumpToFalse, false));
+        tacStatements.Add(new JumpIfZeroNode(tacCondition, jumpToFalse, false));
 
         //handle true case
-        var trueResult = _trueResult.ConvertToTac(blockItems);
+        var trueResult = _trueResult.ConvertToTac(tacStatements);
         var jumpToEnd = "tern_end" + SymbolTable.LabelId++;
-        blockItems.Add(new AssignmentNode(finalResultVar, trueResult));
-        blockItems.Add(new JumpNode(jumpToEnd));
+        tacStatements.Add(new AssignmentNode(finalResultVar, trueResult));
+        tacStatements.Add(new JumpNode(jumpToEnd));
 
         //handle false case
-        blockItems.Add(new LabelNode(jumpToFalse));
-        var falseResult = _falseResult.ConvertToTac(blockItems);
-        blockItems.Add(new AssignmentNode(finalResultVar, falseResult));
-        blockItems.Add(new LabelNode(jumpToEnd));
+        tacStatements.Add(new LabelNode(jumpToFalse));
+        var falseResult = _falseResult.ConvertToTac(tacStatements);
+        tacStatements.Add(new AssignmentNode(finalResultVar, falseResult));
+        tacStatements.Add(new LabelNode(jumpToEnd));
         return finalResultVar;
     }
 

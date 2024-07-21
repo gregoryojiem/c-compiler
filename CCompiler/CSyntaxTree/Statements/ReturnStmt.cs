@@ -1,12 +1,13 @@
 ﻿using CCompiler.CSyntaxTree.Expressions;
 using CCompiler.CSyntaxTree.TacExpressions;
 using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
 public class ReturnStmt : StatementNode
 {
-    public ExpressionNode ReturnValue;
+    public readonly ExpressionNode ReturnValue;
 
     public ReturnStmt(TokenList tokens)
     {
@@ -25,10 +26,9 @@ public class ReturnStmt : StatementNode
         ReturnValue.VariableResolution(symbolTable);
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        ReturnValue = ReturnValue.ConvertToTac(blockItems);
-        blockItems.Add(this);
+        tacStatements.Add(new TacReturnNode(ReturnValue.ConvertToTac(tacStatements)));
     }
 
     public override string ToString()

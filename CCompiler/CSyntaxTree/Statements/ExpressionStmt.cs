@@ -1,5 +1,6 @@
 ﻿using CCompiler.CSyntaxTree.Expressions;
 using CCompiler.CSyntaxTree.Statements.Loops;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
@@ -18,9 +19,9 @@ public class ExpressionStmt : StatementNode
         _expression.VariableResolution(symbolTable);
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        _expression.ConvertToTac(blockItems);
+        _expression.ConvertToTac(tacStatements);
     }
 
     public override string ToString()

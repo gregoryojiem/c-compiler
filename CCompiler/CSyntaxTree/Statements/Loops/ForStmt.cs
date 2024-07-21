@@ -51,25 +51,25 @@ public class ForStmt : LoopStmt
         symbolTable.ExitLoop();
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
         var startLabel = new LabelNode("start_" + GetLabel());
         var continueLabel = new LabelNode("continue_" + GetLabel());
         var breakLabel = new LabelNode("break_" + GetLabel());
 
-        _initialClause.ConvertToTac(blockItems);
-        blockItems.Add(startLabel);
+        _initialClause.ConvertToTac(tacStatements);
+        tacStatements.Add(startLabel);
         if (_condition != null)
         {
-            var tacCondition = (ValueNode)_condition.ConvertToTac(blockItems);
-            blockItems.Add(new JumpIfZeroNode(tacCondition, breakLabel.Identifier, false));
+            var tacCondition = (ValueNode)_condition.ConvertToTac(tacStatements);
+            tacStatements.Add(new JumpIfZeroNode(tacCondition, breakLabel.Identifier, false));
         }
 
-        _body.ConvertToTac(blockItems);
-        blockItems.Add(continueLabel);
-        _post?.ConvertToTac(blockItems);
-        blockItems.Add(new JumpNode(startLabel.Identifier));
-        blockItems.Add(breakLabel);
+        _body.ConvertToTac(tacStatements);
+        tacStatements.Add(continueLabel);
+        _post?.ConvertToTac(tacStatements);
+        tacStatements.Add(new JumpNode(startLabel.Identifier));
+        tacStatements.Add(breakLabel);
     }
 
     public override string ToString()

@@ -26,12 +26,12 @@ public class UnaryOpNode : ExpressionNode
         return UnaryOperator;
     }
 
-    public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        var exprValue = (ValueNode)Expression.ConvertToTac(blockItems);
+        var exprValue = (ValueNode)Expression.ConvertToTac(tacStatements);
         var tacNode = new TacUnaryOpNode(UnaryOperator.Type, exprValue);
         var tempVar = new TacVariableNode("tmp_" + SymbolTable.VariableId++);
-        blockItems.Add(new AssignmentNode(tempVar, tacNode));
+        tacStatements.Add(new AssignmentNode(tempVar, tacNode));
         return tempVar;
     }
 

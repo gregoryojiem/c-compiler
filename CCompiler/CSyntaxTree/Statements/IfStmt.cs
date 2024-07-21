@@ -29,7 +29,7 @@ public class IfStmt : StatementNode
         _elseStmt?.SemanticPass(symbolTable);
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
         var handleElse = _elseStmt != null;
         var elseId = handleElse ? SymbolTable.LabelId++ : 0;
@@ -38,18 +38,18 @@ public class IfStmt : StatementNode
         var ifEndLabel = "if_end_" + ifId;
         var ifLabelToUse = handleElse ? elseStartLabel : ifEndLabel;
 
-        var tacCondition = (ValueNode)_condition.ConvertToTac(blockItems);
-        blockItems.Add(new JumpIfZeroNode(tacCondition, ifLabelToUse, false));
-        _thenStmt.ConvertToTac(blockItems);
+        var tacCondition = (ValueNode)_condition.ConvertToTac(tacStatements);
+        tacStatements.Add(new JumpIfZeroNode(tacCondition, ifLabelToUse, false));
+        _thenStmt.ConvertToTac(tacStatements);
 
         if (_elseStmt != null)
         {
-            blockItems.Add(new JumpNode(ifEndLabel));
-            blockItems.Add(new LabelNode(elseStartLabel));
-            _elseStmt.ConvertToTac(blockItems);
+            tacStatements.Add(new JumpNode(ifEndLabel));
+            tacStatements.Add(new LabelNode(elseStartLabel));
+            _elseStmt.ConvertToTac(tacStatements);
         }
 
-        blockItems.Add(new LabelNode(ifEndLabel));
+        tacStatements.Add(new LabelNode(ifEndLabel));
     }
 
     public override string ToString()

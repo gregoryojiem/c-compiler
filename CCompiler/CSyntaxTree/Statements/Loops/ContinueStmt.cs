@@ -15,9 +15,9 @@ public class ContinueStmt : LoopStmt
         SetLabel(symbolTable);
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        blockItems.Add(new JumpNode("continue_" + GetLabel()));
+        tacStatements.Add(new JumpNode("continue_" + GetLabel()));
     }
 
     public override string ToString()

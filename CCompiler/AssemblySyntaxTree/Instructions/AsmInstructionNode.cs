@@ -10,9 +10,9 @@ namespace CCompiler.AssemblySyntaxTree.Instructions;
 
 public abstract class AsmInstructionNode : IAsmNode
 {
-    public static void ConvertCToAsmInstructions(List<AsmInstructionNode> instructions, BlockItem blockItem)
+    public static void ConvertCToAsmInstructions(List<AsmInstructionNode> instructions, TacStatementNode tacStatement)
     {
-        switch (blockItem)
+        switch (tacStatement)
         {
             case AssignmentNode assignmentNode:
                 ConvertAssignmentToAsm(instructions, assignmentNode);
@@ -35,7 +35,7 @@ public abstract class AsmInstructionNode : IAsmNode
                 instructions.Add(new JmpLabelNode(labelNode.Identifier));
                 break;
             }
-            case ReturnStmt returnStmt:
+            case TacReturnNode returnStmt:
             {
                 var operandValue = IOperand.ExprToAsmOperand(returnStmt.ReturnValue);
                 instructions.Add(new MovlNode(operandValue, new RegOp(RegOp.Register.Eax)));

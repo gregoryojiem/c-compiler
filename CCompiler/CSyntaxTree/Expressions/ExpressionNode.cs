@@ -1,5 +1,6 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Expressions;
 
@@ -70,5 +71,5 @@ public abstract class ExpressionNode
 
     public abstract Token GetRepresentativeToken();
 
-    public abstract TacExpressionNode ConvertToTac(List<BlockItem> blockItems);
+    public abstract TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements);
 }

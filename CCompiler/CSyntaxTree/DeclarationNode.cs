@@ -31,13 +31,13 @@ public class DeclarationNode : BlockItem
         _expression?.VariableResolution(symbolTable);
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
         if (_expression == null)
             return;
         var variableName = Identifier.Value;
-        var assignedExpr = _expression.ConvertToTac(blockItems);
-        blockItems.Add(new AssignmentNode(new TacVariableNode(variableName), assignedExpr));
+        var assignedExpr = _expression.ConvertToTac(tacStatements);
+        tacStatements.Add(new AssignmentNode(new TacVariableNode(variableName), assignedExpr));
     }
 
     public override string ToString()

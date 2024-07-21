@@ -1,4 +1,5 @@
 ﻿using CCompiler.CSyntaxTree.Statements.Loops;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Statements;
 
@@ -13,7 +14,7 @@ public class NullStmt : StatementNode
     {
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
     }
 

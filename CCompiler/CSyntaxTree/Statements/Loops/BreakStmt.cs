@@ -15,9 +15,9 @@ public class BreakStmt : LoopStmt
         SetLabel(symbolTable);
     }
 
-    public override void ConvertToTac(List<BlockItem> blockItems)
+    public override void ConvertToTac(List<TacStatementNode> tacStatements)
     {
-        blockItems.Add(new JumpNode("break_" + GetLabel()));
+        tacStatements.Add(new JumpNode("break_" + GetLabel()));
     }
 
     public override string ToString()

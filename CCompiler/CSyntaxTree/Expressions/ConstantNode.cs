@@ -1,6 +1,7 @@
 ﻿using CCompiler.CSyntaxTree.Statements;
 using CCompiler.CSyntaxTree.TacExpressions;
 using CCompiler.CSyntaxTree.TacExpressions.BaseNodes;
+using CCompiler.CSyntaxTree.TacStatements;
 
 namespace CCompiler.CSyntaxTree.Expressions;
 
@@ -22,7 +23,7 @@ public class ConstantNode : ExpressionNode
         return _valueToken;
     }
 
-    public override TacExpressionNode ConvertToTac(List<BlockItem> blockItems)
+    public override TacExpressionNode ConvertToTac(List<TacStatementNode> tacStatements)
     {
         return new TacConstantNode(int.Parse(_valueToken.Value));
     }
