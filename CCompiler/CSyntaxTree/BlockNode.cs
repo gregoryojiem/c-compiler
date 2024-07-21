@@ -5,9 +5,9 @@ namespace CCompiler.CSyntaxTree;
 
 public class BlockNode
 {
-    public static int IndentationLevel = 1;
+    private static int _indentationLevel = 1;
     private readonly List<BlockItem> _blockItems;
-    public List<TacStatementNode> TacBlockItems;
+    public readonly List<TacStatementNode> TacBlockItems;
     
     public BlockNode(TokenList tokens)
     {
@@ -21,9 +21,9 @@ public class BlockNode
         }
     }
 
-    public void AddBlockItem(BlockItem blockItem)
+    public void AddTacStmt(TacStatementNode tacStatement)
     {
-        _blockItems.Add(blockItem);
+        TacBlockItems.Add(tacStatement);
     }
 
     public void Validate(SymbolTable symbolTable)
@@ -52,7 +52,7 @@ public class BlockNode
 
     public static string GetIndent(BlockItem? blockItem, bool addNewline = true, int modifier = 0)
     {
-        var indent = new string('\t', IndentationLevel + modifier);
+        var indent = new string('\t', _indentationLevel + modifier);
         if (addNewline)
             indent = "\n" + indent;
         if (blockItem is CompoundStmt)
@@ -64,7 +64,7 @@ public class BlockNode
     {
         if (blockItem is not CompoundStmt)
         {
-            IndentationLevel++;
+            _indentationLevel++;
         }
     }
 
@@ -72,14 +72,14 @@ public class BlockNode
     {
         if (blockItem is not CompoundStmt)
         {
-            IndentationLevel--;
+            _indentationLevel--;
         }
     }
 
     public override string ToString()
     {
-        var indent = new string('\t', IndentationLevel);
-        IndentationLevel++;
+        var indent = new string('\t', _indentationLevel);
+        _indentationLevel++;
         var outputBlock = "";
         var declarations = new List<string>();
         foreach (var blockItem in _blockItems)
@@ -95,7 +95,7 @@ public class BlockNode
             outputBlock += indentToUse + declaration + blockItem + "\n";
         }
 
-        IndentationLevel--;
-        return "{\n" + outputBlock + new string('\t', IndentationLevel - 1) + "}";
+        _indentationLevel--;
+        return "{\n" + outputBlock + new string('\t', _indentationLevel - 1) + "}";
     }
 }
